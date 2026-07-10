@@ -1,0 +1,14 @@
+{
+    "pool": {
+        "host": "stratum.braiins.com",
+        "port": 3333,
+        "user": "your_username.worker_name",
+        "pass": "x"
+    },
+    "board_port": 4028,
+    "dashboard_port": 8080,
+    "version_rolling": true,
+    "frequency_mhz": 485,
+    "voltage_mv": 1200,
+    "min_difficulty": 256
+}

@@ -1,0 +1,147 @@
+﻿  main.cpp
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\main.cpp(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\mine\job.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\mine\sha256.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\mine\verify.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(113,55): error C2653: “nlohmann”: 不是类或命名空间名称
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(113,49): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(113,69): error C2143: 语法错误: 缺少“,”(在“&”的前面)
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(119,35): error C2653: “nlohmann”: 不是类或命名空间名称
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(119,29): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(119,49): error C2143: 语法错误: 缺少“,”(在“&”的前面)
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(120,36): error C2653: “nlohmann”: 不是类或命名空间名称
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(120,30): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(120,50): error C2143: 语法错误: 缺少“,”(在“&”的前面)
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(121,36): error C2653: “nlohmann”: 不是类或命名空间名称
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(121,30): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(121,50): error C2143: 语法错误: 缺少“,”(在“&”的前面)
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(122,37): error C2653: “nlohmann”: 不是类或命名空间名称
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(122,31): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(122,51): error C2143: 语法错误: 缺少“,”(在“&”的前面)
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(123,29): error C2653: “nlohmann”: 不是类或命名空间名称
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(123,23): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(123,43): error C2143: 语法错误: 缺少“,”(在“&”的前面)
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(124,34): error C2653: “nlohmann”: 不是类或命名空间名称
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(124,28): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.h(124,48): error C2143: 语法错误: 缺少“,”(在“&”的前面)
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\dispatch\manager.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\dispatch\protocol.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\dispatch\scheduler.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\dashboard\server.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../src/main.cpp”)
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\main.cpp(124,40): error C2326: “main::<unnamed-type-pool_state>::<unnamed-type-pool_state>(void)”: 函数无法访问“cfg”
+      D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\main.cpp(126,5):
+      此诊断出现在编译器生成的函数“main::<unnamed-type-pool_state>::<unnamed-type-pool_state>(void)”中
+      D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\main.cpp(126,7):
+      参见对函数 "main::<unnamed-type-pool_state>::<unnamed-type-pool_state>(void)" 的引用
+  
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\main.cpp(141,43): error C2589: “(”:“::”右边的非法标记
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\main.cpp(141,43): error C3878: 语法错误:“expression”后出现意外标记“(”
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\main.cpp(141,43): error C2760: 语法错误: 此处出现意外的“)”；应为“;”
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\main.cpp(141,43): error C3878: 语法错误:“expression-statement”后出现意外标记“)”
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\main.cpp(141,43): error C2760: 语法错误: 此处出现意外的“:”；应为“;”
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\main.cpp(141,43): error C3878: 语法错误:“expression-statement”后出现意外标记“:”
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\main.cpp(143,6): error C2059: 语法错误:“;”
+  sha256.cpp
+\src\mine\sha256.cpp(1,1): error C1083: 无法打开源文件: “src\mine\sha256.cpp”: No such file or directory
+  (编译源文件“/src/mine/sha256.cpp”)
+  
+  coinbase.cpp
+\src\mine\coinbase.cpp(1,1): error C1083: 无法打开源文件: “src\mine\coinbase.cpp”: No such file or directory
+  (编译源文件“/src/mine/coinbase.cpp”)
+  
+  merkle.cpp
+\src\mine\merkle.cpp(1,1): error C1083: 无法打开源文件: “src\mine\merkle.cpp”: No such file or directory
+  (编译源文件“/src/mine/merkle.cpp”)
+  
+  midstate.cpp
+\src\mine\midstate.cpp(1,1): error C1083: 无法打开源文件: “src\mine\midstate.cpp”: No such file or directory
+  (编译源文件“/src/mine/midstate.cpp”)
+  
+  verify.cpp
+\src\mine\verify.cpp(1,1): error C1083: 无法打开源文件: “src\mine\verify.cpp”: No such file or directory
+  (编译源文件“/src/mine/verify.cpp”)
+  
+  client.cpp
+\src\stratum\client.cpp(1,1): error C1083: 无法打开源文件: “src\stratum\client.cpp”: No such file or directory
+  (编译源文件“/src/stratum/client.cpp”)
+  
+  protocol.cpp
+\src\dispatch\protocol.cpp(1,1): error C1083: 无法打开源文件: “src\dispatch\protocol.cpp”: No such file or directory
+  (编译源文件“/src/dispatch/protocol.cpp”)
+  
+  manager.cpp
+\src\dispatch\manager.cpp(1,1): error C1083: 无法打开源文件: “src\dispatch\manager.cpp”: No such file or directory
+  (编译源文件“/src/dispatch/manager.cpp”)
+  
+  scheduler.cpp
+\src\dispatch\scheduler.cpp(1,1): error C1083: 无法打开源文件: “src\dispatch\scheduler.cpp”: No such file or directory
+  (编译源文件“/src/dispatch/scheduler.cpp”)
+  
+  server.cpp
+\src\dashboard\server.cpp(1,1): error C1083: 无法打开源文件: “src\dashboard\server.cpp”: No such file or directory
+  (编译源文件“/src/dashboard/server.cpp”)
+  
+  config.cpp
+\src\config.cpp(1,1): error C1083: 无法打开源文件: “src\config.cpp”: No such file or directory
+  (编译源文件“/src/config.cpp”)
+  
+  正在生成代码...
