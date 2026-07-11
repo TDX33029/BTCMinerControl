@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>BTCMinerControl - STM32F107VCT6 Pinout Diagram</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #1a1a2e; color: #e0e0e0; font-family: "Segoe UI", Arial, sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+h1 { font-size: 24px; margin-bottom: 6px; color: #f0c040; }
+.subtitle { color: #aaa; margin-bottom: 20px; font-size: 14px; }
+.container { max-width: 1200px; width: 100%; }
+/* SVG area */
+#svg-container { background: #16213e; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #333; }
+svg { width: 100%; height: auto; display: block; }
+/* Legend */
+.legend { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #ccc; }
+.legend-dot { width: 14px; height: 4px; border-radius: 2px; }
+/* Table */
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: #0f3460; color: #f0c040; padding: 8px 12px; text-align: left; }
+td { padding: 6px 12px; border-bottom: 1px solid #2a2a4a; }
+tr:hover td { background: #1a2744; }
+.func-eth { border-left: 3px solid #4fc3f7; }
+.func-asic { border-left: 3px solid #ffb74d; }
+.func-led { border-left: 3px solid #81c784; }
+.func-debug { border-left: 3px solid #ce93d8; }
+.badge { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 11px; }
+.badge-eth { background: #0d47a1; color: #90caf9; }
+.badge-asic { background: #e65100; color: #ffcc80; }
+.badge-led { background: #1b5e20; color: #a5d6a7; }
+.badge-debug { background: #4a148c; color: #ce93d8; }
+.note { background: #1a2744; border: 1px solid #333; border-radius: 8px; padding: 12px 16px; margin-top: 16px; font-size: 13px; }
+.note strong { color: #f0c040; }
+.note em { color: #ef5350; font-style: normal; }
+</style>
+</head>
+<body>
+<h1>STM32F107VCT6 + BM1366 Miner Bridge</h1>
+<p class="subtitle">BTCMinerControl Pinout Diagram &mdash; Corrections applied 2026-07-12</p>
+<div class="container">
+<div id="svg-container">
+
+<svg viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
+<rect width="1000" height="800" fill="#16213e" rx="8"/>
+<text x="500.0" y="30" text-anchor="middle" fill="#f0c040" font-size="16" font-weight="bold">Pin Connection Diagram (Fixed)</text>
+<rect x="350" y="150" width="300" height="500" rx="12" fill="#0f3460" stroke="#4fc3f7" stroke-width="2"/>
+<text x="500.0" y="180" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold">STM32F107VCT6</text>
+<text x="500.0" y="198" text-anchor="middle" fill="#90caf9" font-size="10">Cortex-M3 @ 70MHz (fixed from 45MHz)</text>
+<text x="500.0" y="212" text-anchor="middle" fill="#90caf9" font-size="10">256KB Flash / 64KB SRAM / LQFP-100</text>
+<rect x="50" y="120" width="130" height="220" rx="8" fill="#0d47a133" stroke="#0d47a1" stroke-width="1.5"/>
+<text x="115.0" y="138" text-anchor="middle" fill="#0d47a1" font-size="11" font-weight="bold">DP83848</text>
+<text x="115.0" y="154" text-anchor="middle" fill="#ccc" font-size="9">ETH RMII PHY</text>
+<rect x="820" y="120" width="130" height="220" rx="8" fill="#e6510033" stroke="#e65100" stroke-width="1.5"/>
+<text x="885.0" y="138" text-anchor="middle" fill="#e65100" font-size="11" font-weight="bold">BM1366</text>
+<text x="885.0" y="154" text-anchor="middle" fill="#ccc" font-size="9">ASIC x6 (UART chain)</text>
+<rect x="820" y="420" width="130" height="150" rx="8" fill="#1b5e2033" stroke="#1b5e20" stroke-width="1.5"/>
+<text x="885.0" y="438" text-anchor="middle" fill="#1b5e20" font-size="11" font-weight="bold">LEDs</text>
+<text x="885.0" y="454" text-anchor="middle" fill="#ccc" font-size="9">PD12 LINK</text>
+<text x="885.0" y="468" text-anchor="middle" fill="#ccc" font-size="9">PD13 ACT</text>
+<text x="885.0" y="482" text-anchor="middle" fill="#ccc" font-size="9">PC13 STATUS</text>
+<rect x="50" y="420" width="130" height="80" rx="8" fill="#4a148c33" stroke="#4a148c" stroke-width="1.5"/>
+<text x="115.0" y="438" text-anchor="middle" fill="#4a148c" font-size="11" font-weight="bold">SWD</text>
+<text x="115.0" y="454" text-anchor="middle" fill="#ccc" font-size="9">Debug</text>
+<text x="115.0" y="468" text-anchor="middle" fill="#ccc" font-size="9">PA13 SWDIO</text>
+<text x="115.0" y="482" text-anchor="middle" fill="#ccc" font-size="9">PA14 SWCLK</text>
+<line x1="340" y1="198" x2="180" y2="198" stroke="#4fc3f7" stroke-width="1.5" opacity="0.7"/>
+<circle cx="340" cy="198" r="3" fill="#4fc3f7"/>
+<text x="334" y="202" text-anchor="end" fill="#4fc3f7" font-size="9" font-family="monospace">PB11 TX_EN</text>
+<line x1="340" y1="228" x2="180" y2="228" stroke="#4fc3f7" stroke-width="1.5" opacity="0.7"/>
+<circle cx="340" cy="228" r="3" fill="#4fc3f7"/>
+<text x="334" y="232" text-anchor="end" fill="#4fc3f7" font-size="9" font-family="monospace">PB12 TXD0</text>
+<line x1="340" y1="258" x2="180" y2="258" stroke="#4fc3f7" stroke-width="1.5" opacity="0.7"/>
+<circle cx="340" cy="258" r="3" fill="#4fc3f7"/>
+<text x="334" y="262" text-anchor="end" fill="#4fc3f7" font-size="9" font-family="monospace">PB13 TXD1</text>
+<line x1="340" y1="288" x2="180" y2="288" stroke="#4fc3f7" stroke-width="1.5" opacity="0.7"/>
+<circle cx="340" cy="288" r="3" fill="#4fc3f7"/>
+<text x="334" y="292" text-anchor="end" fill="#4fc3f7" font-size="9" font-family="monospace">PC4 RXD0</text>
+<line x1="340" y1="318" x2="180" y2="318" stroke="#4fc3f7" stroke-width="1.5" opacity="0.7"/>
+<circle cx="340" cy="318" r="3" fill="#4fc3f7"/>
+<text x="334" y="322" text-anchor="end" fill="#4fc3f7" font-size="9" font-family="monospace">PC5 RXD1</text>
+<line x1="340" y1="348" x2="180" y2="348" stroke="#4fc3f7" stroke-width="1.5" opacity="0.7"/>
+<circle cx="340" cy="348" r="3" fill="#4fc3f7"/>
+<text x="334" y="352" text-anchor="end" fill="#4fc3f7" font-size="9" font-family="monospace">PA7 CRS_DV</text>
+<line x1="340" y1="378" x2="180" y2="378" stroke="#4fc3f7" stroke-width="1.5" opacity="0.7"/>
+<circle cx="340" cy="378" r="3" fill="#4fc3f7"/>
+<text x="334" y="382" text-anchor="end" fill="#4fc3f7" font-size="9" font-family="monospace">PA1 REF_CLK</text>
+<line x1="340" y1="408" x2="180" y2="408" stroke="#4fc3f7" stroke-width="1.5" opacity="0.7"/>
+<circle cx="340" cy="408" r="3" fill="#4fc3f7"/>
+<text x="334" y="412" text-anchor="end" fill="#4fc3f7" font-size="9" font-family="monospace">PC1 MDC</text>
+<line x1="340" y1="438" x2="180" y2="438" stroke="#4fc3f7" stroke-width="1.5" opacity="0.7"/>
+<circle cx="340" cy="438" r="3" fill="#4fc3f7"/>
+<text x="334" y="442" text-anchor="end" fill="#4fc3f7" font-size="9" font-family="monospace">PA2 MDIO</text>
+<line x1="340" y1="468" x2="180" y2="468" stroke="#4fc3f7" stroke-width="1.5" opacity="0.7"/>
+<circle cx="340" cy="468" r="3" fill="#4fc3f7"/>
+<text x="334" y="472" text-anchor="end" fill="#4fc3f7" font-size="9" font-family="monospace">PD2 RST#</text>
+<line x1="660" y1="213" x2="820" y2="213" stroke="#ffb74d" stroke-width="1.5" opacity="0.7"/>
+<circle cx="660" cy="213" r="3" fill="#ffb74d"/>
+<text x="666" y="217" text-anchor="start" fill="#ffb74d" font-size="9" font-family="monospace">PA9 TX</text>
+<line x1="660" y1="248" x2="820" y2="248" stroke="#ffb74d" stroke-width="1.5" opacity="0.7"/>
+<circle cx="660" cy="248" r="3" fill="#ffb74d"/>
+<text x="666" y="252" text-anchor="start" fill="#ffb74d" font-size="9" font-family="monospace">PA10 RX</text>
+<line x1="660" y1="283" x2="820" y2="283" stroke="#ffb74d" stroke-width="1.5" opacity="0.7"/>
+<circle cx="660" cy="283" r="3" fill="#ffb74d"/>
+<text x="666" y="287" text-anchor="start" fill="#ffb74d" font-size="9" font-family="monospace">PB0 RST</text>
+<line x1="660" y1="358" x2="820" y2="400" stroke="#81c784" stroke-width="1.5" opacity="0.7"/>
+<circle cx="660" cy="358" r="3" fill="#81c784"/>
+<text x="666" y="362" text-anchor="start" fill="#81c784" font-size="9" font-family="monospace">PD12 LINK</text>
+<line x1="660" y1="393" x2="820" y2="440" stroke="#81c784" stroke-width="1.5" opacity="0.7"/>
+<circle cx="660" cy="393" r="3" fill="#81c784"/>
+<text x="666" y="397" text-anchor="start" fill="#81c784" font-size="9" font-family="monospace">PD13 ACT</text>
+<line x1="660" y1="428" x2="820" y2="480" stroke="#81c784" stroke-width="1.5" opacity="0.7"/>
+<circle cx="660" cy="428" r="3" fill="#81c784"/>
+<text x="666" y="432" text-anchor="start" fill="#81c784" font-size="9" font-family="monospace">PC13 STATUS</text>
+<rect x="350" y="150+480" width="300" height="20" fill="none"/>
+<text x="500.0" y="780" text-anchor="middle" fill="#ef5350" font-size="12">? Critical fixes applied: PREDIV2 added, RMII mode selected, AHB clock enabled, SysTick @70MHz</text>
+</svg>
+</div>
+<table>
+<tr><th>Function</th><th>Pin</th><th>Dir</th><th>Connection</th><th>Config</th></tr>
+<tr class="func-eth"><td><span class="badge badge-eth">ETH</span> ETH MDC</td><td><code>PC1</code></td><td style="text-align:center">OUT</td><td>DP83848 MDC (pin 30)</td><td style="color:#aaa;font-size:12px">AF Push-Pull</td></tr>
+<tr class="func-eth"><td><span class="badge badge-eth">ETH</span> ETH MDIO</td><td><code>PA2</code></td><td style="text-align:center">I/O</td><td>DP83848 MDIO (pin 31, 1.5k pull-up)</td><td style="color:#aaa;font-size:12px">AF Push-Pull</td></tr>
+<tr class="func-eth"><td><span class="badge badge-eth">ETH</span> ETH REF_CLK</td><td><code>PA1</code></td><td style="text-align:center">IN</td><td>DP83848 X1/REF_CLK (50MHz)</td><td style="color:#aaa;font-size:12px">Input Floating</td></tr>
+<tr class="func-eth"><td><span class="badge badge-eth">ETH</span> ETH CRS_DV</td><td><code>PA7</code></td><td style="text-align:center">IN</td><td>DP83848 CRS_DV (pin 40)</td><td style="color:#aaa;font-size:12px">Input Floating</td></tr>
+<tr class="func-eth"><td><span class="badge badge-eth">ETH</span> ETH RXD0</td><td><code>PC4</code></td><td style="text-align:center">IN</td><td>DP83848 RXD_0 (pin 43)</td><td style="color:#aaa;font-size:12px">Input Floating</td></tr>
+<tr class="func-eth"><td><span class="badge badge-eth">ETH</span> ETH RXD1</td><td><code>PC5</code></td><td style="text-align:center">IN</td><td>DP83848 RXD_1 (pin 44)</td><td style="color:#aaa;font-size:12px">Input Floating</td></tr>
+<tr class="func-eth"><td><span class="badge badge-eth">ETH</span> ETH TX_EN</td><td><code>PB11</code></td><td style="text-align:center">OUT</td><td>DP83848 TX_EN (pin 2)</td><td style="color:#aaa;font-size:12px">AF Push-Pull</td></tr>
+<tr class="func-eth"><td><span class="badge badge-eth">ETH</span> ETH TXD0</td><td><code>PB12</code></td><td style="text-align:center">OUT</td><td>DP83848 TXD_0 (pin 3)</td><td style="color:#aaa;font-size:12px">AF Push-Pull</td></tr>
+<tr class="func-eth"><td><span class="badge badge-eth">ETH</span> ETH TXD1</td><td><code>PB13</code></td><td style="text-align:center">OUT</td><td>DP83848 TXD_1 (pin 4)</td><td style="color:#aaa;font-size:12px">AF Push-Pull</td></tr>
+<tr class="func-eth"><td><span class="badge badge-eth">ETH</span> ETH RST#</td><td><code>PD2</code></td><td style="text-align:center">OUT</td><td>DP83848 RESET_N (pin 29)</td><td style="color:#aaa;font-size:12px">Push-Pull</td></tr>
+<tr class="func-asic"><td><span class="badge badge-asic">ASIC</span> ASIC TX</td><td><code>PA9</code></td><td style="text-align:center">OUT</td><td>BM1366 RX (chain head)</td><td style="color:#aaa;font-size:12px">AF Push-Pull</td></tr>
+<tr class="func-asic"><td><span class="badge badge-asic">ASIC</span> ASIC RX</td><td><code>PA10</code></td><td style="text-align:center">IN</td><td>BM1366 TX</td><td style="color:#aaa;font-size:12px">Input Floating</td></tr>
+<tr class="func-asic"><td><span class="badge badge-asic">ASIC</span> ASIC RST</td><td><code>PB0</code></td><td style="text-align:center">OUT</td><td>BM1366 hardware reset</td><td style="color:#aaa;font-size:12px">Push-Pull</td></tr>
+<tr class="func-asic"><td><span class="badge badge-asic">ASIC</span> ASIC BOOT</td><td><code>PB1</code></td><td style="text-align:center">OUT</td><td>BM1366 BOOT (optional)</td><td style="color:#aaa;font-size:12px">Push-Pull</td></tr>
+<tr class="func-asic"><td><span class="badge badge-asic">ASIC</span> ASIC CTRL</td><td><code>PB14</code></td><td style="text-align:center">OUT</td><td>BM1366 CTRL (optional)</td><td style="color:#aaa;font-size:12px">Push-Pull</td></tr>
+<tr class="func-led"><td><span class="badge badge-led">LED</span> LED STATUS</td><td><code>PC13</code></td><td style="text-align:center">OUT</td><td>Onboard LED (low=on)</td><td style="color:#aaa;font-size:12px">Push-Pull</td></tr>
+<tr class="func-led"><td><span class="badge badge-led">LED</span> LED LINK</td><td><code>PD12</code></td><td style="text-align:center">OUT</td><td>ETH link indicator</td><td style="color:#aaa;font-size:12px">Push-Pull</td></tr>
+<tr class="func-led"><td><span class="badge badge-led">LED</span> LED ACT</td><td><code>PD13</code></td><td style="text-align:center">OUT</td><td>ETH activity indicator</td><td style="color:#aaa;font-size:12px">Push-Pull</td></tr>
+<tr class="func-debug"><td><span class="badge badge-debug">DBG</span> SWDIO</td><td><code>PA13</code></td><td style="text-align:center">I/O</td><td>Debug data</td><td style="color:#aaa;font-size:12px">SWD</td></tr>
+<tr class="func-debug"><td><span class="badge badge-debug">DBG</span> SWCLK</td><td><code>PA14</code></td><td style="text-align:center">IN</td><td>Debug clock</td><td style="color:#aaa;font-size:12px">SWD</td></tr>
+</table>
+
+<div class="note">
+<strong>? Fixes applied (2026-07-12):</strong><br>
+<ol style="margin-left:18px;margin-top:6px">
+  <li><em>Clock:</em> PLLMul=9?14, SYSCLK now 70MHz (was 45MHz). SysTick reload fixed.</li>
+  <li><em>ETH PREDIV2:</em> Added RCC_PREDIV2Config(Div5) ? PLL2 was running at <em>250MHz</em> instead of 50MHz!</li>
+  <li><em>RMII mode:</em> AFIO->MAPR MII_RMII_SEL bit was not set ? MAC was in MII mode with wrong pinout.</li>
+  <li><em>AHB clock:</em> Added RCC_AHBPeriphClockCmd for ETH_MAC/Tx/Rx ? missing entirely.</li>
+  <li><em>LEDs:</em> PD12 (LINK) and PD13 (ACT) added ? were documented but never initialized.</li>
+  <li><em>RCC_APB2Periph_ETH:</em> Removed ? not defined in library V3.5; replaced with direct reg access.</li>
+</ol>
+</div>
+
+</div></body></html>
