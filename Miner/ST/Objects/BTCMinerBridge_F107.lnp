@@ -1,0 +1,23 @@
+--cpu Cortex-M3
+".\objects\startup_stm32f10x_cl.o"
+".\objects\core_cm3.o"
+".\objects\system_stm32f10x.o"
+".\objects\misc.o"
+".\objects\stm32f10x_rcc.o"
+".\objects\stm32f10x_gpio.o"
+".\objects\stm32f10x_usart.o"
+".\objects\stm32f10x_dma.o"
+".\objects\stm32f10x_flash.o"
+".\objects\stm32f10x_tim.o"
+".\objects\stm32f10x_exti.o"
+".\objects\stm32f10x_eth.o"
+".\objects\delay.o"
+".\objects\main.o"
+".\objects\eth_drv.o"
+".\objects\bm1366.o"
+".\objects\protocol.o"
+".\objects\stm32f10x_it.o"
+--strict --scatter ".\Objects\BTCMinerBridge_F107.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\BTCMinerBridge_F107.map" -o .\Objects\BTCMinerBridge_F107.axf
