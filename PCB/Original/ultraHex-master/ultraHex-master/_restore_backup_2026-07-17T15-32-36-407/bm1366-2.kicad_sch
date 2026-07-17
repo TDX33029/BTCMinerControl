@@ -1,7 +1,7 @@
 (kicad_sch
-	(version 20260306)
+	(version 20231120)
 	(generator "eeschema")
-	(generator_version "10.0")
+	(generator_version "8.0")
 	(uuid "5ffa02c9-1f90-4b06-abee-1fc0c47a0c88")
 	(paper "A")
 	(title_block
@@ -14,12 +14,8 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "U"
 				(at -13.97 21.59 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -28,8 +24,6 @@
 			)
 			(property "Value" "BM1366_mode0"
 				(at 11.43 21.59 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -38,35 +32,29 @@
 			)
 			(property "Footprint" "bitaxe:BM1366"
 				(at 16.51 -33.02 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at -7.62 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Description" ""
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(symbol "BM1366_mode0_1_0_1"
@@ -83,7 +71,7 @@
 				)
 				(polyline
 					(pts
-						(xy -3.81 3.81) (xy -1.27 5.08)
+						(xy -3.81 3.81) (xy -1.27 2.54)
 					)
 					(stroke
 						(width 0)
@@ -95,7 +83,7 @@
 				)
 				(polyline
 					(pts
-						(xy -3.81 3.81) (xy -1.27 2.54)
+						(xy -3.81 3.81) (xy -1.27 5.08)
 					)
 					(stroke
 						(width 0)
@@ -130,150 +118,6 @@
 						)
 					)
 					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at -17.78 15.24 0)
-					(length 2.54)
-					(name "VDD2_0"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at -17.78 12.7 0)
-					(length 2.54)
-					(name "VDD1_0"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at -17.78 10.16 0)
-					(length 2.54)
-					(name "VSS"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at -17.78 7.62 0)
-					(length 2.54)
-					(name "CO"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at -17.78 5.08 0)
-					(length 2.54)
-					(name "CLKO"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -17.78 2.54 0)
-					(length 2.54)
-					(name "RI"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at -17.78 0 0)
-					(length 2.54)
-					(name "BO"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at -17.78 -2.54 0)
-					(length 2.54)
-					(name "NRSTO"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -454,6 +298,24 @@
 						)
 					)
 					(number "19"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -17.78 15.24 0)
+					(length 2.54)
+					(name "VDD2_0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -642,6 +504,24 @@
 					)
 				)
 				(pin power_in line
+					(at -17.78 12.7 0)
+					(length 2.54)
+					(name "VDD1_0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
 					(at 0 -20.32 90)
 					(length 2.54)
 					(name "VSS"
@@ -659,26 +539,125 @@
 						)
 					)
 				)
+				(pin power_in line
+					(at -17.78 10.16 0)
+					(length 2.54)
+					(name "VSS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -17.78 7.62 0)
+					(length 2.54)
+					(name "CO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -17.78 5.08 0)
+					(length 2.54)
+					(name "CLKO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -17.78 2.54 0)
+					(length 2.54)
+					(name "RI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -17.78 0 0)
+					(length 2.54)
+					(name "BO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -17.78 -2.54 0)
+					(length 2.54)
+					(name "NRSTO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
 			)
-			(embedded_fonts no)
 		)
 		(symbol "Connector:TestPoint"
-			(pin_numbers
-				(hide yes)
-			)
+			(pin_numbers hide)
 			(pin_names
-				(offset 0.762)
-				(hide yes)
-			)
+				(offset 0.762) hide)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "TP"
 				(at 0 6.858 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -687,8 +666,6 @@
 			)
 			(property "Value" "TestPoint"
 				(at 0 5.08 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -697,57 +674,47 @@
 			)
 			(property "Footprint" ""
 				(at 5.08 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
-			(property "Datasheet" ""
+			(property "Datasheet" "~"
 				(at 5.08 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Description" "test point"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_keywords" "test point tp"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_fp_filters" "Pin* Test*"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(symbol "TestPoint_0_1"
@@ -783,24 +750,17 @@
 					)
 				)
 			)
-			(embedded_fonts no)
 		)
 		(symbol "Device:C"
-			(pin_numbers
-				(hide yes)
-			)
+			(pin_numbers hide)
 			(pin_names
 				(offset 0.254)
 			)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "C"
 				(at 0.635 2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -810,8 +770,6 @@
 			)
 			(property "Value" "C"
 				(at 0.635 -2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -821,63 +779,53 @@
 			)
 			(property "Footprint" ""
 				(at 0.9652 -3.81 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
-			(property "Datasheet" ""
+			(property "Datasheet" "~"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Description" "Unpolarized capacitor"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_keywords" "cap capacitor"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_fp_filters" "C_*"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(symbol "C_0_1"
 				(polyline
 					(pts
-						(xy -2.032 0.762) (xy 2.032 0.762)
+						(xy -2.032 -0.762) (xy 2.032 -0.762)
 					)
 					(stroke
 						(width 0.508)
@@ -889,7 +837,7 @@
 				)
 				(polyline
 					(pts
-						(xy -2.032 -0.762) (xy 2.032 -0.762)
+						(xy -2.032 0.762) (xy 2.032 0.762)
 					)
 					(stroke
 						(width 0.508)
@@ -904,7 +852,7 @@
 				(pin passive line
 					(at 0 3.81 270)
 					(length 2.794)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -922,7 +870,7 @@
 				(pin passive line
 					(at 0 -3.81 90)
 					(length 2.794)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -938,24 +886,17 @@
 					)
 				)
 			)
-			(embedded_fonts no)
 		)
 		(symbol "Device:C_Polarized"
-			(pin_numbers
-				(hide yes)
-			)
+			(pin_numbers hide)
 			(pin_names
 				(offset 0.254)
 			)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "C"
 				(at 0.635 2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -965,8 +906,6 @@
 			)
 			(property "Value" "C_Polarized"
 				(at 0.635 -2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -976,57 +915,47 @@
 			)
 			(property "Footprint" ""
 				(at 0.9652 -3.81 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
-			(property "Datasheet" ""
+			(property "Datasheet" "~"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Description" "Polarized capacitor"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_keywords" "cap capacitor"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_fp_filters" "CP_*"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(symbol "C_Polarized_0_1"
@@ -1081,7 +1010,7 @@
 				(pin passive line
 					(at 0 3.81 270)
 					(length 2.794)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1099,7 +1028,7 @@
 				(pin passive line
 					(at 0 -3.81 90)
 					(length 2.794)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1115,24 +1044,17 @@
 					)
 				)
 			)
-			(embedded_fonts no)
 		)
 		(symbol "Device:R_US"
-			(pin_numbers
-				(hide yes)
-			)
+			(pin_numbers hide)
 			(pin_names
 				(offset 0)
 			)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "R"
 				(at 2.54 0 90)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1141,8 +1063,6 @@
 			)
 			(property "Value" "R_US"
 				(at -2.54 0 90)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1151,87 +1071,65 @@
 			)
 			(property "Footprint" ""
 				(at 1.016 -0.254 90)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
-			(property "Datasheet" ""
+			(property "Datasheet" "~"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Description" "Resistor, US symbol"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_keywords" "R res resistor"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_fp_filters" "R_*"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(symbol "R_US_0_1"
 				(polyline
 					(pts
+						(xy 0 -2.286) (xy 0 -2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
 						(xy 0 2.286) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 2.286) (xy 1.016 1.905) (xy 0 1.524) (xy -1.016 1.143) (xy 0 0.762)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 0.762) (xy 1.016 0.381) (xy 0 0) (xy -1.016 -0.381) (xy 0 -0.762)
 					)
 					(stroke
 						(width 0)
@@ -1255,7 +1153,19 @@
 				)
 				(polyline
 					(pts
-						(xy 0 -2.286) (xy 0 -2.54)
+						(xy 0 0.762) (xy 1.016 0.381) (xy 0 0) (xy -1.016 -0.381) (xy 0 -0.762)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.286) (xy 1.016 1.905) (xy 0 1.524) (xy -1.016 1.143) (xy 0 0.762)
 					)
 					(stroke
 						(width 0)
@@ -1270,7 +1180,7 @@
 				(pin passive line
 					(at 0 3.81 270)
 					(length 1.27)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1288,7 +1198,7 @@
 				(pin passive line
 					(at 0 -3.81 90)
 					(length 1.27)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1304,18 +1214,13 @@
 					)
 				)
 			)
-			(embedded_fonts no)
 		)
 		(symbol "SGM2036_1"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "U"
 				(at -7.62 5.08 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1324,8 +1229,6 @@
 			)
 			(property "Value" "SGM2036"
 				(at 5.08 5.08 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1334,35 +1237,29 @@
 			)
 			(property "Footprint" "Package_TO_SOT_SMD:TSOT-23-5"
 				(at 0 10.16 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Datasheet" "https://static6.arrow.com/aropdfconversion/c665185286864b6f9a6bd991d86221e9e2ef3156/1640074291.pdf"
 				(at 0 7.62 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Description" ""
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(symbol "SGM2036_1_0_1"
@@ -1470,7 +1367,6 @@
 					)
 				)
 			)
-			(embedded_fonts no)
 		)
 		(symbol "TLV3544_1"
 			(pin_names
@@ -1479,12 +1375,8 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "U"
 				(at 7.62 2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1493,8 +1385,6 @@
 			)
 			(property "Value" "TLV3544"
 				(at 11.43 -2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1503,41 +1393,33 @@
 			)
 			(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
 				(at 2.54 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tlv3542.pdf"
 				(at 1.27 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Description" "Low-power Operational Amplifier, SOT-353"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1546,24 +1428,20 @@
 			)
 			(property "ki_keywords" "op amp operational amplifier"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_fp_filters" "SOT*353*SC*70*"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(symbol "TLV3544_1_0_1"
@@ -1584,7 +1462,7 @@
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1592,6 +1470,24 @@
 						)
 					)
 					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -7.62 90)
+					(length 3.81)
+					(name "V-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1646,24 +1542,6 @@
 						)
 					)
 					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 -7.62 90)
-					(length 3.81)
-					(name "V-"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1712,7 +1590,7 @@
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1729,10 +1607,28 @@
 				)
 			)
 			(symbol "TLV3544_1_3_1"
+				(pin input line
+					(at -5.08 -2.54 0)
+					(length 2.54)
+					(name "+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1758,24 +1654,6 @@
 						)
 					)
 					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -5.08 -2.54 0)
-					(length 2.54)
-					(name "+"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "10"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1824,7 +1702,7 @@
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1840,7 +1718,6 @@
 					)
 				)
 			)
-			(embedded_fonts no)
 		)
 		(symbol "TLV3544_2"
 			(pin_names
@@ -1849,12 +1726,8 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "U"
 				(at 7.62 2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1863,8 +1736,6 @@
 			)
 			(property "Value" "TLV3544"
 				(at 11.43 -2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1873,41 +1744,33 @@
 			)
 			(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
 				(at 2.54 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tlv3542.pdf"
 				(at 1.27 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Description" "Low-power Operational Amplifier, SOT-353"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1916,24 +1779,20 @@
 			)
 			(property "ki_keywords" "op amp operational amplifier"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_fp_filters" "SOT*353*SC*70*"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(symbol "TLV3544_2_0_1"
@@ -1954,7 +1813,7 @@
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1962,6 +1821,24 @@
 						)
 					)
 					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -7.62 90)
+					(length 3.81)
+					(name "V-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2016,24 +1893,6 @@
 						)
 					)
 					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 -7.62 90)
-					(length 3.81)
-					(name "V-"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2082,7 +1941,7 @@
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2099,10 +1958,28 @@
 				)
 			)
 			(symbol "TLV3544_2_3_1"
+				(pin input line
+					(at -5.08 -2.54 0)
+					(length 2.54)
+					(name "+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2128,24 +2005,6 @@
 						)
 					)
 					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -5.08 -2.54 0)
-					(length 2.54)
-					(name "+"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "10"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2194,7 +2053,7 @@
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2210,7 +2069,6 @@
 					)
 				)
 			)
-			(embedded_fonts no)
 		)
 		(symbol "TLV3544_3"
 			(pin_names
@@ -2219,12 +2077,8 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "U"
 				(at 7.62 2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -2233,8 +2087,6 @@
 			)
 			(property "Value" "TLV3544"
 				(at 11.43 -2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -2243,41 +2095,33 @@
 			)
 			(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
 				(at 2.54 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tlv3542.pdf"
 				(at 1.27 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Description" "Low-power Operational Amplifier, SOT-353"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -2286,24 +2130,20 @@
 			)
 			(property "ki_keywords" "op amp operational amplifier"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_fp_filters" "SOT*353*SC*70*"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(symbol "TLV3544_3_0_1"
@@ -2324,7 +2164,7 @@
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2332,6 +2172,24 @@
 						)
 					)
 					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -7.62 90)
+					(length 3.81)
+					(name "V-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2393,24 +2251,6 @@
 						)
 					)
 				)
-				(pin power_in line
-					(at 0 -7.62 90)
-					(length 3.81)
-					(name "V-"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
 			)
 			(symbol "TLV3544_3_2_1"
 				(pin input line
@@ -2452,7 +2292,7 @@
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2469,10 +2309,28 @@
 				)
 			)
 			(symbol "TLV3544_3_3_1"
+				(pin input line
+					(at -5.08 -2.54 0)
+					(length 2.54)
+					(name "+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2498,24 +2356,6 @@
 						)
 					)
 					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -5.08 -2.54 0)
-					(length 2.54)
-					(name "+"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "10"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2564,7 +2404,7 @@
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2580,18 +2420,13 @@
 					)
 				)
 			)
-			(embedded_fonts no)
 		)
 		(symbol "bitaxe:BM1366_mode0"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "U"
 				(at -13.97 21.59 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -2600,8 +2435,6 @@
 			)
 			(property "Value" "BM1366_mode0"
 				(at 11.43 21.59 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -2610,35 +2443,29 @@
 			)
 			(property "Footprint" "bitaxe:BM1366"
 				(at 16.51 -33.02 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at -7.62 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Description" ""
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(symbol "BM1366_mode0_0_1"
@@ -2655,7 +2482,7 @@
 				)
 				(polyline
 					(pts
-						(xy -3.81 3.81) (xy -1.27 5.08)
+						(xy -3.81 3.81) (xy -1.27 2.54)
 					)
 					(stroke
 						(width 0)
@@ -2667,7 +2494,7 @@
 				)
 				(polyline
 					(pts
-						(xy -3.81 3.81) (xy -1.27 2.54)
+						(xy -3.81 3.81) (xy -1.27 5.08)
 					)
 					(stroke
 						(width 0)
@@ -2702,150 +2529,6 @@
 						)
 					)
 					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at -17.78 15.24 0)
-					(length 2.54)
-					(name "VDD2_0"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at -17.78 12.7 0)
-					(length 2.54)
-					(name "VDD1_0"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at -17.78 10.16 0)
-					(length 2.54)
-					(name "VSS"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at -17.78 7.62 0)
-					(length 2.54)
-					(name "CO"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at -17.78 5.08 0)
-					(length 2.54)
-					(name "CLKO"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -17.78 2.54 0)
-					(length 2.54)
-					(name "RI"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at -17.78 0 0)
-					(length 2.54)
-					(name "BO"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at -17.78 -2.54 0)
-					(length 2.54)
-					(name "NRSTO"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3026,6 +2709,24 @@
 						)
 					)
 					(number "19"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -17.78 15.24 0)
+					(length 2.54)
+					(name "VDD2_0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3214,6 +2915,24 @@
 					)
 				)
 				(pin power_in line
+					(at -17.78 12.7 0)
+					(length 2.54)
+					(name "VDD1_0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
 					(at 0 -20.32 90)
 					(length 2.54)
 					(name "VSS"
@@ -3231,19 +2950,122 @@
 						)
 					)
 				)
+				(pin power_in line
+					(at -17.78 10.16 0)
+					(length 2.54)
+					(name "VSS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -17.78 7.62 0)
+					(length 2.54)
+					(name "CO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -17.78 5.08 0)
+					(length 2.54)
+					(name "CLKO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -17.78 2.54 0)
+					(length 2.54)
+					(name "RI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -17.78 0 0)
+					(length 2.54)
+					(name "BO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -17.78 -2.54 0)
+					(length 2.54)
+					(name "NRSTO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
 			)
-			(embedded_fonts no)
 		)
 		(symbol "bitaxe:SGM2036"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "U"
 				(at -7.62 5.08 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3252,8 +3074,6 @@
 			)
 			(property "Value" "SGM2036"
 				(at 5.08 5.08 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3262,35 +3082,29 @@
 			)
 			(property "Footprint" "Package_TO_SOT_SMD:TSOT-23-5"
 				(at 0 10.16 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Datasheet" "https://static6.arrow.com/aropdfconversion/c665185286864b6f9a6bd991d86221e9e2ef3156/1640074291.pdf"
 				(at 0 7.62 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Description" ""
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(symbol "SGM2036_0_1"
@@ -3398,7 +3212,6 @@
 					)
 				)
 			)
-			(embedded_fonts no)
 		)
 		(symbol "bitaxe:TLV3544"
 			(pin_names
@@ -3407,12 +3220,8 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "U"
 				(at 7.62 2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3421,8 +3230,6 @@
 			)
 			(property "Value" "TLV3544"
 				(at 11.43 -2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3431,41 +3238,33 @@
 			)
 			(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
 				(at 2.54 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tlv3542.pdf"
 				(at 1.27 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Description" "Low-power Operational Amplifier, SOT-353"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3474,24 +3273,20 @@
 			)
 			(property "ki_keywords" "op amp operational amplifier"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "ki_fp_filters" "SOT*353*SC*70*"
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(symbol "TLV3544_0_1"
@@ -3512,7 +3307,7 @@
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3520,6 +3315,24 @@
 						)
 					)
 					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -7.62 90)
+					(length 3.81)
+					(name "V-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3581,24 +3394,6 @@
 						)
 					)
 				)
-				(pin power_in line
-					(at 0 -7.62 90)
-					(length 3.81)
-					(name "V-"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
 			)
 			(symbol "TLV3544_2_1"
 				(pin input line
@@ -3640,7 +3435,7 @@
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3657,10 +3452,28 @@
 				)
 			)
 			(symbol "TLV3544_3_1"
+				(pin input line
+					(at -5.08 -2.54 0)
+					(length 2.54)
+					(name "+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3686,24 +3499,6 @@
 						)
 					)
 					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -5.08 -2.54 0)
-					(length 2.54)
-					(name "+"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "10"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3752,7 +3547,7 @@
 				(pin output line
 					(at 10.16 0 180)
 					(length 2.54)
-					(name ""
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3768,18 +3563,13 @@
 					)
 				)
 			)
-			(embedded_fonts no)
 		)
 		(symbol "bitaxe:oscillator"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "U"
 				(at -3.81 5.08 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3788,8 +3578,6 @@
 			)
 			(property "Value" "oscillator"
 				(at 0 -5.08 0)
-				(show_name no)
-				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -3798,35 +3586,29 @@
 			)
 			(property "Footprint" ""
 				(at -1.27 -1.27 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at -1.27 -1.27 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Description" ""
 				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(symbol "oscillator_0_1"
@@ -3916,62 +3698,7 @@
 					)
 				)
 			)
-			(embedded_fonts no)
 		)
-	)
-	(text "Domain 2 power"
-		(exclude_from_sim no)
-		(at 62.484 57.15 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "1ee52c11-814a-4476-8a66-1a0472035da8")
-	)
-	(text "MIDDLE Voltage Domain\nActual LDO supply voltage:\nThese LDOs get 5V - (core voltage)\nWhen core voltage=1.4V, LDO supply is 3.6V\nWhen core voltage=1.2V, LDO supply is 3.8V "
-		(exclude_from_sim no)
-		(at 16.51 171.45 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "80359876-a8c5-437e-9a82-b3208311d6e2")
-	)
-	(text "Reference Voltage Regulators"
-		(exclude_from_sim no)
-		(at 53.34 135.89 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "97cc8f4a-f512-4d69-ad10-f5b02e78dedd")
-	)
-	(text "25MHz ASIC clock oscillator"
-		(exclude_from_sim no)
-		(at 187.96 166.37 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "b89d7a4f-6b26-4317-bb5e-ef458d38dd3b")
-	)
-	(text "OPAMP Bypass"
-		(exclude_from_sim no)
-		(at 247.65 36.83 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "c29160d5-49c2-424f-9aaf-9a811aaef829")
 	)
 	(junction
 		(at 41.91 45.72)
@@ -7399,8 +7126,63 @@
 		)
 		(uuid "ffa14589-bcc0-40c4-a168-b4ed4b53bad4")
 	)
+	(text "Domain 2 power"
+		(exclude_from_sim no)
+		(at 62.484 57.15 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "1ee52c11-814a-4476-8a66-1a0472035da8")
+	)
+	(text "MIDDLE Voltage Domain\nActual LDO supply voltage:\nThese LDOs get 5V - (core voltage)\nWhen core voltage=1.4V, LDO supply is 3.6V\nWhen core voltage=1.2V, LDO supply is 3.8V "
+		(exclude_from_sim no)
+		(at 16.51 171.45 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "80359876-a8c5-437e-9a82-b3208311d6e2")
+	)
+	(text "Reference Voltage Regulators"
+		(exclude_from_sim no)
+		(at 53.34 135.89 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "97cc8f4a-f512-4d69-ad10-f5b02e78dedd")
+	)
+	(text "25MHz ASIC clock oscillator"
+		(exclude_from_sim no)
+		(at 187.96 166.37 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "b89d7a4f-6b26-4317-bb5e-ef458d38dd3b")
+	)
+	(text "OPAMP Bypass"
+		(exclude_from_sim no)
+		(at 247.65 36.83 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "c29160d5-49c2-424f-9aaf-9a811aaef829")
+	)
 	(label "BI2"
 		(at 185.42 43.18 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7411,6 +7193,7 @@
 	)
 	(label "GND2"
 		(at 186.69 151.13 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7421,6 +7204,7 @@
 	)
 	(label "VDD2"
 		(at 135.89 45.72 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7431,6 +7215,7 @@
 	)
 	(label "RO2"
 		(at 252.73 91.44 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7441,6 +7226,7 @@
 	)
 	(label "VDD2"
 		(at 80.01 67.31 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7451,6 +7237,7 @@
 	)
 	(label "VDD2"
 		(at 76.2 45.72 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7461,6 +7248,7 @@
 	)
 	(label "NRSTI2"
 		(at 252.73 96.52 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7471,6 +7259,7 @@
 	)
 	(label "VDD2"
 		(at 20.32 45.72 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7481,6 +7270,7 @@
 	)
 	(label "GND2"
 		(at 60.96 194.31 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7491,6 +7281,7 @@
 	)
 	(label "0V8"
 		(at 96.52 106.68 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7501,6 +7292,7 @@
 	)
 	(label "0V8"
 		(at 85.09 143.51 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7511,6 +7303,7 @@
 	)
 	(label "1V8"
 		(at 96.52 109.22 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7521,6 +7314,7 @@
 	)
 	(label "5V"
 		(at 38.1 176.53 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7531,6 +7325,7 @@
 	)
 	(label "5V"
 		(at 245.11 17.78 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7541,6 +7336,7 @@
 	)
 	(label "GND2"
 		(at 151.13 157.48 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7551,6 +7347,7 @@
 	)
 	(label "CI2"
 		(at 69.85 43.18 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7561,6 +7358,7 @@
 	)
 	(label "1V8"
 		(at 83.82 176.53 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7571,6 +7369,7 @@
 	)
 	(label "NRSTI2"
 		(at 128.27 43.18 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7581,6 +7380,7 @@
 	)
 	(label "VDD2"
 		(at 208.28 67.31 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7591,6 +7391,7 @@
 	)
 	(label "5V"
 		(at 39.37 143.51 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7601,6 +7402,7 @@
 	)
 	(label "GND2"
 		(at 21.59 83.82 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7611,6 +7413,7 @@
 	)
 	(label "CLKI2"
 		(at 252.73 88.9 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7621,6 +7424,7 @@
 	)
 	(label "GND2"
 		(at 135.89 40.64 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7631,6 +7435,7 @@
 	)
 	(label "1V8"
 		(at 217.17 151.13 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7641,6 +7446,7 @@
 	)
 	(label "BI2"
 		(at 252.73 93.98 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7651,6 +7457,7 @@
 	)
 	(label "GND2"
 		(at 76.2 40.64 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7661,6 +7468,7 @@
 	)
 	(label "GND2"
 		(at 179.07 83.82 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7671,6 +7479,7 @@
 	)
 	(label "RO2"
 		(at 191.77 50.8 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7681,6 +7490,7 @@
 	)
 	(label "1V8"
 		(at 186.69 148.59 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7691,6 +7501,7 @@
 	)
 	(label "0V8"
 		(at 180.34 106.68 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7701,6 +7512,7 @@
 	)
 	(label "1V8"
 		(at 228.6 109.22 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7711,6 +7523,7 @@
 	)
 	(label "GND"
 		(at 57.15 52.07 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7721,6 +7534,7 @@
 	)
 	(label "0V8"
 		(at 228.6 106.68 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7731,6 +7545,7 @@
 	)
 	(label "1V8"
 		(at 46.99 109.22 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7741,6 +7556,7 @@
 	)
 	(label "5V"
 		(at 57.15 34.29 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7751,6 +7567,7 @@
 	)
 	(label "GND2"
 		(at 20.32 40.64 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7761,6 +7578,7 @@
 	)
 	(label "VDD2"
 		(at 146.05 144.78 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7771,6 +7589,7 @@
 	)
 	(label "GND"
 		(at 120.65 133.35 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7781,6 +7600,7 @@
 	)
 	(label "GND2"
 		(at 209.55 128.27 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7791,6 +7611,7 @@
 	)
 	(label "GND2"
 		(at 252.73 83.82 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7801,6 +7622,7 @@
 	)
 	(label "GND2"
 		(at 191.77 40.64 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7811,6 +7633,7 @@
 	)
 	(label "GND"
 		(at 264.16 33.02 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7821,6 +7644,7 @@
 	)
 	(label "GND2"
 		(at 62.23 161.29 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7831,6 +7655,7 @@
 	)
 	(label "1V8"
 		(at 180.34 109.22 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7841,6 +7666,7 @@
 	)
 	(label "GND"
 		(at 191.77 45.72 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7851,6 +7677,7 @@
 	)
 	(label "0V8"
 		(at 46.99 106.68 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7861,6 +7688,7 @@
 	)
 	(label "CLKI2"
 		(at 231.14 148.59 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7871,6 +7699,7 @@
 	)
 	(label "CI2"
 		(at 252.73 86.36 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7881,6 +7710,7 @@
 	)
 	(label "GND2"
 		(at 97.79 83.82 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7891,6 +7721,7 @@
 	)
 	(label "GND2"
 		(at 81.28 128.27 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7902,6 +7733,7 @@
 	(hierarchical_label "RO"
 		(shape output)
 		(at 251.46 43.18 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7913,6 +7745,7 @@
 	(hierarchical_label "GND"
 		(shape input)
 		(at 132.08 133.35 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7924,6 +7757,7 @@
 	(hierarchical_label "5V"
 		(shape input)
 		(at 36.83 176.53 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7935,6 +7769,7 @@
 	(hierarchical_label "VDD2"
 		(shape input)
 		(at 199.39 63.5 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7946,6 +7781,7 @@
 	(hierarchical_label "BO"
 		(shape output)
 		(at 24.13 93.98 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7957,6 +7793,7 @@
 	(hierarchical_label "NRSTI"
 		(shape input)
 		(at 80.01 50.8 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7968,6 +7805,7 @@
 	(hierarchical_label "NRSTO"
 		(shape output)
 		(at 24.13 96.52 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7979,6 +7817,7 @@
 	(hierarchical_label "CO"
 		(shape output)
 		(at 24.13 86.36 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7990,6 +7829,7 @@
 	(hierarchical_label "CI"
 		(shape input)
 		(at 22.86 50.8 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8001,6 +7841,7 @@
 	(hierarchical_label "GND2"
 		(shape output)
 		(at 133.35 128.27 0)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8012,6 +7853,7 @@
 	(hierarchical_label "5V"
 		(shape input)
 		(at 38.1 143.51 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8023,6 +7865,7 @@
 	(hierarchical_label "BI"
 		(shape input)
 		(at 138.43 50.8 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8034,6 +7877,7 @@
 	(hierarchical_label "RI"
 		(shape input)
 		(at 24.13 91.44 180)
+		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8046,17 +7890,13 @@
 		(lib_id "Device:R_US")
 		(at 125.73 100.33 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "0228f2d8-6305-4a65-aaf5-d77d5de5dfca")
-		(property "Reference" "R46"
+		(property "Reference" "R6"
 			(at 125.73 97.79 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8065,8 +7905,6 @@
 		)
 		(property "Value" "2k"
 			(at 125.73 102.87 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8075,57 +7913,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 125.984 99.314 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 125.73 100.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 125.73 100.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "YAG2303CT-ND"
 			(at 125.73 100.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RT0402BRD072KL"
 			(at 125.73 100.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -8153,17 +7981,13 @@
 		(lib_id "Device:C")
 		(at 102.87 119.38 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "096a4a33-b99d-4f56-aeaa-722ca1bb1c2f")
-		(property "Reference" "C89"
+		(property "Reference" "C14"
 			(at 103.505 117.475 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8173,8 +7997,6 @@
 		)
 		(property "Value" "1uF"
 			(at 103.505 123.19 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8184,57 +8006,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 102.87 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 102.87 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 102.87 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 102.87 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 102.87 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -8262,17 +8074,13 @@
 		(lib_id "Device:C")
 		(at 46.99 152.4 180)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "12386ff1-ed57-41a0-8496-3ce8ca93a2f4")
-		(property "Reference" "C84"
+		(property "Reference" "C8"
 			(at 45.085 149.225 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8282,8 +8090,6 @@
 		)
 		(property "Value" "0.1uF"
 			(at 45.72 154.94 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8293,57 +8099,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 46.99 152.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 46.99 152.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 46.99 152.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "478-KGM05AR71C104KHCT-ND"
 			(at 46.99 152.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "KGM05AR71C104KH"
 			(at 46.99 152.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -8371,17 +8167,13 @@
 		(lib_id "Device:C")
 		(at 133.35 151.13 180)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "13dba1a1-411f-4b9b-948a-5ab11c23b627")
-		(property "Reference" "C95"
+		(property "Reference" "C8"
 			(at 131.445 147.955 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8391,8 +8183,6 @@
 		)
 		(property "Value" "0.1uF"
 			(at 132.08 153.67 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8402,57 +8192,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 133.35 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 133.35 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 133.35 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "478-KGM05AR71C104KHCT-ND"
 			(at 133.35 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "KGM05AR71C104KH"
 			(at 133.35 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -8481,17 +8261,13 @@
 		(at 48.26 99.06 90)
 		(mirror x)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "14a45107-db0a-4064-bb25-d7fea4709b6e")
-		(property "Reference" "TP43"
+		(property "Reference" "TP13"
 			(at 41.91 99.06 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8500,47 +8276,39 @@
 		)
 		(property "Value" "TestPoint"
 			(at 42.545 100.3299 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 48.26 104.14 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 48.26 104.14 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 48.26 99.06 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -8565,17 +8333,13 @@
 		(lib_id "Device:C")
 		(at 60.96 67.31 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "15d3a602-71f1-4725-b10c-e4645e360a02")
-		(property "Reference" "C86"
+		(property "Reference" "C8"
 			(at 58.42 64.77 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8585,8 +8349,6 @@
 		)
 		(property "Value" "1uF"
 			(at 59.69 67.945 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8596,57 +8358,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 60.96 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 60.96 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 60.96 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 60.96 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 60.96 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -8674,17 +8426,13 @@
 		(lib_id "Device:R_US")
 		(at 205.74 45.72 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "1a37c24f-1243-4dea-b795-0dd79d636caf")
-		(property "Reference" "R52"
+		(property "Reference" "R6"
 			(at 201.93 47.625 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8693,8 +8441,6 @@
 		)
 		(property "Value" "10k"
 			(at 209.55 47.625 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8703,57 +8449,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 205.994 44.704 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 205.74 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 205.74 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-10KJRCT-ND"
 			(at 205.74 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402JR-0710KL"
 			(at 205.74 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -8782,17 +8518,13 @@
 		(at 233.68 99.06 270)
 		(mirror x)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "22d30f7d-2443-4dbb-a481-030544f1c096")
-		(property "Reference" "TP50"
+		(property "Reference" "TP13"
 			(at 240.03 99.06 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8801,47 +8533,39 @@
 		)
 		(property "Value" "TestPoint"
 			(at 239.395 97.7901 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 233.68 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 233.68 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 233.68 99.06 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -8866,17 +8590,13 @@
 		(lib_id "Device:C")
 		(at 116.84 67.31 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "25e65a42-7e04-47cb-9b64-677f9a9f6a7d")
-		(property "Reference" "C91"
+		(property "Reference" "C15"
 			(at 114.3 64.77 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8886,8 +8606,6 @@
 		)
 		(property "Value" "1uF"
 			(at 115.57 67.945 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8897,57 +8615,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 116.84 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 116.84 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 116.84 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 116.84 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 116.84 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -8976,17 +8684,13 @@
 		(at 48.26 88.9 90)
 		(mirror x)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "2cee06cb-601c-4e26-8d40-0c4da75ceb81")
-		(property "Reference" "TP42"
+		(property "Reference" "TP13"
 			(at 41.91 88.9 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8995,47 +8699,39 @@
 		)
 		(property "Value" "TestPoint"
 			(at 42.545 90.1699 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 48.26 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 48.26 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 48.26 88.9 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -9060,17 +8756,13 @@
 		(lib_id "Device:C")
 		(at 250.19 24.13 180)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "2e0bd937-e218-4d25-bf7a-a8efdf309fe9")
-		(property "Reference" "C111"
+		(property "Reference" "C8"
 			(at 248.285 20.955 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9080,8 +8772,6 @@
 		)
 		(property "Value" "0.1uF"
 			(at 248.92 26.67 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9091,57 +8781,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 250.19 24.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 250.19 24.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 250.19 24.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "478-KGM05AR71C104KHCT-ND"
 			(at 250.19 24.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "KGM05AR71C104KH"
 			(at 250.19 24.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -9169,17 +8849,13 @@
 		(lib_id "Device:C")
 		(at 139.7 67.31 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "31b360c7-3ebf-49b1-b202-6bdede076f0b")
-		(property "Reference" "C96"
+		(property "Reference" "C18"
 			(at 137.16 64.77 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9189,8 +8865,6 @@
 		)
 		(property "Value" "1uF"
 			(at 138.43 67.945 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9200,57 +8874,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 139.7 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 139.7 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 139.7 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 139.7 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 139.7 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -9279,17 +8943,13 @@
 		(at 53.34 59.69 270)
 		(mirror x)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "329a55ef-3529-4bc9-ad7a-2a0fc47b2be8")
 		(property "Reference" "TP68"
 			(at 55.88 61.722 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9298,8 +8958,6 @@
 		)
 		(property "Value" "-"
 			(at 58.42 59.182 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9309,35 +8967,29 @@
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm"
 			(at 53.34 54.61 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 53.34 54.61 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 53.34 59.69 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -9357,17 +9009,13 @@
 		(lib_id "bitaxe:BM1366_mode0")
 		(at 77.47 93.98 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "3390544b-633e-49d2-8c69-229c67dfe6d1")
 		(property "Reference" "U18"
 			(at 62.865 72.39 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9377,8 +9025,6 @@
 		)
 		(property "Value" "BM1366_mode0"
 			(at 80.645 72.39 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9388,35 +9034,29 @@
 		)
 		(property "Footprint" "bitaxe:BM1366"
 			(at 69.85 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 69.85 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 77.47 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -9522,17 +9162,13 @@
 		(lib_id "Device:C")
 		(at 256.54 24.13 180)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "33d3dd1a-df08-47ba-b820-b6e86973d457")
-		(property "Reference" "C112"
+		(property "Reference" "C8"
 			(at 262.89 20.955 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9542,8 +9178,6 @@
 		)
 		(property "Value" "1uF"
 			(at 262.255 26.67 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9553,57 +9187,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 256.54 24.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 256.54 24.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 256.54 24.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 256.54 24.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 256.54 24.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -9631,17 +9255,13 @@
 		(lib_id "Device:C")
 		(at 260.35 67.31 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "404da388-ab72-41c9-ba83-55c83e5ec92b")
-		(property "Reference" "C114"
+		(property "Reference" "C18"
 			(at 257.81 64.77 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9651,8 +9271,6 @@
 		)
 		(property "Value" "1uF"
 			(at 259.08 67.945 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9662,57 +9280,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 260.35 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 260.35 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 260.35 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 260.35 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 260.35 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -9740,17 +9348,13 @@
 		(lib_id "bitaxe:oscillator")
 		(at 201.93 149.86 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "4478fd36-95ee-4765-b27e-bc4ffc3bef4b")
-		(property "Reference" "U19"
+		(property "Reference" "U1"
 			(at 198.12 144.78 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9759,8 +9363,6 @@
 		)
 		(property "Value" "25MHz"
 			(at 203.835 154.94 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9769,57 +9371,47 @@
 		)
 		(property "Footprint" "bitaxe:O 25,0-JO32-B-1V3-1-T1-LF"
 			(at 200.66 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" "https://www.jauch.com/downloadfile/5ef1edcfb8e2f73163c8ce8009ef659d1/jo32-1.8-3.3v.pdf"
 			(at 200.66 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 201.93 149.86 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "1908-O250-JO32-B-1V3-1-T1-LFCT-ND"
 			(at 201.93 149.86 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "O 25,0-JO32-B-1V3-1-T1-LF"
 			(at 201.93 149.86 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -9854,17 +9446,13 @@
 		(at 237.49 148.59 270)
 		(mirror x)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "46fd2635-1d95-4dc2-be42-ee38d0fb6f27")
 		(property "Reference" "TP71"
 			(at 243.84 148.59 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9873,47 +9461,39 @@
 		)
 		(property "Value" "TestPoint"
 			(at 243.205 147.3201 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
 			)
 		)
 		(property "Footprint" "bitaxe:TestPoint_Pad_D1.0mm_highlight"
 			(at 237.49 143.51 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 237.49 143.51 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 237.49 148.59 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -9932,17 +9512,13 @@
 		(lib_id "Device:C")
 		(at 105.41 67.31 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "4d709ae4-ffa6-4a38-868b-cf7737548174")
-		(property "Reference" "C90"
+		(property "Reference" "C12"
 			(at 102.235 64.77 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9952,8 +9528,6 @@
 		)
 		(property "Value" "1uF"
 			(at 104.14 67.945 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9963,57 +9537,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 105.41 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 105.41 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 105.41 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 105.41 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 105.41 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10042,17 +9606,13 @@
 		(at 95.25 176.53 270)
 		(mirror x)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "56ea2080-b178-4165-9f4f-baa2d05ff905")
-		(property "Reference" "TP45"
+		(property "Reference" "TP13"
 			(at 101.6 176.53 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10061,47 +9621,39 @@
 		)
 		(property "Value" "TestPoint"
 			(at 100.965 175.2601 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
 			)
 		)
 		(property "Footprint" "bitaxe:TestPoint_Pad_D1.0mm_highlight"
 			(at 95.25 171.45 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 95.25 171.45 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 95.25 176.53 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10127,17 +9679,13 @@
 		(lib_id "bitaxe:SGM2036")
 		(at 66.04 144.78 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "56f3b11f-cfe7-4b3f-a5a9-407fe673d133")
 		(property "Reference" "U17"
 			(at 66.04 139.7 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10146,8 +9694,6 @@
 		)
 		(property "Value" "SGM2036-0v8"
 			(at 66.04 152.654 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10156,46 +9702,38 @@
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:TSOT-23-5"
 			(at 66.04 134.62 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" "https://static6.arrow.com/aropdfconversion/c665185286864b6f9a6bd991d86221e9e2ef3156/1640074291.pdf"
 			(at 66.04 137.16 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" "Fixed LDO 0.8V"
 			(at 66.04 144.78 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNUM" "SGM2036-0.8YN5G/TR"
 			(at 66.04 144.78 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "5"
@@ -10227,17 +9765,13 @@
 		(at 186.69 99.06 90)
 		(mirror x)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "5aca2891-4766-4916-9c0d-0d182d9d4bc9")
-		(property "Reference" "TP48"
+		(property "Reference" "TP13"
 			(at 180.34 99.06 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10246,47 +9780,39 @@
 		)
 		(property "Value" "TestPoint"
 			(at 180.975 100.3299 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 186.69 104.14 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 186.69 104.14 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 186.69 99.06 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10311,17 +9837,13 @@
 		(lib_id "Device:R_US")
 		(at 90.17 45.72 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "5c2e364e-bc83-4a9e-a6a9-a6b873f476c5")
-		(property "Reference" "R43"
+		(property "Reference" "R6"
 			(at 86.36 47.625 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10330,8 +9852,6 @@
 		)
 		(property "Value" "10k"
 			(at 93.98 47.625 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10340,57 +9860,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 90.424 44.704 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 90.17 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 90.17 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-10KJRCT-ND"
 			(at 90.17 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402JR-0710KL"
 			(at 90.17 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10418,17 +9928,13 @@
 		(lib_id "Device:C")
 		(at 203.2 160.02 270)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "61e83afb-2f23-48bf-8dda-f729bcf731ba")
-		(property "Reference" "C106"
+		(property "Reference" "C8"
 			(at 196.215 163.195 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10438,8 +9944,6 @@
 		)
 		(property "Value" "0.1uF"
 			(at 205.105 163.195 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10449,57 +9953,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 203.2 160.02 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 203.2 160.02 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 203.2 160.02 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "478-KGM05AR71C104KHCT-ND"
 			(at 203.2 160.02 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "KGM05AR71C104KH"
 			(at 203.2 160.02 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10527,17 +10021,13 @@
 		(lib_id "Device:R_US")
 		(at 34.29 45.72 270)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "63d2e8e7-ec17-44fb-ab9a-f4c29b51d12f")
-		(property "Reference" "R35"
+		(property "Reference" "R6"
 			(at 30.48 47.625 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10546,8 +10036,6 @@
 		)
 		(property "Value" "10k"
 			(at 38.1 47.625 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10556,57 +10044,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 34.036 46.736 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 34.29 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 34.29 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-10KJRCT-ND"
 			(at 34.29 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402JR-0710KL"
 			(at 34.29 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10635,17 +10113,13 @@
 		(at 186.69 101.6 90)
 		(mirror x)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "640454c4-ff2f-4fcb-b75b-daec1d98b904")
-		(property "Reference" "TP49"
+		(property "Reference" "TP13"
 			(at 180.34 101.6 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10654,47 +10128,39 @@
 		)
 		(property "Value" "TestPoint"
 			(at 180.975 102.8699 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 186.69 106.68 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 186.69 106.68 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 186.69 101.6 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10720,17 +10186,13 @@
 		(lib_id "bitaxe:TLV3544")
 		(at 104.14 43.18 0)
 		(unit 2)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "69eae0f6-ff36-4136-bcce-cba67e40ded5")
 		(property "Reference" "U15"
 			(at 111.125 40.005 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10739,8 +10201,6 @@
 		)
 		(property "Value" "TLV3544"
 			(at 112.395 46.99 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10749,57 +10209,47 @@
 		)
 		(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
 			(at 106.68 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tlv3542.pdf"
 			(at 105.41 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 104.14 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "296-45352-1-ND"
 			(at 104.14 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "TLV3544IPWR"
 			(at 104.14 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10857,17 +10307,13 @@
 		(lib_id "Device:C")
 		(at 153.67 151.13 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "6bad0b1d-6772-4346-84b0-6e340d9c463a")
-		(property "Reference" "C99"
+		(property "Reference" "C11"
 			(at 154.94 149.225 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10877,8 +10323,6 @@
 		)
 		(property "Value" "1uF"
 			(at 154.94 154.305 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10888,57 +10332,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 153.67 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 153.67 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 153.67 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 153.67 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 153.67 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10966,17 +10400,13 @@
 		(lib_id "Device:R_US")
 		(at 53.34 29.21 270)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "71bb3466-7ccd-4218-b69c-7c0f19a56f2d")
-		(property "Reference" "R37"
+		(property "Reference" "R6"
 			(at 49.53 30.48 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10985,8 +10415,6 @@
 		)
 		(property "Value" "1k"
 			(at 58.42 30.48 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10995,57 +10423,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 53.086 30.226 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 53.34 29.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 53.34 29.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-1.00KLRCT-ND"
 			(at 53.34 29.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402FR-071KL"
 			(at 53.34 29.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11073,17 +10491,13 @@
 		(lib_id "Device:C")
 		(at 153.67 67.31 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "72234a5f-f5f8-456e-9bd3-d6d233004712")
-		(property "Reference" "C98"
+		(property "Reference" "C2"
 			(at 151.13 64.77 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11093,8 +10507,6 @@
 		)
 		(property "Value" "1uF"
 			(at 152.4 67.945 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11104,57 +10516,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 153.67 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 153.67 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 153.67 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 153.67 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 153.67 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11182,17 +10584,13 @@
 		(lib_id "Device:C")
 		(at 91.44 154.94 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "745701a9-9874-4748-b8eb-b5926fcf4da7")
-		(property "Reference" "C88"
+		(property "Reference" "C24"
 			(at 92.71 153.035 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11202,8 +10600,6 @@
 		)
 		(property "Value" "1uF"
 			(at 93.345 158.75 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11213,58 +10609,48 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 91.44 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 91.44 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 91.44 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 91.44 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
 				)
 				(justify left bottom)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 91.44 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11293,17 +10679,13 @@
 		(at 71.12 59.69 90)
 		(mirror x)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "784e20a9-287e-4927-83e1-b6518a5bce76")
 		(property "Reference" "TP67"
 			(at 67.818 61.722 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11312,8 +10694,6 @@
 		)
 		(property "Value" "+"
 			(at 66.294 59.436 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11323,35 +10703,29 @@
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm"
 			(at 71.12 64.77 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 71.12 64.77 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 71.12 59.69 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11370,17 +10744,13 @@
 		(lib_id "Device:C")
 		(at 177.8 67.31 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "7c69ec57-a018-43c5-b5d2-ff012d218002")
-		(property "Reference" "C103"
+		(property "Reference" "C6"
 			(at 175.26 64.77 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11390,8 +10760,6 @@
 		)
 		(property "Value" "1uF"
 			(at 176.53 67.945 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11401,57 +10769,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 177.8 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 177.8 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 177.8 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 177.8 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 177.8 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11479,17 +10837,13 @@
 		(lib_id "Device:C")
 		(at 237.49 67.31 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "7c795387-4add-4b07-be19-3df754ef6863")
-		(property "Reference" "C108"
+		(property "Reference" "C15"
 			(at 234.95 64.77 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11499,8 +10853,6 @@
 		)
 		(property "Value" "1uF"
 			(at 236.22 67.945 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11510,57 +10862,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 237.49 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 237.49 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 237.49 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 237.49 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 237.49 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11588,17 +10930,13 @@
 		(lib_id "Device:R_US")
 		(at 149.86 50.8 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "7ca93796-353e-47c0-8c7b-2fdcb51a96ee")
-		(property "Reference" "R49"
+		(property "Reference" "R6"
 			(at 146.05 52.705 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11607,8 +10945,6 @@
 		)
 		(property "Value" "10k"
 			(at 153.67 52.705 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11617,57 +10953,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 150.114 49.784 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 149.86 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 149.86 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-10KJRCT-ND"
 			(at 149.86 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402JR-0710KL"
 			(at 149.86 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11696,17 +11022,13 @@
 		(lib_id "bitaxe:TLV3544")
 		(at 48.26 43.18 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "7f13ce0c-c2de-4eac-8b49-58b79ddb88e8")
 		(property "Reference" "U15"
 			(at 55.88 40.005 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11715,8 +11037,6 @@
 		)
 		(property "Value" "TLV3544"
 			(at 57.785 46.355 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11725,57 +11045,47 @@
 		)
 		(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
 			(at 50.8 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tlv3542.pdf"
 			(at 49.53 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 48.26 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "296-45352-1-ND"
 			(at 48.26 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "TLV3544IPWR"
 			(at 48.26 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11833,17 +11143,13 @@
 		(lib_id "Device:C")
 		(at 165.1 67.31 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "7f8da760-195b-4d6d-97b1-4391454318d2")
-		(property "Reference" "C100"
+		(property "Reference" "C3"
 			(at 162.56 64.77 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11853,8 +11159,6 @@
 		)
 		(property "Value" "1uF"
 			(at 163.83 67.945 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11864,57 +11168,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 165.1 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 165.1 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 165.1 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 165.1 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 165.1 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11942,17 +11236,13 @@
 		(lib_id "bitaxe:TLV3544")
 		(at 219.71 43.18 0)
 		(unit 4)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "7f96a95d-be50-459b-8043-cc0d7460400f")
 		(property "Reference" "U15"
 			(at 226.695 38.735 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11961,8 +11251,6 @@
 		)
 		(property "Value" "TLV3544"
 			(at 227.965 46.355 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11971,57 +11259,47 @@
 		)
 		(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
 			(at 222.25 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tlv3542.pdf"
 			(at 220.98 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 219.71 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "296-45352-1-ND"
 			(at 219.71 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "TLV3544IPWR"
 			(at 219.71 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -12079,17 +11357,13 @@
 		(lib_id "Device:C")
 		(at 26.67 67.31 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "87ddf821-5bee-4e8d-bb1f-71a4355e0c36")
-		(property "Reference" "C79"
+		(property "Reference" "C2"
 			(at 24.13 64.77 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12099,8 +11373,6 @@
 		)
 		(property "Value" "1uF"
 			(at 25.4 67.945 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12110,57 +11382,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 26.67 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 26.67 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 26.67 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 26.67 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 26.67 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -12188,17 +11450,13 @@
 		(lib_id "Device:R_US")
 		(at 149.86 40.64 270)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "8a4751d0-e1e8-4d6f-9cfe-444760387259")
-		(property "Reference" "R47"
+		(property "Reference" "R6"
 			(at 146.05 42.545 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12207,8 +11465,6 @@
 		)
 		(property "Value" "1k"
 			(at 153.67 42.545 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12217,57 +11473,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 149.606 41.656 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 149.86 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 149.86 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-1.00KLRCT-ND"
 			(at 149.86 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402FR-071KL"
 			(at 149.86 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -12295,17 +11541,13 @@
 		(lib_id "Device:C")
 		(at 46.99 119.38 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "8d15e6ce-13c7-4b33-8130-b3098e692a44")
-		(property "Reference" "C83"
+		(property "Reference" "C5"
 			(at 48.26 117.475 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12315,8 +11557,6 @@
 		)
 		(property "Value" "1uF"
 			(at 48.26 123.19 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12326,57 +11566,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 46.99 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 46.99 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 46.99 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 46.99 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 46.99 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -12404,17 +11634,13 @@
 		(lib_id "Device:C")
 		(at 248.92 67.31 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "8d5a4412-6920-40dc-b38d-22db3849429f")
-		(property "Reference" "C109"
+		(property "Reference" "C17"
 			(at 246.38 64.77 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12424,8 +11650,6 @@
 		)
 		(property "Value" "1uF"
 			(at 247.65 67.945 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12435,57 +11659,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 248.92 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 248.92 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 248.92 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 248.92 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 248.92 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -12513,17 +11727,13 @@
 		(lib_id "Device:R_US")
 		(at 224.79 29.21 270)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "907ca396-9e25-4bbf-879c-b9d93b31480f")
-		(property "Reference" "R54"
+		(property "Reference" "R6"
 			(at 220.98 30.48 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12532,8 +11742,6 @@
 		)
 		(property "Value" "1k"
 			(at 229.87 30.48 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12542,57 +11750,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 224.536 30.226 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 224.79 29.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 224.79 29.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-1.00KLRCT-ND"
 			(at 224.79 29.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402FR-071KL"
 			(at 224.79 29.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -12620,17 +11818,13 @@
 		(lib_id "bitaxe:BM1366_mode0")
 		(at 205.74 93.98 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "91cf53c9-f66d-46fc-90d0-4a19b1df8886")
 		(property "Reference" "U20"
 			(at 191.135 72.39 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12640,8 +11834,6 @@
 		)
 		(property "Value" "BM1366_mode0"
 			(at 208.28 72.39 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12651,35 +11843,29 @@
 		)
 		(property "Footprint" "bitaxe:BM1366"
 			(at 198.12 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 198.12 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 205.74 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -12785,17 +11971,13 @@
 		(lib_id "Device:R_US")
 		(at 90.17 40.64 270)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "91e002fa-e55b-41e2-abb7-0b58a71ef135")
-		(property "Reference" "R42"
+		(property "Reference" "R6"
 			(at 86.36 42.545 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12804,8 +11986,6 @@
 		)
 		(property "Value" "1k"
 			(at 93.98 42.545 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12814,57 +11994,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 89.916 41.656 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 90.17 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 90.17 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-1.00KLRCT-ND"
 			(at 90.17 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402FR-071KL"
 			(at 90.17 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -12892,17 +12062,13 @@
 		(lib_id "Device:C")
 		(at 45.72 185.42 180)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "9a5f4f99-5233-4428-a1dc-d62abe047e47")
-		(property "Reference" "C82"
+		(property "Reference" "C8"
 			(at 43.815 182.245 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12912,8 +12078,6 @@
 		)
 		(property "Value" "0.1uF"
 			(at 44.45 187.96 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12923,57 +12087,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 45.72 185.42 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 45.72 185.42 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 45.72 185.42 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "478-KGM05AR71C104KHCT-ND"
 			(at 45.72 185.42 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "KGM05AR71C104KH"
 			(at 45.72 185.42 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -13001,17 +12155,13 @@
 		(lib_id "Device:C")
 		(at 257.81 119.38 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "a17fd77e-e47d-4656-b545-0653f0a2808e")
-		(property "Reference" "C113"
+		(property "Reference" "C16"
 			(at 258.445 117.475 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13021,8 +12171,6 @@
 		)
 		(property "Value" "1uF"
 			(at 259.08 123.19 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13032,57 +12180,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 257.81 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 257.81 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 257.81 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 257.81 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 257.81 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -13111,17 +12249,13 @@
 		(at 96.52 143.51 270)
 		(mirror x)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "a63b2f98-5dc5-4006-b985-c766b86e7029")
-		(property "Reference" "TP46"
+		(property "Reference" "TP13"
 			(at 102.87 143.51 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13130,47 +12264,39 @@
 		)
 		(property "Value" "TestPoint"
 			(at 102.235 142.2401 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
 			)
 		)
 		(property "Footprint" "bitaxe:TestPoint_Pad_D1.0mm_highlight"
 			(at 96.52 138.43 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 96.52 138.43 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 96.52 143.51 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -13195,17 +12321,13 @@
 		(lib_id "Device:C")
 		(at 38.1 67.31 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "aef234cd-10d6-4580-904f-9d6a19c891d6")
-		(property "Reference" "C80"
+		(property "Reference" "C3"
 			(at 35.56 64.77 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13215,8 +12337,6 @@
 		)
 		(property "Value" "1uF"
 			(at 36.83 67.945 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13226,57 +12346,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 38.1 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 38.1 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 38.1 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 38.1 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 38.1 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -13304,17 +12414,13 @@
 		(lib_id "Device:C")
 		(at 248.92 119.38 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "b01f7a64-b395-41d8-9721-8d9cc2ae73e2")
-		(property "Reference" "C110"
+		(property "Reference" "C14"
 			(at 249.555 117.475 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13324,8 +12430,6 @@
 		)
 		(property "Value" "1uF"
 			(at 249.555 123.19 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13335,57 +12439,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 248.92 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 248.92 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 248.92 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 248.92 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 248.92 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -13413,17 +12507,13 @@
 		(lib_id "Device:C")
 		(at 226.06 67.31 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "b0285eeb-c204-44ff-92b5-cfe591683e1b")
-		(property "Reference" "C107"
+		(property "Reference" "C12"
 			(at 222.885 64.77 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13433,8 +12523,6 @@
 		)
 		(property "Value" "1uF"
 			(at 224.79 67.945 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13444,57 +12532,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 226.06 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 226.06 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 226.06 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 226.06 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 226.06 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -13522,17 +12600,13 @@
 		(lib_id "Device:C")
 		(at 166.37 119.38 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "b06529fc-59be-472e-a57e-607954bdf783")
-		(property "Reference" "C102"
+		(property "Reference" "C4"
 			(at 167.64 117.475 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13542,8 +12616,6 @@
 		)
 		(property "Value" "1uF"
 			(at 167.64 123.19 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13553,57 +12625,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 166.37 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 166.37 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 166.37 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 166.37 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 166.37 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -13631,17 +12693,13 @@
 		(lib_id "Device:R_US")
 		(at 205.74 40.64 270)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "b321f59b-9236-4e7f-b90e-2bca10bf4c28")
-		(property "Reference" "R51"
+		(property "Reference" "R6"
 			(at 201.93 42.545 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13650,8 +12708,6 @@
 		)
 		(property "Value" "1k"
 			(at 209.55 42.545 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13660,57 +12716,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 205.486 41.656 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 205.74 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 205.74 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-1.00KLRCT-ND"
 			(at 205.74 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402FR-071KL"
 			(at 205.74 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -13738,17 +12784,13 @@
 		(lib_id "Device:C")
 		(at 189.23 67.31 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "b6001510-55c6-4227-9ec0-04c145266b28")
-		(property "Reference" "C105"
+		(property "Reference" "C8"
 			(at 186.69 64.77 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13758,8 +12800,6 @@
 		)
 		(property "Value" "1uF"
 			(at 187.96 67.945 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13769,57 +12809,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 189.23 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 189.23 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 189.23 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 189.23 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 189.23 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -13847,17 +12877,13 @@
 		(lib_id "bitaxe:SGM2036")
 		(at 64.77 177.8 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "b8793b2f-5c06-44a4-a87d-f10b05bd1d4b")
 		(property "Reference" "U16"
 			(at 64.77 172.72 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13866,8 +12892,6 @@
 		)
 		(property "Value" "SGM2036-1v8"
 			(at 64.77 185.674 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13876,46 +12900,38 @@
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:TSOT-23-5"
 			(at 64.77 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" "https://static6.arrow.com/aropdfconversion/c665185286864b6f9a6bd991d86221e9e2ef3156/1640074291.pdf"
 			(at 64.77 170.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" "Fixed LDO 1.8V"
 			(at 64.77 177.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNUM" "SGM2036-1.8YN5G/TR"
 			(at 64.77 177.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "5"
@@ -13947,17 +12963,13 @@
 		(at 48.26 101.6 90)
 		(mirror x)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "ba817306-8872-4d84-82bf-733ff256dd4e")
-		(property "Reference" "TP44"
+		(property "Reference" "TP13"
 			(at 41.91 101.6 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13966,47 +12978,39 @@
 		)
 		(property "Value" "TestPoint"
 			(at 42.545 102.8699 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 48.26 106.68 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 48.26 106.68 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 48.26 101.6 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -14031,17 +13035,13 @@
 		(lib_id "Device:C")
 		(at 123.19 151.13 180)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "bb4d1ba8-f5e6-40f8-abee-81753159ebc2")
-		(property "Reference" "C93"
+		(property "Reference" "C8"
 			(at 121.285 147.955 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14051,8 +13051,6 @@
 		)
 		(property "Value" "0.1uF"
 			(at 121.92 153.67 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14062,57 +13060,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 123.19 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 123.19 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 123.19 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "478-KGM05AR71C104KHCT-ND"
 			(at 123.19 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "KGM05AR71C104KH"
 			(at 123.19 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -14140,17 +13128,13 @@
 		(lib_id "Device:C")
 		(at 143.51 151.13 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "bb6d1e4a-cc0a-499d-be47-6232644202dd")
-		(property "Reference" "C97"
+		(property "Reference" "C10"
 			(at 144.78 149.225 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14160,8 +13144,6 @@
 		)
 		(property "Value" "1uF"
 			(at 144.78 154.305 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14171,57 +13153,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 143.51 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 143.51 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 143.51 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 143.51 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 143.51 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -14249,17 +13221,13 @@
 		(lib_id "Device:R_US")
 		(at 34.29 50.8 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "bd1047e0-6ea8-4775-bb77-bf9edd9daaef")
-		(property "Reference" "R36"
+		(property "Reference" "R6"
 			(at 30.48 52.705 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14268,8 +13236,6 @@
 		)
 		(property "Value" "10k"
 			(at 38.1 52.705 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14278,57 +13244,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 34.544 49.784 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 34.29 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 34.29 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-10KJRCT-ND"
 			(at 34.29 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402JR-0710KL"
 			(at 34.29 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -14356,17 +13312,13 @@
 		(lib_id "Device:C")
 		(at 116.84 119.38 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "bdbcefff-773c-489a-b5d1-a22be5040d9e")
-		(property "Reference" "C92"
+		(property "Reference" "C14"
 			(at 117.475 117.475 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14376,8 +13328,6 @@
 		)
 		(property "Value" "1uF"
 			(at 117.475 123.19 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14387,57 +13337,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 116.84 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 116.84 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 116.84 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 116.84 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 116.84 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -14465,17 +13405,13 @@
 		(lib_id "Device:C")
 		(at 80.01 154.94 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "be4b6959-eb65-4984-b8a3-088026f239e7")
 		(property "Reference" "C160"
 			(at 81.28 153.035 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14485,8 +13421,6 @@
 		)
 		(property "Value" "0.01uF"
 			(at 81.915 158.75 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14496,58 +13430,48 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 80.01 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 80.01 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 80.01 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "478-KGM05AR70J103KHCT-ND"
 			(at 80.01 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
 				)
 				(justify left bottom)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "KGM05AR70J103KH"
 			(at 80.01 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -14570,17 +13494,13 @@
 		(lib_id "bitaxe:TLV3544")
 		(at 163.83 43.18 0)
 		(unit 3)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "c0975b79-80ea-4193-9b66-9c99d68ee9f6")
 		(property "Reference" "U15"
 			(at 169.545 39.37 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14589,8 +13509,6 @@
 		)
 		(property "Value" "TLV3544"
 			(at 171.45 46.99 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14599,57 +13517,47 @@
 		)
 		(property "Footprint" "Package_SO:TSSOP-14_4.4x5mm_P0.65mm"
 			(at 166.37 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tlv3542.pdf"
 			(at 165.1 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 163.83 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "296-45352-1-ND"
 			(at 163.83 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "TLV3544IPWR"
 			(at 163.83 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -14707,17 +13615,13 @@
 		(lib_id "Device:R_US")
 		(at 34.29 40.64 270)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "c1b35a08-8ef2-407f-91e7-caf8e1463d2d")
-		(property "Reference" "R34"
+		(property "Reference" "R6"
 			(at 30.48 42.545 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14726,8 +13630,6 @@
 		)
 		(property "Value" "1k"
 			(at 38.1 42.545 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14736,57 +13638,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 34.036 41.656 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 34.29 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 34.29 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-1.00KLRCT-ND"
 			(at 34.29 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402FR-071KL"
 			(at 34.29 40.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -14814,17 +13706,13 @@
 		(lib_id "Device:R_US")
 		(at 205.74 50.8 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "c2c742a9-96e7-4e58-bd3e-61c969cbb282")
-		(property "Reference" "R53"
+		(property "Reference" "R6"
 			(at 201.93 52.705 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14833,8 +13721,6 @@
 		)
 		(property "Value" "10k"
 			(at 209.55 52.705 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14843,57 +13729,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 205.994 49.784 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 205.74 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 205.74 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-10KJRCT-ND"
 			(at 205.74 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402JR-0710KL"
 			(at 205.74 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -14921,17 +13797,13 @@
 		(lib_id "Device:C")
 		(at 128.27 67.31 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "c5606562-23c9-4ec6-8b2f-4f89d0b91050")
-		(property "Reference" "C94"
+		(property "Reference" "C17"
 			(at 125.73 64.77 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14941,8 +13813,6 @@
 		)
 		(property "Value" "1uF"
 			(at 127 67.945 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14952,57 +13822,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 128.27 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 128.27 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 128.27 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 128.27 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 128.27 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -15030,17 +13890,13 @@
 		(lib_id "Device:R_US")
 		(at 149.86 45.72 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "c6934626-55c6-42a1-b707-7308e9ed5453")
-		(property "Reference" "R48"
+		(property "Reference" "R6"
 			(at 146.05 47.625 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15049,8 +13905,6 @@
 		)
 		(property "Value" "10k"
 			(at 153.67 47.625 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15059,57 +13913,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 150.114 44.704 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 149.86 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 149.86 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-10KJRCT-ND"
 			(at 149.86 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402JR-0710KL"
 			(at 149.86 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -15137,17 +13981,13 @@
 		(lib_id "Device:C")
 		(at 38.1 119.38 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "c6e3ee7e-a215-4c32-bad2-db5e38b6c45b")
-		(property "Reference" "C81"
+		(property "Reference" "C4"
 			(at 39.37 117.475 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15157,8 +13997,6 @@
 		)
 		(property "Value" "1uF"
 			(at 39.37 123.19 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15168,57 +14006,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 38.1 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 38.1 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 38.1 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 38.1 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 38.1 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -15246,17 +14074,13 @@
 		(lib_id "Device:R_US")
 		(at 109.22 29.21 270)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "c8078094-75f0-4b5d-b6b8-29fd8e4404af")
-		(property "Reference" "R45"
+		(property "Reference" "R6"
 			(at 105.41 30.48 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15265,8 +14089,6 @@
 		)
 		(property "Value" "1k"
 			(at 114.3 30.48 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15275,57 +14097,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 108.966 30.226 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 109.22 29.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 109.22 29.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-1.00KLRCT-ND"
 			(at 109.22 29.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402FR-071KL"
 			(at 109.22 29.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -15353,17 +14165,13 @@
 		(lib_id "Device:C")
 		(at 49.53 67.31 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "ca9f012a-10ae-4211-949a-cd457b825ad2")
-		(property "Reference" "C85"
+		(property "Reference" "C6"
 			(at 46.99 64.77 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15373,8 +14181,6 @@
 		)
 		(property "Value" "1uF"
 			(at 48.26 67.945 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15384,57 +14190,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 49.53 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 49.53 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 49.53 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 49.53 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 49.53 67.31 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -15462,17 +14258,13 @@
 		(lib_id "Device:R_US")
 		(at 242.57 43.18 270)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "cdac7eb8-22de-4294-b790-6e585cc977b5")
-		(property "Reference" "R55"
+		(property "Reference" "R6"
 			(at 238.76 45.085 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15481,8 +14273,6 @@
 		)
 		(property "Value" "1k"
 			(at 246.38 45.085 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15491,57 +14281,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 242.316 44.196 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 242.57 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 242.57 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-1.00KLRCT-ND"
 			(at 242.57 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402FR-071KL"
 			(at 242.57 43.18 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -15569,17 +14349,13 @@
 		(lib_id "Device:C")
 		(at 180.34 119.38 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "d15d5850-2d60-4725-b5d8-05ee469a0dd9")
-		(property "Reference" "C104"
+		(property "Reference" "C5"
 			(at 181.61 117.475 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15589,8 +14365,6 @@
 		)
 		(property "Value" "1uF"
 			(at 181.61 123.19 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15600,57 +14374,47 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 180.34 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 180.34 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 180.34 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 180.34 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 180.34 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -15678,17 +14442,13 @@
 		(lib_id "Device:C")
 		(at 78.74 187.96 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "da2ec699-dbb5-485d-880b-aa199a0c056f")
 		(property "Reference" "C161"
 			(at 80.01 186.055 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15698,8 +14458,6 @@
 		)
 		(property "Value" "0.01uF"
 			(at 80.645 191.77 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15709,58 +14467,48 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 78.74 187.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 78.74 187.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 78.74 187.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "478-KGM05AR70J103KHCT-ND"
 			(at 78.74 187.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
 				)
 				(justify left bottom)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "KGM05AR70J103KH"
 			(at 78.74 187.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -15782,18 +14530,14 @@
 		(lib_id "Device:C_Polarized")
 		(at 165.1 151.13 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "dcc19948-1ca0-4aab-904a-a389f54d84e0")
-		(property "Reference" "C101"
+		(property "Reference" "C13"
 			(at 168.275 148.9709 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15803,8 +14547,6 @@
 		)
 		(property "Value" "330uF"
 			(at 168.275 151.5109 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15814,57 +14556,47 @@
 		)
 		(property "Footprint" "Capacitor_Tantalum_SMD:CP_EIA-7343-31_Kemet-D_Pad2.25x2.55mm_HandSolder"
 			(at 166.0652 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 165.1 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 165.1 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "718-1028-1-ND"
 			(at 165.1 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "293D337X9010E2TE3"
 			(at 165.1 151.13 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -15892,17 +14624,13 @@
 		(lib_id "Device:C")
 		(at 90.17 187.96 0)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "df9365c8-e3f5-4cfe-83cc-cfa28f803a70")
-		(property "Reference" "C87"
+		(property "Reference" "C24"
 			(at 91.44 186.055 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15912,8 +14640,6 @@
 		)
 		(property "Value" "1uF"
 			(at 92.075 191.77 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15923,58 +14649,48 @@
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 90.17 187.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 90.17 187.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 90.17 187.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "587-5514-1-ND"
 			(at 90.17 187.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
 				)
 				(justify left bottom)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "EMK105BJ105MV-F"
 			(at 90.17 187.96 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -16002,17 +14718,13 @@
 		(lib_id "Device:R_US")
 		(at 90.17 50.8 90)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "e1e5dd1a-7248-44ef-b7a9-d1878c342151")
-		(property "Reference" "R44"
+		(property "Reference" "R6"
 			(at 86.36 52.705 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16021,8 +14733,6 @@
 		)
 		(property "Value" "10k"
 			(at 93.98 52.705 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16031,57 +14741,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 90.424 49.784 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 90.17 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 90.17 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-10KJRCT-ND"
 			(at 90.17 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402JR-0710KL"
 			(at 90.17 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -16109,17 +14809,13 @@
 		(lib_id "Device:R_US")
 		(at 168.91 29.21 270)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "ea51e291-0bf3-462a-925c-8d09bbef9619")
-		(property "Reference" "R50"
+		(property "Reference" "R6"
 			(at 165.1 30.48 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16128,8 +14824,6 @@
 		)
 		(property "Value" "1k"
 			(at 173.99 30.48 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16138,57 +14832,47 @@
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 168.656 30.226 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 168.91 29.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 168.91 29.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "DK" "311-1.00KLRCT-ND"
 			(at 168.91 29.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0402FR-071KL"
 			(at 168.91 29.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
@@ -16217,17 +14901,13 @@
 		(at 101.6 99.06 270)
 		(mirror x)
 		(unit 1)
-		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(in_pos_files yes)
 		(dnp no)
 		(uuid "ee4023ae-c2a9-4b3c-bedb-6a32323eac54")
-		(property "Reference" "TP47"
+		(property "Reference" "TP13"
 			(at 107.95 99.06 90)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16236,47 +14916,39 @@
 		)
 		(property "Value" "TestPoint"
 			(at 107.315 97.7901 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
 			(at 101.6 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 101.6 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 101.6 99.06 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
