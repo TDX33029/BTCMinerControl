@@ -1,0 +1,36 @@
+ ==============================================
+ LwIP 集成说明
+ BTCMinerControl F407 (野火霸天虎V2)
+ ==============================================
+ 
+ 本项目需要 LwIP 2.x 网络协议栈。eth_drv.c 使用 LwIP raw API (无 RTOS)。
+ 
+ 方法一：通过 Keil RTE 添加 (推荐)
+ ----------------------------------
+ 1. 用 Keil MDK v5 打开 BH-F407.uvprojx
+ 2. 点击 Project → Manage → Run-Time Environment
+ 3. 在 Network 分类中勾选：
+    - Network → Core
+    - Network → Socket (TCP)
+ 4. 点击 OK，RTE 会自动复制 LwIP 源文件到项目中
+ 
+ 方法二：手动下载 LwIP
+ ----------------------
+ 1. 从 https://savannah.nongnu.org/projects/lwip/ 下载 LwIP 2.1.x
+    推荐 lwip-2.1.3.zip
+ 2. 将源码解压到 Library/LwIP/ 目录：
+    Library/LwIP/src/  (core, include, netif)
+    或者放到 User/lwip/ 目录
+ 3. 在 Keil 项目中将以下源文件添加到合适的组：
+    Core: def.c, init.c, mem.c, memp.c, netif.c, pbuf.c, 
+          stats.c, sys.c, tcp.c, tcp_in.c, tcp_out.c, 
+          timeouts.c, udp.c, timers.c
+    IPv4: autoip.c, dhcp.c, etharp.c, icmp.c, ip4.c, 
+          ip4_addr.c, ip.c
+    Netif: ethernet.c
+ 4. 配置包含路径指向 LwIP 的 include 目录
+ 
+ 注意：
+ - lwipopts.h 已位于 User/lwipopts.h，配置为 NO_SYS 模式
+ - 如果缺少某个文件，编译时根据错误提示添加即可
+ - 如果已在方法一中使用 RTE，则无需重复添加

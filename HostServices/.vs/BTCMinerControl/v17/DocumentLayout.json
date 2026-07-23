@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\",
+  "WorkspaceRootPath": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6AECD7BD-DD95-4596-9509-06FD9AACD0D3}|BTCMinerControl\\BTCMinerControl.vcxproj|D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{6AECD7BD-DD95-4596-9509-06FD9AACD0D3}|BTCMinerControl\\BTCMinerControl.vcxproj|D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{6AECD7BD-DD95-4596-9509-06FD9AACD0D3}|BTCMinerControl\\BTCMinerControl.vcxproj|solutionrelative:src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
@@ -20,11 +20,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "main.cpp",
-              "DocumentMoniker": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\src\\main.cpp",
+              "DocumentMoniker": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\main.cpp",
               "RelativeDocumentMoniker": "src\\main.cpp",
-              "ToolTip": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\src\\main.cpp",
+              "ToolTip": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\main.cpp",
               "RelativeToolTip": "src\\main.cpp",
-              "ViewState": "AgIAAPMAAAAAAAAAAAAAABAAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAAAFYAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-07-10T11:11:39.145Z",
               "EditorCaption": ""

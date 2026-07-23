@@ -2,7 +2,7 @@
     "pool": {
         "host": "stratum.braiins.com",
         "port": 3333,
-        "user": "your_username.worker_name",
+        "user": "TDX33029",
         "pass": "x"
     },
     "board_port": 4028,
