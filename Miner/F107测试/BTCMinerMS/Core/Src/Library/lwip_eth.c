@@ -89,6 +89,7 @@ void ETH_WritePHYRegister(uint16_t phy, uint16_t reg, uint16_t val) {
     while (ETH->DMABMR & ETH_DMABMR_SR);
     /* Clear DMASR sticky status bits (write 1 to clear) */
     ETH->DMASR = 0x00018404;  /* clear TBU|FBE|AIS|NIS */
+    printf("[DMA] DMASR_AFTER_CLEAR=0x%08X (expect 0x00000000)\\r\\n", (uint32_t)ETH->DMASR);
     printf("[DMA] RX_DESC=0x%08X RX_BUF=0x%08X TX_DESC=0x%08X TX_BUF=0x%08X\r\n",
            (uint32_t)rx_desc, (uint32_t)rx_buf,
            (uint32_t)tx_desc, (uint32_t)tx_buf);
