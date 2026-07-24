@@ -87,8 +87,10 @@ void ETH_WritePHYRegister(uint16_t phy, uint16_t reg, uint16_t val) {
     /* Reset DMA to clear error state from HAL_ETH_Init */
     ETH->DMABMR |= ETH_DMABMR_SR;
     while (ETH->DMABMR & ETH_DMABMR_SR);
+    /* Clear DMASR sticky status bits (write 1 to clear) */
+    ETH->DMASR = 0x00018404;  /* clear TBU|FBE|AIS|NIS */
 
-     ETH_DMADESCTypeDef *d;
+    ETH_DMADESCTypeDef *d;
  
      /* RX descriptors chain */
      for (uint32_t i = 0; i < rx_count; i++) {
