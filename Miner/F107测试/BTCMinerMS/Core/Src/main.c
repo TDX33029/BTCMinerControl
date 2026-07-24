@@ -80,7 +80,7 @@ UART_HandleTypeDef huart2;
 #define PC_IP0     26
 #define PC_IP1     8
 #define PC_IP2     1
-#define PC_IP3     11  (old - fixed below)
+#define PC_IP3     11
 #define PC_PORT    4028
 
 #define BM1366_EXPECTED_COUNT  0
@@ -213,6 +213,7 @@ int main(void)
   asic_ready = 0;
   printf("[SYS] BM1366 disabled (ETH test mode)\r\n");
   /* USER CODE END 2 */
+#endif
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */

@@ -5,6 +5,7 @@
 
 err_t ethernetif_init(struct netif *netif);
 void  ethernetif_input(struct netif *netif);
+void  ethernetif_dma_init(void);
 void  ethernetif_poll_rx(void);
 void  ethernetif_set_link(struct netif *netif, int up);
 uint32_t eth_netif_get_rx_count(void);
@@ -12,3 +13,4 @@ uint32_t eth_netif_get_tx_count(void);
 void     eth_netif_reset_counts(void);
 
 #endif /* __ETH_NETIF_H__ */
+
