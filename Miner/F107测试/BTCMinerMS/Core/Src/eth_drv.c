@@ -55,8 +55,8 @@ int eth_init(const eth_config_t *cfg) {
     /* Reset PHY */
     phy_reset();
 
-    ETH_MAC_Init((uint8_t *)cfg->mac);
     ethernetif_dma_init();
+    ETH_MAC_Init((uint8_t *)cfg->mac);
     /* Debug: check DMA and RMII state */
     printf("[DMA] DMASR=0x%08X  DMABMR=0x%08X  DMAOMR=0x%08X\r\n",
            (uint32_t)ETH->DMASR, (uint32_t)ETH->DMABMR, (uint32_t)ETH->DMAOMR);
@@ -84,7 +84,7 @@ int eth_init(const eth_config_t *cfg) {
     netif_add(&eth_netif, &ip, &netmask, &gw, NULL, ethernetif_init, ethernet_input);
     netif_set_default(&eth_netif);
     netif_set_up(&eth_netif);
-    ethernetif_set_link(&eth_netif, 1);  /* link UP now — PHY already established */
+    ethernetif_set_link(&eth_netif, 1);  /* link UP now ? PHY already established */
 
     printf("[LWIP] Stack init OK, IP=%d.%d.%d.%d\r\n",
            cfg->ip[0], cfg->ip[1], cfg->ip[2], cfg->ip[3]);
