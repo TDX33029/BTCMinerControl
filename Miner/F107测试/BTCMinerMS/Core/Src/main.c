@@ -256,15 +256,15 @@ int main(void)
     /* ? 30s ???????? */
     if ((now - last_status) > 10000) {
         last_status = now;
-        printf("\r\n[STATUS] up=%lus  eth=%s  bm1366=%s  chips=%d  link=%s\r\n",
+        printf("\r\n[STATUS] up=%lus  eth=%s  bm1366=%s  chips=%d  link=%s  rx=%lu tx=%lu\r\n",
                (unsigned long)(now / 1000),
                connected ? "CONN" : "WAIT",
                asic_ready ? "OK" : "OFF",
                asic_ready ? bm1366_get_chip_count() : 0,
-               eth_link_status() ? "UP" : "DOWN");
-    }
-
-    /* STATUS LED ??: ???? 500ms ??, ????? */
+               eth_link_status() ? "UP" : "DOWN",
+               (unsigned long)eth_netif_get_rx_count(),
+               (unsigned long)eth_netif_get_tx_count());
+        if ((now % 30000) < 1000) eth_netif_reset_counts();  /* reset every 30s */
     if ((now - last_led_toggle) > 500) {
         last_led_toggle = now;
         if (connected) {
