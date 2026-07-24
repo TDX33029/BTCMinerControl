@@ -125,7 +125,7 @@ int main(int argc, char* argv[]) {
         double       pool_difficulty = 256.0;
         bool         has_notify = false;
     } pool_state;
-    pool_state.pool_difficulty = cfg.min_difficulty;
+
 
     // Pool callbacks
     stratum.onSubscribeResult = [&](const SubscribeResult& sr) {
@@ -140,7 +140,7 @@ int main(int argc, char* argv[]) {
     };
 
     stratum.onSetDifficulty = [&](double diff) {
-        pool_state.pool_difficulty = (std::max)(diff, cfg.min_difficulty);
+        pool_state.pool_difficulty = (diff > cfg.min_difficulty) ? diff : cfg.min_difficulty;
         std::cout << "[main] Pool difficulty: " << pool_state.pool_difficulty << std::endl;
     };
 
