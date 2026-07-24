@@ -57,6 +57,20 @@ int eth_init(const eth_config_t *cfg) {
 
     ETH_MAC_Init((uint8_t *)cfg->mac);
     ethernetif_dma_init();
+    /* Debug: check DMA and RMII state */
+    printf("[DMA] DMASR=0x%08X  DMABMR=0x%08X  DMAOMR=0x%08X\r\n",
+           (uint32_t)ETH->DMASR, (uint32_t)ETH->DMABMR, (uint32_t)ETH->DMAOMR);
+    printf("[DMA] MACCR=0x%08X  MACFFR=0x%08X\r\n",
+           (uint32_t)ETH->MACCR, (uint32_t)ETH->MACFFR);
+    {
+        uint32_t mapr = 0;
+#ifdef AFIO
+        mapr = AFIO->MAPR;
+#elif defined(SYSCFG)
+        mapr = SYSCFG->PMC;
+#endif
+        printf("[DMA] AFIO_MAPR=0x%08X  (bit24=ETH_RMII)\r\n", mapr);
+    }
 
     /* Init LwIP stack */
     lwip_init();
