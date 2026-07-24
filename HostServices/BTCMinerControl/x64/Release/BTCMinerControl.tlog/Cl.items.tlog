@@ -1,0 +1,12 @@
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\src\main.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\BTCMinerControl\x64\Release\main.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\src\mine\sha256.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\BTCMinerControl\x64\Release\sha256.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\src\mine\coinbase.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\BTCMinerControl\x64\Release\coinbase.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\src\mine\merkle.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\BTCMinerControl\x64\Release\merkle.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\src\mine\midstate.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\BTCMinerControl\x64\Release\midstate.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\src\mine\verify.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\BTCMinerControl\x64\Release\verify.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\src\stratum\client.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\BTCMinerControl\x64\Release\client.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\src\dispatch\protocol.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\BTCMinerControl\x64\Release\protocol.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\src\dispatch\manager.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\BTCMinerControl\x64\Release\manager.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\src\dispatch\scheduler.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\BTCMinerControl\x64\Release\scheduler.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\src\dashboard\server.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\BTCMinerControl\x64\Release\server.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\src\config.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\BTCMinerControl\x64\Release\config.obj

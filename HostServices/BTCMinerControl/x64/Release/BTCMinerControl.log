@@ -1,0 +1,17 @@
+﻿  main.cpp
+  sha256.cpp
+  coinbase.cpp
+  merkle.cpp
+  midstate.cpp
+  verify.cpp
+  client.cpp
+  protocol.cpp
+  manager.cpp
+  scheduler.cpp
+  server.cpp
+  config.cpp
+  正在生成代码
+  Previous IPDB not found, fall back to full compilation.
+  All 2809 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  BTCMinerControl.vcxproj -> D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\x64\Release\BTCMinerControl.exe

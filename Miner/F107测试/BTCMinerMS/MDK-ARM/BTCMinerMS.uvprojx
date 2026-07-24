@@ -1424,7 +1424,7 @@
             </File>
           </Files>
         </Group>
-              <Group>
+        <Group>
           <GroupName>LwIP</GroupName>
           <Files>
             <File>
@@ -1545,4 +1545,3 @@
   </RTE>
 
 </Project>
-
