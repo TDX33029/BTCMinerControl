@@ -7,6 +7,7 @@
 #include "lwip/ip4_addr.h"
 #include "lwip/etharp.h"
 #include "lwip/timeouts.h"
+#include "netif/ethernet.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -69,6 +70,7 @@ int eth_init(const eth_config_t *cfg) {
     netif_add(&eth_netif, &ip, &netmask, &gw, NULL, ethernetif_init, ethernet_input);
     netif_set_default(&eth_netif);
     netif_set_up(&eth_netif);
+    ethernetif_set_link(&eth_netif, 1);  /* link UP now — PHY already established */
 
     printf("[LWIP] Stack init OK, IP=%d.%d.%d.%d\r\n",
            cfg->ip[0], cfg->ip[1], cfg->ip[2], cfg->ip[3]);
