@@ -23,8 +23,6 @@ typedef struct {
 #define ETH_DMATxDesc_FS   ((uint32_t)0x10000000)
 #define ETH_DMATxDesc_TCH  ((uint32_t)0x01000000)
 
-#define ETH_DMA_IT_R       ((uint32_t)0x00000006)
-#define ETH_DMA_IT_NIS     ((uint32_t)0x00010000)
 
 /* ===== ETH Register Bit Definitions (HAL/CMSIS may not define these) ===== */
 #ifndef ETH_MACA0HR_MO
