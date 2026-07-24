@@ -9,4 +9,9 @@ u32_t sys_now(void) {
     return HAL_GetTick();
 }
 
+
+/* Critical section protection for NO_SYS mode (polling, no ISR touches LwIP) */
+sys_prot_t sys_arch_protect(void) { return 0; }
+void sys_arch_unprotect(sys_prot_t p) { (void)p; }
 #endif /* NO_SYS */
+

@@ -15,6 +15,7 @@
 #define PBUF_LINK_HLEN                  16
 
 /* ===== TCP ===== */
+#define LWIP_UDP                       1
 #define LWIP_TCP                        1
 #define TCP_TTL                         64
 #define TCP_WND                         (4*TCP_MSS)
@@ -60,3 +61,4 @@
 #define LWIP_RAND()                     ((u32_t)HAL_GetTick())
 
 #endif /* __LWIPOPTS_H__ */
+
