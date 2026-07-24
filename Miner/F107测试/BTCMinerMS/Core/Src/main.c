@@ -14,6 +14,7 @@
 #include "bm1366.h"
 #include "protocol.h"
 #include "eth_drv.h"
+#include "eth_netif.h"
 #include "debug_serial.h"
 #include "Delay.h"
 #include <string.h>
@@ -77,9 +78,9 @@ UART_HandleTypeDef huart2;
 #define CFG_LOCAL_PORT   6000
 
 #define PC_IP0     26
-#define PC_IP1     1
+#define PC_IP1     8
 #define PC_IP2     1
-#define PC_IP3     11
+#define PC_IP3     11  (old - fixed below)
 #define PC_PORT    4028
 
 #define BM1366_EXPECTED_COUNT  0
@@ -211,7 +212,6 @@ int main(void)
 #else
   asic_ready = 0;
   printf("[SYS] BM1366 disabled (ETH test mode)\r\n");
-#endif
   /* USER CODE END 2 */
 
   /* Infinite loop */
