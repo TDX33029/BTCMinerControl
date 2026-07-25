@@ -266,6 +266,7 @@ int main(void)
                (unsigned long)eth_netif_get_rx_count(),
                (unsigned long)eth_netif_get_tx_count());
         if ((now % 30000) < 1000) eth_netif_reset_counts();  /* reset every 30s */
+    }
     if ((now - last_led_toggle) > 500) {
         last_led_toggle = now;
         if (connected) {

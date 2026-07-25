@@ -31,7 +31,32 @@ btcminerms\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 btcminerms\main.o: ../Core/Inc/bm1366.h
 btcminerms\main.o: ../Core/Inc/protocol.h
 btcminerms\main.o: ../Core/Inc/eth_drv.h
+btcminerms\main.o: ../Core/Inc/eth_netif.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/netif.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/opt.h
+btcminerms\main.o: ../Core/Inc/lwipopts.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/debug.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/arch.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/arch/cc.h
+btcminerms\main.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\string.h
+btcminerms\main.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\inttypes.h
+btcminerms\main.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\limits.h
+btcminerms\main.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\ctype.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/opt.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/err.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/ip_addr.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/def.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/ip4_addr.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/ip6_addr.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/pbuf.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/stats.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/mem.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/memp.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/priv/memp_std.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/priv/memp_std.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/priv/memp_priv.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/priv/mem_priv.h
+btcminerms\main.o: ../Library/LwIP/src/include/lwip/stats.h
 btcminerms\main.o: ../Core/Inc/debug_serial.h
 btcminerms\main.o: ../Core/Inc/Delay.h
-btcminerms\main.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\string.h
 btcminerms\main.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
