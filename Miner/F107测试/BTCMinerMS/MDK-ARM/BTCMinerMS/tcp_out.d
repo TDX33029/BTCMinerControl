@@ -1,11 +1,37 @@
 btcminerms\tcp_out.o: ..\Library\LwIP\src\core\tcp_out.c
 btcminerms\tcp_out.o: ../Library/LwIP/src/include/lwip/opt.h
 btcminerms\tcp_out.o: ../Core/Inc/lwipopts.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
+btcminerms\tcp_out.o: ../Core/Inc/stm32f1xx_hal_conf.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
+btcminerms\tcp_out.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
+btcminerms\tcp_out.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f107xc.h
+btcminerms\tcp_out.o: ../Drivers/CMSIS/Include/core_cm3.h
+btcminerms\tcp_out.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+btcminerms\tcp_out.o: ../Drivers/CMSIS/Include/cmsis_version.h
+btcminerms\tcp_out.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
+btcminerms\tcp_out.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
+btcminerms\tcp_out.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
+btcminerms\tcp_out.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_eth.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
+btcminerms\tcp_out.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 btcminerms\tcp_out.o: ../Library/LwIP/src/include/lwip/debug.h
 btcminerms\tcp_out.o: ../Library/LwIP/src/include/lwip/arch.h
 btcminerms\tcp_out.o: ../Library/LwIP/src/include/lwip/arch/cc.h
-btcminerms\tcp_out.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
-btcminerms\tcp_out.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
 btcminerms\tcp_out.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\string.h
 btcminerms\tcp_out.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\inttypes.h
 btcminerms\tcp_out.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\limits.h

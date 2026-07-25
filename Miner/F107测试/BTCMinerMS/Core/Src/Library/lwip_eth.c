@@ -84,7 +84,17 @@ void ETH_WritePHYRegister(uint16_t phy, uint16_t reg, uint16_t val) {
  void ETH_DMA_Init(ETH_DMADESCTypeDef *rx_desc, uint8_t *rx_buf, uint32_t rx_count,
                    ETH_DMADESCTypeDef *tx_desc, uint8_t *tx_buf, uint32_t tx_count,
                    uint32_t rx_buf_size, uint32_t tx_buf_size) {
-     ETH_DMADESCTypeDef *d;
+    /* Reset DMA to clear error state from HAL_ETH_Init */
+    ETH->DMABMR |= ETH_DMABMR_SR;
+    while (ETH->DMABMR & ETH_DMABMR_SR);
+    /* Clear DMASR sticky status bits (write 1 to clear) */
+    ETH->DMASR = 0x00018404;  /* clear TBU|FBE|AIS|NIS */
+    printf("[DMA] DMASR_AFTER_CLEAR=0x%08X (expect 0x00000000)\\r\\n", (uint32_t)ETH->DMASR);
+    printf("[DMA] RX_DESC=0x%08X RX_BUF=0x%08X TX_DESC=0x%08X TX_BUF=0x%08X\r\n",
+           (uint32_t)rx_desc, (uint32_t)rx_buf,
+           (uint32_t)tx_desc, (uint32_t)tx_buf);
+
+    ETH_DMADESCTypeDef *d;
  
      /* RX descriptors chain */
      for (uint32_t i = 0; i < rx_count; i++) {
@@ -101,7 +111,7 @@ void ETH_WritePHYRegister(uint16_t phy, uint16_t reg, uint16_t val) {
      /* TX descriptors chain */
      for (uint32_t i = 0; i < tx_count; i++) {
          d = &tx_desc[i];
-         d->Status = ETH_DMATxDesc_TCH;
+        d->Status = ETH_DMATxDesc_TCH;
          d->ControlBufferSize = 0;
          d->Buffer1Addr = (uint32_t)(tx_buf + i * tx_buf_size);
          if (i < tx_count - 1)

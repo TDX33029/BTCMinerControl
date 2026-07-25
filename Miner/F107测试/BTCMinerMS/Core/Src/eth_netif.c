@@ -7,6 +7,7 @@
 #include "lwip/etharp.h"
 #include <string.h>
 #include <stdio.h>
+#include "lwip/stats.h"
 
 /* ===== DMA Descriptors & Buffers (owned by netif layer) ===== */
 #define ETH_RX_DESC_COUNT   4
@@ -17,6 +18,8 @@ static ETH_DMADESCTypeDef  eth_rx_desc[ETH_RX_DESC_COUNT];
 static ETH_DMADESCTypeDef  eth_tx_desc[ETH_TX_DESC_COUNT];
 static uint8_t             eth_rx_buff[ETH_RX_DESC_COUNT][ETH_BUF_SIZE];
 static uint8_t             eth_tx_buff[ETH_TX_DESC_COUNT][ETH_BUF_SIZE];
+static uint32_t            dbg_rx_count = 0;
+static uint32_t            dbg_tx_count = 0;
 
 /* ===== Forward declaration for LwIP low_level functions ===== */
 static err_t   low_level_output(struct netif *netif, struct pbuf *p);
@@ -92,6 +95,7 @@ static err_t low_level_output(struct netif *netif, struct pbuf *p) {
 
     /* Request transmission */
     ETH_DMATransmissionRequest();
+    dbg_tx_count++;
     return ERR_OK;
 }
 
@@ -135,6 +139,7 @@ static struct pbuf *low_level_input(void) {
         ETH_ReleaseRxDesc(d, eth_rx_buff[i], rx_count, rx_buf_size);
 
         /* Return first received frame */
+        dbg_rx_count++;
         return p;
     }
     return NULL;
@@ -157,3 +162,7 @@ void ethernetif_input(struct netif *netif) {
         }
     }
 }
+/* ===== Debug: read/reset frame counters ===== */
+uint32_t eth_netif_get_rx_count(void) { return dbg_rx_count; }
+uint32_t eth_netif_get_tx_count(void) { return dbg_tx_count; }
+void eth_netif_reset_counts(void) { dbg_rx_count = 0; dbg_tx_count = 0; }

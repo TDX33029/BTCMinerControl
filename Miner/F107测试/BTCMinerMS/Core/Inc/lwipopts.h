@@ -58,8 +58,11 @@
 #define LWIP_PROVIDE_ERRNO              1
 
 /* ===== Random seed for TCP ISN ===== */
+#include "stm32f1xx_hal.h"
+#include "stm32f1xx_hal.h"
 #define LWIP_RAND()                     ((u32_t)HAL_GetTick())
 
 #endif /* __LWIPOPTS_H__ */
+
 
 

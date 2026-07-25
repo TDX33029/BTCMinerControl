@@ -1,11 +1,37 @@
 btcminerms\memp.o: ..\Library\LwIP\src\core\memp.c
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/opt.h
 btcminerms\memp.o: ../Core/Inc/lwipopts.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
+btcminerms\memp.o: ../Core/Inc/stm32f1xx_hal_conf.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
+btcminerms\memp.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
+btcminerms\memp.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f107xc.h
+btcminerms\memp.o: ../Drivers/CMSIS/Include/core_cm3.h
+btcminerms\memp.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+btcminerms\memp.o: ../Drivers/CMSIS/Include/cmsis_version.h
+btcminerms\memp.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
+btcminerms\memp.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
+btcminerms\memp.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
+btcminerms\memp.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_eth.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
+btcminerms\memp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/debug.h
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/arch.h
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/arch/cc.h
-btcminerms\memp.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
-btcminerms\memp.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
 btcminerms\memp.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\string.h
 btcminerms\memp.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\inttypes.h
 btcminerms\memp.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\limits.h
@@ -24,19 +50,18 @@ btcminerms\memp.o: ../Library/LwIP/src/include/lwip/pbuf.h
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/err.h
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/raw.h
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/udp.h
-btcminerms\memp.o: ../Library/LwIP/src/include/lwip/netif.h
-btcminerms\memp.o: ../Library/LwIP/src/include/lwip/ip_addr.h
+btcminerms\memp.o: ../Library/LwIP/src/include/lwip/tcp.h
+btcminerms\memp.o: ../Library/LwIP/src/include/lwip/tcpbase.h
+btcminerms\memp.o: ../Library/LwIP/src/include/lwip/ip.h
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/def.h
+btcminerms\memp.o: ../Library/LwIP/src/include/lwip/ip_addr.h
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/ip4_addr.h
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/ip6_addr.h
-btcminerms\memp.o: ../Library/LwIP/src/include/lwip/ip.h
+btcminerms\memp.o: ../Library/LwIP/src/include/lwip/netif.h
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/ip4.h
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/prot/ip4.h
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/ip6.h
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/prot/ip.h
-btcminerms\memp.o: ../Library/LwIP/src/include/lwip/prot/udp.h
-btcminerms\memp.o: ../Library/LwIP/src/include/lwip/tcp.h
-btcminerms\memp.o: ../Library/LwIP/src/include/lwip/tcpbase.h
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/icmp.h
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/prot/icmp.h
 btcminerms\memp.o: ../Library/LwIP/src/include/lwip/priv/tcp_priv.h

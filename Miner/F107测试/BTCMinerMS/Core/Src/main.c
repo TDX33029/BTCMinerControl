@@ -14,6 +14,7 @@
 #include "bm1366.h"
 #include "protocol.h"
 #include "eth_drv.h"
+#include "eth_netif.h"
 #include "debug_serial.h"
 #include "Delay.h"
 #include <string.h>
@@ -77,7 +78,7 @@ UART_HandleTypeDef huart2;
 #define CFG_LOCAL_PORT   6000
 
 #define PC_IP0     26
-#define PC_IP1     1
+#define PC_IP1     8
 #define PC_IP2     1
 #define PC_IP3     11
 #define PC_PORT    4028
@@ -211,8 +212,8 @@ int main(void)
 #else
   asic_ready = 0;
   printf("[SYS] BM1366 disabled (ETH test mode)\r\n");
-#endif
   /* USER CODE END 2 */
+#endif
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -256,15 +257,16 @@ int main(void)
     /* ? 30s ???????? */
     if ((now - last_status) > 10000) {
         last_status = now;
-        printf("\r\n[STATUS] up=%lus  eth=%s  bm1366=%s  chips=%d  link=%s\r\n",
+        printf("\r\n[STATUS] up=%lus  eth=%s  bm1366=%s  chips=%d  link=%s  rx=%lu tx=%lu\r\n",
                (unsigned long)(now / 1000),
                connected ? "CONN" : "WAIT",
                asic_ready ? "OK" : "OFF",
                asic_ready ? bm1366_get_chip_count() : 0,
-               eth_link_status() ? "UP" : "DOWN");
+               eth_link_status() ? "UP" : "DOWN",
+               (unsigned long)eth_netif_get_rx_count(),
+               (unsigned long)eth_netif_get_tx_count());
+        if ((now % 30000) < 1000) eth_netif_reset_counts();  /* reset every 30s */
     }
-
-    /* STATUS LED ??: ???? 500ms ??, ????? */
     if ((now - last_led_toggle) > 500) {
         last_led_toggle = now;
         if (connected) {
