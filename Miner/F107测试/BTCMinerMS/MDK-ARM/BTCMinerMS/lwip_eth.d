@@ -28,3 +28,4 @@ btcminerms\lwip_eth.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_e
 btcminerms\lwip_eth.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
 btcminerms\lwip_eth.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 btcminerms\lwip_eth.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+btcminerms\lwip_eth.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdio.h

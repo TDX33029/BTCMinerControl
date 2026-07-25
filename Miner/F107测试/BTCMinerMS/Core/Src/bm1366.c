@@ -1,4 +1,5 @@
  #include "bm1366.h"
+ #include "protocol.h"
  #include "Delay.h"
  #include <string.h>
  #include <math.h>
@@ -65,9 +66,15 @@
  
  /* ===== USART1 ISR (F1/F107) ===== */
  void bm1366_uart_isr_handler(void) {
-     if (USART1->SR & USART_SR_RXNE) {
-         uint8_t byte = (uint8_t)(USART1->DR);
+     /* Read SR once. RXNEIE also fires on overrun (ORE); if ORE is set with
+        RXNE clear we must clear it by reading SR then DR, otherwise the
+        interrupt re-fires forever and freezes the system. */
+     uint32_t sr = USART1->SR;
+     if (sr & USART_SR_RXNE) {
+         uint8_t byte = (uint8_t)(USART1->DR);   /* clears RXNE (and ORE, since SR was read) */
          uart_rb_put(byte);
+     } else if (sr & USART_SR_ORE) {
+         (void)USART1->DR;                        /* clear overrun */
      }
  }
  
@@ -93,10 +100,10 @@ void bm1366_uart_init(void) {
  
  void bm1366_uart_send(const uint8_t *data, uint16_t len) {
      for (uint16_t i = 0; i < len; i++) {
-         while (!(USART1->SR & USART_SR_TXE) == RESET);
+         while ((USART1->SR & USART_SR_TXE) == RESET);   /* wait until TDR is empty */
          USART1->DR = data[i];
      }
-     while (!(USART1->SR & USART_SR_TC) == RESET);
+     while ((USART1->SR & USART_SR_TC) == RESET);        /* wait until frame is shifted out */
  }
  
  uint16_t bm1366_uart_recv(uint8_t *buf, uint16_t max_len) {
@@ -151,8 +158,45 @@ void bm1366_uart_init(void) {
      _send_packet(header, data, len, 0);
  }
  
- void bm1366_send_job(const bm1366_job_t *job) {
-     _send_packet(0x20 | 0x00 | 0x01, (const uint8_t *)job, sizeof(bm1366_job_t), 1);
+ void bm1366_send_job(const struct protocol_job_t *job) {
+     /* Build the BM1366 work packet data (big-endian on the wire, matching
+        the register writes elsewhere in this file):
+          chip_addr | job_id | num_midstates | starting_nonce | nbits |
+          ntime | merkle_root[32] | prev_block_hash[32] | version |
+          midstate[0..nm-1][32]
+        Header type 0x21 = job write, single group; is_job=1 selects CRC16. */
+     uint8_t data[1 + 1 + 1 + 4 + 4 + 4 + 32 + 32 + 4 + 4*32];
+     uint16_t pos = 0;
+     uint8_t nm = job->num_midstates;
+     if (nm > 4) nm = 4;
+
+     data[pos++] = 0x00;                          /* chip_addr: broadcast to chain */
+     data[pos++] = job->job_id;
+     data[pos++] = nm;
+     data[pos++] = (uint8_t)(job->starting_nonce >> 24);
+     data[pos++] = (uint8_t)(job->starting_nonce >> 16);
+     data[pos++] = (uint8_t)(job->starting_nonce >> 8);
+     data[pos++] = (uint8_t)(job->starting_nonce);
+     data[pos++] = (uint8_t)(job->nbits >> 24);
+     data[pos++] = (uint8_t)(job->nbits >> 16);
+     data[pos++] = (uint8_t)(job->nbits >> 8);
+     data[pos++] = (uint8_t)(job->nbits);
+     data[pos++] = (uint8_t)(job->ntime >> 24);
+     data[pos++] = (uint8_t)(job->ntime >> 16);
+     data[pos++] = (uint8_t)(job->ntime >> 8);
+     data[pos++] = (uint8_t)(job->ntime);
+     memcpy(data + pos, job->merkle_root, 32);      pos += 32;
+     memcpy(data + pos, job->prev_block_hash, 32);   pos += 32;
+     data[pos++] = (uint8_t)(job->version >> 24);
+     data[pos++] = (uint8_t)(job->version >> 16);
+     data[pos++] = (uint8_t)(job->version >> 8);
+     data[pos++] = (uint8_t)(job->version);
+     for (uint8_t i = 0; i < nm; i++) {
+         memcpy(data + pos, job->midstates[i], 32);
+         pos += 32;
+     }
+
+     _send_packet(0x20 | 0x00 | 0x01, data, (uint8_t)pos, 1);
  }
  
  void bm1366_send_raw(const uint8_t *data, uint8_t len) {
@@ -160,22 +204,45 @@ void bm1366_uart_init(void) {
  }
  
  int bm1366_read_result(bm1366_result_raw_t *result, uint32_t timeout_ms) {
-     uint8_t buf[12]; uint8_t idx = 0;
-     extern volatile uint32_t g_ms;
-     uint32_t start = g_ms;
-     while (idx < 12) {
-         if ((g_ms - start) >= timeout_ms) return 0;
+     /* BM1366 nonce response is 11 bytes: AA 55 + 8 payload + CRC5.
+        Reassembly state is static so a packet split across polls is not
+        lost. timeout_ms=0 acts as a non-blocking poll: returns immediately
+        if no byte is available and nothing is mid-assembly. */
+     static uint8_t buf[11];
+     static uint8_t idx = 0;
+     uint32_t start = HAL_GetTick();
+
+     for (;;) {
          uint8_t byte;
-         if (!uart_rb_get(&byte)) continue;
-         if (idx == 0) { if (byte == 0xAA) buf[idx++] = byte; }
-         else if (idx == 1) { if (byte == 0x55) buf[idx++] = byte; else { buf[0] = byte; idx = (byte == 0xAA) ? 1 : 0; } }
-         else { buf[idx++] = byte; }
+         if (!uart_rb_get(&byte)) {
+             if (idx == 0) return 0;                       /* idle: non-blocking */
+             if ((HAL_GetTick() - start) >= timeout_ms) return 0;  /* partial: give up */
+             continue;
+         }
+
+         if (idx == 0) {
+             if (byte == 0xAA) buf[idx++] = byte;          /* else keep scanning for preamble */
+         } else if (idx == 1) {
+             if (byte == 0x55) {
+                 buf[idx++] = byte;
+             } else {
+                 buf[0] = byte;
+                 idx = (byte == 0xAA) ? 1 : 0;
+             }
+         } else {
+             buf[idx++] = byte;
+             if (idx == 11) {
+                 uint8_t calc_crc = bm1366_crc5(buf + 2, 8);
+                 uint8_t rx_crc   = buf[10] & 0x1F;
+                 idx = 0;                                   /* reset for next packet */
+                 if (calc_crc == rx_crc) {
+                     memcpy(result, buf, 11);
+                     return 1;
+                 }
+                 /* CRC mismatch: drop and keep scanning */
+             }
+         }
      }
-     uint8_t calc_crc = bm1366_crc5(buf + 2, 8);
-     uint8_t rx_crc = buf[10] & 0x1F;
-     if (calc_crc != rx_crc) return 0;
-     memcpy(result, buf, 12);
-     return 1;
  }
  
  static uint16_t next_power_of_two(uint16_t v) {
@@ -285,12 +352,11 @@ void bm1366_uart_init(void) {
      bm1366_send_cmd(BM1366_TYPE_CMD | BM1366_GROUP_ALL | BM1366_CMD_READ, cmd, 2);
      uint16_t total_wait = 100;
      uint16_t found = 0;
-     extern volatile uint32_t g_ms;
-     uint32_t start = g_ms;
-     while ((g_ms - start) < total_wait && found < expected_count) {
+     uint32_t start = HAL_GetTick();
+     while ((HAL_GetTick() - start) < total_wait && found < expected_count) {
          uint8_t buf[11];
          uint8_t idx = 0;
-         while (idx < 11 && (g_ms - start) < total_wait) {
+         while (idx < 11 && (HAL_GetTick() - start) < total_wait) {
              uint8_t byte;
              if (!uart_rb_get(&byte)) continue;
              buf[idx++] = byte;
@@ -426,9 +492,8 @@ void bm1366_uart_init(void) {
          current_step += direction;
          float step_freq = (float)current_step * FREQ_STEP_SIZE;
          bm1366_set_frequency(step_freq);
-         extern volatile uint32_t g_ms;
-         uint32_t start = g_ms;
-         while ((g_ms - start) < step_delay_ms);
+         uint32_t start = HAL_GetTick();
+         while ((HAL_GetTick() - start) < step_delay_ms);
      }
      bm1366_set_frequency(target_freq_mhz);
  }

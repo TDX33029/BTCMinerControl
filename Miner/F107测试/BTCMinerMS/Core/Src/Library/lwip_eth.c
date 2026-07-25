@@ -1,5 +1,21 @@
  #include "lwip_eth.h"
- 
+ #include <stdio.h>
+
+ /* ===== MAC loopback diagnostic =====
+  * Set to 1 to turn on the MAC's internal loopback (LM): the MAC routes its
+  * own TX back into its RX, bypassing the PHY / RMII pins entirely.
+  *
+  *   - If, in loopback, the device's rx counter climbs together with tx
+  *     (it receives its own ARP requests)  -> the MAC TX/RX works, so the
+  *       "frames don't reach the wire" problem is on the RMII TX hardware
+  *       path: PB11(TX_EN)/PB12(TXD0)/PB13(TXD1) -> DP83848 pins 2/3/4,
+  *       or the PHY's transmit side.
+  *   - If rx stays flat in loopback               -> the MAC TX isn't really
+  *       producing frames (software/config), and we keep digging.
+  *
+  * Leave 0 for normal operation. */
+ #define MAC_LOOPBACK_TEST 0
+
  /* ===== SMI (MDC/MDIO) Access ===== */
 uint16_t ETH_ReadPHYRegister(uint16_t phy, uint16_t reg) {
     uint32_t tmpreg;
@@ -75,7 +91,14 @@ void ETH_WritePHYRegister(uint16_t phy, uint16_t reg, uint16_t val) {
      ETH->MACA0LR = mac_lo;
  
      ETH->MACCR = ETH_MACCR_IPCO | ETH_MACCR_IFG_96 | ETH_MACCR_DM |
-                  ETH_MACCR_FES_100 | ETH_MACCR_CSD | ETH_MACCR_TE | ETH_MACCR_RE;
+                  ETH_MACCR_FES_100 | ETH_MACCR_CSD | ETH_MACCR_TE | ETH_MACCR_RE
+#if MAC_LOOPBACK_TEST
+                  | ETH_MACCR_LM   /* internal loopback: TX -> own RX, PHY bypassed */
+#endif
+                  ;
+#if MAC_LOOPBACK_TEST
+     printf("[MAC] *** LOOPBACK TEST MODE - TX loops to RX, PHY/RMII bypassed ***\r\n");
+#endif
      ETH->MACFFR = ETH_MACFFR_HPF | ETH_MACFFR_RA;
      ETH->MACFCR = 0x00001020;
  }
@@ -89,7 +112,7 @@ void ETH_WritePHYRegister(uint16_t phy, uint16_t reg, uint16_t val) {
     while (ETH->DMABMR & ETH_DMABMR_SR);
     /* Clear DMASR sticky status bits (write 1 to clear) */
     ETH->DMASR = 0x00018404;  /* clear TBU|FBE|AIS|NIS */
-    printf("[DMA] DMASR_AFTER_CLEAR=0x%08X (expect 0x00000000)\\r\\n", (uint32_t)ETH->DMASR);
+    printf("[DMA] DMASR_AFTER_CLEAR=0x%08X (expect 0x00000000)\r\n", (uint32_t)ETH->DMASR);
     printf("[DMA] RX_DESC=0x%08X RX_BUF=0x%08X TX_DESC=0x%08X TX_BUF=0x%08X\r\n",
            (uint32_t)rx_desc, (uint32_t)rx_buf,
            (uint32_t)tx_desc, (uint32_t)tx_buf);

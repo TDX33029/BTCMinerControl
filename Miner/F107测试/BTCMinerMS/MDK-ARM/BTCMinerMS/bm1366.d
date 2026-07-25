@@ -29,6 +29,7 @@ btcminerms\bm1366.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.
 btcminerms\bm1366.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
 btcminerms\bm1366.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 btcminerms\bm1366.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+btcminerms\bm1366.o: ../Core/Inc/protocol.h
 btcminerms\bm1366.o: ../Core/Inc/Delay.h
 btcminerms\bm1366.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\string.h
 btcminerms\bm1366.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\math.h

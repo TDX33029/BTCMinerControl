@@ -86,6 +86,13 @@ int eth_init(const eth_config_t *cfg) {
     netif_set_up(&eth_netif);
     ethernetif_set_link(&eth_netif, 1);  /* link UP now ? PHY already established */
 
+    /* lwIP copies the source MAC for every outgoing frame from netif->hwaddr.
+       ethernetif_init() only sets hwaddr_len; without this memcpy the field
+       stays 00:00:00:00:00:00, so ARP replies / ICMP echo replies carry an
+       all-zero source MAC and the peer (PC) cannot resolve or ping us. */
+    memcpy(eth_netif.hwaddr, cfg->mac, 6);
+    eth_netif.hwaddr_len = ETH_HWADDR_LEN;
+
     printf("[LWIP] Stack init OK, IP=%d.%d.%d.%d\r\n",
            cfg->ip[0], cfg->ip[1], cfg->ip[2], cfg->ip[3]);
     return 1;

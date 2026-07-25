@@ -212,8 +212,8 @@ int main(void)
 #else
   asic_ready = 0;
   printf("[SYS] BM1366 disabled (ETH test mode)\r\n");
-  /* USER CODE END 2 */
 #endif
+  /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -233,16 +233,27 @@ int main(void)
         printf("[LOOP] . tick=%lu\r\n", (unsigned long)now);
     }
 
+    /* Drive the local 'connected' flag off the real TCP state in eth_drv.
+       eth_connect() returns 0 right after issuing the (async) connect, and
+       the link can drop (tcp_client_err / recv p==NULL) without main ever
+       seeing it -- so a separate flag desyncs and we never reconnect. */
+    {
+      int net_ok = eth_is_connected();
+      if (net_ok && !connected) {
+        connected = 1;
+        printf("[NET] TCP OK\r\n");
+        send_board_hello();
+      } else if (!net_ok && connected) {
+        connected = 0;
+        printf("[NET] TCP down, will retry\r\n");
+      }
+    }
+
     if (!connected && (now - last_reconnect) > 1000) {
       last_reconnect = now;
       printf("[NET] Connecting %d.%d.%d.%d:%d...\r\n",
              PC_IP0, PC_IP1, PC_IP2, PC_IP3, PC_PORT);
-      int ret = eth_connect(pc_ip_arr, PC_PORT);
-      if (ret == 1) {
-        connected = 1;
-        printf("[NET] TCP OK\r\n");
-        send_board_hello();
-      }
+      eth_connect(pc_ip_arr, PC_PORT);
     }
 
     eth_poll();
@@ -257,14 +268,15 @@ int main(void)
     /* ? 30s ???????? */
     if ((now - last_status) > 10000) {
         last_status = now;
-        printf("\r\n[STATUS] up=%lus  eth=%s  bm1366=%s  chips=%d  link=%s  rx=%lu tx=%lu\r\n",
+        printf("\r\n[STATUS] up=%lus  eth=%s  bm1366=%s  chips=%d  link=%s  rx=%lu tx=%lu DMASR=0x%08lX\r\n",
                (unsigned long)(now / 1000),
                connected ? "CONN" : "WAIT",
                asic_ready ? "OK" : "OFF",
                asic_ready ? bm1366_get_chip_count() : 0,
                eth_link_status() ? "UP" : "DOWN",
                (unsigned long)eth_netif_get_rx_count(),
-               (unsigned long)eth_netif_get_tx_count());
+               (unsigned long)eth_netif_get_tx_count(),
+               (unsigned long)ETH->DMASR);
         if ((now % 30000) < 1000) eth_netif_reset_counts();  /* reset every 30s */
     }
     if ((now - last_led_toggle) > 500) {
@@ -309,14 +321,14 @@ void SystemClock_Config(void)
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-  RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV4;
+  RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV5;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.Prediv1Source = RCC_PREDIV1_SOURCE_PLL2;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL6;
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
   RCC_OscInitStruct.PLL2.PLL2State = RCC_PLL2_ON;
-  RCC_OscInitStruct.PLL2.PLL2MUL = RCC_PLL2_MUL10;
+  RCC_OscInitStruct.PLL2.PLL2MUL = RCC_PLL2_MUL8;
   RCC_OscInitStruct.PLL2.HSEPrediv2Value = RCC_HSE_PREDIV2_DIV5;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
@@ -336,6 +348,15 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+  HAL_RCC_MCOConfig(RCC_MCO, RCC_MCO1SOURCE_PLL3CLK, RCC_MCODIV_1);
+
+  /** Configure the Systick interrupt time
+  */
+  __HAL_RCC_HSE_PREDIV2_CONFIG(RCC_HSE_PREDIV2_DIV5);
+
+  /** Configure the Systick interrupt time
+  */
+  __HAL_RCC_PLLI2S_CONFIG(RCC_PLLI2S_MUL10);
 
   /** Configure the Systick interrupt time
   */
@@ -530,6 +551,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : PA8 */
+  GPIO_InitStruct.Pin = GPIO_PIN_8;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 
   /* USER CODE END MX_GPIO_Init_2 */
@@ -607,37 +634,52 @@ static void check_bm1366_results(void) {
 static void receive_tcp_data(void) {
     int len = eth_recv(net_rx_buf, sizeof(net_rx_buf));
     if (len <= 0) return;
-    uint16_t frame_len, payload_len;
-    uint8_t type = protocol_peek_frame(net_rx_buf, (uint16_t)len, &frame_len, &payload_len);
-    if (type == 0 || frame_len == 0) return;
-    printf("[TCP] recv %d bytes, type=0x%02X frame=%d payload=%d\r\n",
-           len, type, frame_len, payload_len);
-    switch (type) {
-        case MSG_JOB: {
-            protocol_job_t job;
-            if (protocol_decode_job(net_rx_buf, frame_len, &job) > 0) {
-                printf("[JOB] id=%d midstates=%d version=0x%08X nbits=0x%08X ntime=0x%08X nonce_start=0x%08X\r\n",
-                       job.job_id, job.num_midstates, job.version,
-                       job.nbits, job.ntime, job.starting_nonce);
-                if (asic_ready) bm1366_send_job((const bm1366_job_t *)&job);
+
+    /* A single TCP segment may carry several protocol frames back-to-back,
+       and they were already ACKed to lwIP inside eth_recv -- so we must walk
+       the whole buffer, not just the first frame, or we silently lose the
+       rest. The wire format is [4B big-endian total][1B type][payload],
+       so the payload begins at offset 5 of each frame. */
+    uint16_t off = 0;
+    while (off + 5 <= (uint16_t)len) {
+        uint16_t frame_len, payload_len;
+        uint8_t type = protocol_peek_frame(net_rx_buf + off, (uint16_t)len - off,
+                                           &frame_len, &payload_len);
+        if (type == 0 || frame_len == 0) break;                 /* not a frame / leftover */
+        if ((uint32_t)off + frame_len > (uint32_t)len) break;   /* incomplete, wait for more */
+
+        const uint8_t *payload = net_rx_buf + off + 5;
+        printf("[TCP] type=0x%02X frame=%d payload=%d\r\n", type, frame_len, payload_len);
+
+        switch (type) {
+            case MSG_JOB: {
+                protocol_job_t job;
+                if (protocol_decode_job(payload, payload_len, &job) > 0) {
+                    printf("[JOB] id=%d midstates=%d version=0x%08X nbits=0x%08X ntime=0x%08X nonce_start=0x%08X\r\n",
+                           job.job_id, job.num_midstates, job.version,
+                           job.nbits, job.ntime, job.starting_nonce);
+                    if (asic_ready) bm1366_send_job(&job);
+                }
+                break;
             }
-            break;
-        }
-        case MSG_SET_PARAMS: {
-            protocol_setparams_t params;
-            if (protocol_decode_setparams(net_rx_buf, frame_len, &params) > 0) {
-                printf("[PARAM] freq=%d MHz voltage=%d mV\r\n",
-                       params.freq_mhz, params.voltage_mv);
-                if (asic_ready) bm1366_frequency_transition((float)params.freq_mhz, 100);
+            case MSG_SET_PARAMS: {
+                protocol_setparams_t params;
+                if (protocol_decode_setparams(payload, payload_len, &params) > 0) {
+                    printf("[PARAM] freq=%d MHz voltage=%d mV\r\n",
+                           params.freq_mhz, params.voltage_mv);
+                    if (asic_ready) bm1366_frequency_transition((float)params.freq_mhz, 100);
+                }
+                break;
             }
-            break;
+            default:
+                printf("[TCP] Unknown type 0x%02X, hex:", type);
+                for (uint16_t i = 0; i < (payload_len > 16 ? 16 : payload_len); i++)
+                    printf(" %02X", payload[i]);
+                printf("\r\n");
+                break;
         }
-        default:
-            printf("[TCP] Unknown type 0x%02X, hex:", type);
-            for (uint16_t i = 0; i < (payload_len > 16 ? 16 : payload_len); i++)
-                printf(" %02X", net_rx_buf[5 + i]);
-            printf("\r\n");
-            break;
+
+        off += frame_len;
     }
 }
 /* USER CODE END 4 */
@@ -673,4 +715,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-

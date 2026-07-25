@@ -3,7 +3,12 @@
  
  #include "main.h"
  #include <stdint.h>
- 
+
+ /* Forward declaration: bm1366_send_job() consumes a decoded stratum job
+    (defined in protocol.h, which #includes this header). Only the tag is
+    needed here, avoiding a circular include. */
+ struct protocol_job_t;
+
  /* ===== BM1366 常量 ===== */
  #define BM1366_CHIP_ID         0x1366
  #define BM1366_CHIP_ID_RESP_LEN 11
@@ -22,18 +27,12 @@
  #define BM1366_FREQ_MULT     50.0f
  #define BM1366_DEFAULT_FREQ  485.0f
  
- /* BM1366 作业包结构 */
+ /* BM1366 job packets are built on the fly in bm1366_send_job() from a
+    protocol_job_t -- there is no fixed on-wire struct because the midstate
+    count (and therefore the packet length) varies per job. The previous
+    bm1366_job_t omitted the midstates and was layout-incompatible with
+    protocol_job_t, so casting between them sent garbage to the ASIC. */
  #pragma pack(push, 1)
- typedef struct {
-     uint8_t  job_id;
-     uint8_t  num_midstates;
-     uint32_t starting_nonce;
-     uint32_t nbits;
-     uint32_t ntime;
-     uint8_t  merkle_root[32];
-     uint8_t  prev_block_hash[32];
-     uint32_t version;
- } bm1366_job_t;
  
  /* BM1366 结果包结构 */
  typedef struct {
@@ -74,7 +73,7 @@
  void bm1366_uart_isr_handler(void);
  
  void bm1366_send_cmd(uint8_t header, const uint8_t *data, uint8_t len);
- void bm1366_send_job(const bm1366_job_t *job);
+ void bm1366_send_job(const struct protocol_job_t *job);
  void bm1366_send_raw(const uint8_t *data, uint8_t len);
  int  bm1366_read_result(bm1366_result_raw_t *result, uint32_t timeout_ms);
  int  bm1366_init_chips(uint8_t expected_count, float target_freq_mhz);

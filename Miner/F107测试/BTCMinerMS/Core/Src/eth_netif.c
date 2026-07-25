@@ -11,7 +11,7 @@
 
 /* ===== DMA Descriptors & Buffers (owned by netif layer) ===== */
 #define ETH_RX_DESC_COUNT   4
-#define ETH_TX_DESC_COUNT   2
+#define ETH_TX_DESC_COUNT   1   /* single TX desc w/ self-loop chain; simpler + robust */
 #define ETH_BUF_SIZE        1520
 
 static ETH_DMADESCTypeDef  eth_rx_desc[ETH_RX_DESC_COUNT];
@@ -64,16 +64,22 @@ static err_t low_level_init(struct netif *netif) {
 /* ===== Low-level output: send a pbuf via ETH TX DMA ===== */
 static err_t low_level_output(struct netif *netif, struct pbuf *p) {
     struct pbuf *q;
-    uint32_t tx_idx = 0;
     uint8_t *dst;
 
-    /* Take the first TX descriptor */
+    /* Single TX descriptor with a self-loop chain (ETH_TX_DESC_COUNT=1):
+       after sending desc0 the DMA follows Buffer2NextDescAddr back to desc0,
+       sees OWN=0 and suspends (TBUS) until we re-arm it. This matches the
+       original desc0-reuse behavior but with TCH on the correct bit (20). */
+    static uint32_t tx_idx = 0;
     ETH_DMADESCTypeDef *d = &eth_tx_desc[tx_idx];
 
     /* Wait for TX descriptor to be available (OWN bit cleared by DMA) */
     uint32_t timeout = 1000000;
     while (d->Status & ETH_DMATxDesc_OWN) {
-        if (!--timeout) return ERR_TIMEOUT;
+        if (!--timeout) {
+            printf("[ETH] TX desc %lu stuck (OWN)\r\n", (unsigned long)tx_idx);
+            return ERR_TIMEOUT;
+        }
     }
 
     dst = (uint8_t *)(d->Buffer1Addr);
@@ -89,13 +95,34 @@ static err_t low_level_output(struct netif *netif, struct pbuf *p) {
         offset += q->len;
     }
 
-    /* Program TX descriptor */
-    d->ControlBufferSize = (offset & ETH_DMARxDesc_BSIZE);
+    /* Program TX descriptor: TBS1 = byte count, then hand to DMA */
+    d->ControlBufferSize = (offset & ETH_DMATxDesc_TBS1);
     d->Status = ETH_DMATxDesc_OWN | ETH_DMATxDesc_FS | ETH_DMATxDesc_LS | ETH_DMATxDesc_IC | ETH_DMATxDesc_TCH;
+
+    /* Advance so the next frame uses the next descriptor the DMA will reach */
+    tx_idx = (tx_idx + 1) % ETH_TX_DESC_COUNT;
 
     /* Request transmission */
     ETH_DMATransmissionRequest();
     dbg_tx_count++;
+
+    /* One-shot TX diagnostic: did the DMA actually pick up the descriptor
+       (clear OWN) after we armed + polled it? own=0 -> DMA transmitted;
+       own=1 -> DMA never sent it. DMASR TPS=6 means "suspended, descriptor
+       unavailable", TPS=0 means "stopped". RBUS bit 7 = RX buffer unavail. */
+    static int diag_left = 3;
+    if (diag_left > 0) {
+        diag_left--;
+        uint32_t spins = 0;
+        while ((d->Status & ETH_DMATxDesc_OWN) && ++spins < 100000);
+        uint32_t dmasr = ETH->DMASR;
+        int own = (d->Status & ETH_DMATxDesc_OWN) ? 1 : 0;
+        int armed = (d == &eth_tx_desc[0]) ? 0 : 1;
+        printf("[TXD] armed=%d own_now=%d(0=sent) spins=%lu DMASR=0x%08lX TPS=%lu TBUS(bit2)=%lu\r\n",
+               armed, own, (unsigned long)spins, (unsigned long)dmasr,
+               (unsigned long)((dmasr >> 20) & 7UL),
+               (unsigned long)((dmasr >> 2) & 1UL));
+    }
     return ERR_OK;
 }
 

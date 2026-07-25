@@ -177,6 +177,11 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
+  /* Keep g_ms (used for nonce timestamps in protocol.c) in sync with the
+     HAL tick. Without this, g_ms was written once at startup and never
+     updated, so every timed wait in the BM1366 driver deadlocked. */
+  extern volatile uint32_t g_ms;
+  g_ms = HAL_GetTick();
   /* USER CODE END SysTick_IRQn 1 */
 }
 

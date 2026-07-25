@@ -15,7 +15,7 @@
      MSG_ERROR         = 0xFF,
  } protocol_msg_type_t;
  
- typedef struct {
+ typedef struct protocol_job_t {
      uint8_t  job_id;
      uint8_t  num_midstates;
      uint8_t  midstates[4][32];

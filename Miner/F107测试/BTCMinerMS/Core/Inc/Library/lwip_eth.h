@@ -16,12 +16,16 @@ typedef struct {
     __IO uint32_t TimeStampHigh;
 } ETH_DMADESCTypeDef;
 
-/* DMA TX descriptor Status bits */
+/* DMA TX descriptor Status bits (TDES0).
+ * NOTE: these match the STM32F1 connectivity-line ETH MAC, NOT the RX
+ * descriptor layout. Previously TCH used 0x01000000 (bit 24, reserved),
+ * which silently disabled TX descriptor chaining. */
 #define ETH_DMATxDesc_OWN  ((uint32_t)0x80000000)
 #define ETH_DMATxDesc_IC   ((uint32_t)0x40000000)
-#define ETH_DMATxDesc_LS   ((uint32_t)0x20000000)
-#define ETH_DMATxDesc_FS   ((uint32_t)0x10000000)
-#define ETH_DMATxDesc_TCH  ((uint32_t)0x01000000)
+#define ETH_DMATxDesc_LS   ((uint32_t)0x20000000)   /* bit 29: Last Segment    */
+#define ETH_DMATxDesc_FS   ((uint32_t)0x10000000)   /* bit 28: First Segment   */
+#define ETH_DMATxDesc_TCH  ((uint32_t)0x00100000)   /* bit 20: Second Address Chained */
+#define ETH_DMATxDesc_TBS1 ((uint32_t)0x00001FFF)   /* bits 12:0: Transmit Buffer1 Size */
 
 
 /* ===== ETH Register Bit Definitions (HAL/CMSIS may not define these) ===== */
@@ -83,22 +87,25 @@ typedef struct {
 #define ETH_MACMIIAR_CR_Div102   ((uint32_t)0x00000010U)
 #endif
 #ifndef ETH_DMARxDesc_OWN
-#define ETH_DMARxDesc_OWN        ((uint32_t)0x80000000U)
+#define ETH_DMARxDesc_OWN        ((uint32_t)0x80000000U)  /* bit 31: OWN (DMA owns) */
 #endif
-#ifndef ETH_DMARxDesc_RCH
-#define ETH_DMARxDesc_RCH        ((uint32_t)0x00000000U)
-#endif
-#ifndef ETH_DMARxDesc_BSIZE
-#define ETH_DMARxDesc_BSIZE      ((uint32_t)0x00003FFFU)
+#ifndef ETH_DMARxDesc_FS
+#define ETH_DMARxDesc_FS         ((uint32_t)0x00000200U)  /* bit 9:  First Descriptor of frame */
 #endif
 #ifndef ETH_DMARxDesc_LS
-#define ETH_DMARxDesc_LS         ((uint32_t)0x10000000U)
+#define ETH_DMARxDesc_LS         ((uint32_t)0x00000100U)  /* bit 8:  Last Descriptor of frame  */
 #endif
 #ifndef ETH_DMARxDesc_ES
-#define ETH_DMARxDesc_ES         ((uint32_t)0x00008000U)
+#define ETH_DMARxDesc_ES         ((uint32_t)0x00008000U)  /* bit 15: Error Summary */
+#endif
+#ifndef ETH_DMARxDesc_RCH
+#define ETH_DMARxDesc_RCH        ((uint32_t)0x00004000U)  /* bit 14: Second Address Chained */
+#endif
+#ifndef ETH_DMARxDesc_BSIZE
+#define ETH_DMARxDesc_BSIZE      ((uint32_t)0x00003FFFU)  /* bits 13:0: RX Buffer1 Size */
 #endif
 #ifndef ETH_DMARxDesc_FrameLength
-#define ETH_DMARxDesc_FrameLength ((uint32_t)0x0FFF0000U)
+#define ETH_DMARxDesc_FrameLength ((uint32_t)0x3FFF0000U) /* bits 29:16: Frame Length (incl CRC) */
 #endif
 #ifndef ETH_DMAOMR_OSF
 #define ETH_DMAOMR_OSF           ((uint32_t)0x00000004U)
