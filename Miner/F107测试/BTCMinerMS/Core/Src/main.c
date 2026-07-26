@@ -160,23 +160,67 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  /* Early LED blink: 1 slow blink = clock init OK (before USART2 is ready) */
+  {
+    __HAL_RCC_GPIOC_CLK_ENABLE();
+    GPIO_InitTypeDef early_led = {0};
+    early_led.Pin = STATUS_LED_PIN;
+    early_led.Mode = GPIO_MODE_OUTPUT_PP;
+    early_led.Pull = GPIO_NOPULL;
+    early_led.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(STATUS_LED_PORT, &early_led);
+    HAL_GPIO_WritePin(STATUS_LED_PORT, STATUS_LED_PIN, GPIO_PIN_RESET);
+    HAL_Delay(200);
+    HAL_GPIO_WritePin(STATUS_LED_PORT, STATUS_LED_PIN, GPIO_PIN_SET);
+    HAL_Delay(200);
+    HAL_GPIO_WritePin(STATUS_LED_PORT, STATUS_LED_PIN, GPIO_PIN_RESET);
+    HAL_Delay(200);
+    HAL_GPIO_WritePin(STATUS_LED_PORT, STATUS_LED_PIN, GPIO_PIN_SET);
+  }
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
+  /* ---- USART first, so debug console is ready ASAP ---- */
   MX_GPIO_Init();
-  MX_ETH_Init();
-  MX_I2C1_Init();
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  /* STATUS LED ???????? */
-  HAL_GPIO_WritePin(STATUS_LED_PORT, STATUS_LED_PIN, GPIO_PIN_RESET);
-  HAL_Delay(100);
-  HAL_GPIO_WritePin(STATUS_LED_PORT, STATUS_LED_PIN, GPIO_PIN_SET);
-  HAL_Delay(100);
+  /* ---- Quick diagnostics: USART2 should be alive now ---- */
+  /* Raw byte test: write 'U' directly to USART2 DR (bypasses HAL) */
+  USART2->DR = 'U';
+  while (!(USART2->SR & USART_SR_TC)) {}
+  USART2->DR = '\r';
+  while (!(USART2->SR & USART_SR_TC)) {}
+  USART2->DR = '\n';
+  while (!(USART2->SR & USART_SR_TC)) {}
 
-  /* ?????? */
+  printf("\r\n===== USART2 OK - DIAG START =====\r\n");
+
+  /* Clock diagnostics */
+  printf("[DIAG] HSE_VALUE=%lu Hz\r\n", (unsigned long)HSE_VALUE);
+  printf("[DIAG] SystemCoreClock=%lu Hz\r\n", (unsigned long)SystemCoreClock);
+  printf("[DIAG] PCLK1=%lu Hz (USART2 clk)\r\n", (unsigned long)HAL_RCC_GetPCLK1Freq());
+  printf("[DIAG] PCLK2=%lu Hz (USART1 clk)\r\n", (unsigned long)HAL_RCC_GetPCLK2Freq());
+  printf("[DIAG] huart2.gState=%d (expect 0x20=READY)\r\n", (int)huart2.gState);
+
+  /* STATUS LED blink: 3 fast blinks = USART init done */
+  for (int i = 0; i < 3; i++) {
+    HAL_GPIO_WritePin(STATUS_LED_PORT, STATUS_LED_PIN, GPIO_PIN_RESET);
+    HAL_Delay(80);
+    HAL_GPIO_WritePin(STATUS_LED_PORT, STATUS_LED_PIN, GPIO_PIN_SET);
+    HAL_Delay(80);
+  }
+
+  /* ---- Now init ETH (was blocking before) ---- */
+  printf("[DIAG] About to init ETH...\r\n");
+  MX_ETH_Init();
+  printf("[DIAG] ETH HAL init done\r\n");
+
+  printf("[DIAG] About to init I2C...\r\n");
+  MX_I2C1_Init();
+  printf("[DIAG] I2C init done\r\n");
+
+  /* ?? network banner */
   printf("[NET] MAC: %02X:%02X:%02X:%02X:%02X:%02X\r\n",
          eth_cfg.mac[0], eth_cfg.mac[1], eth_cfg.mac[2],
          eth_cfg.mac[3], eth_cfg.mac[4], eth_cfg.mac[5]);
