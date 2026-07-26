@@ -2110,10 +2110,10 @@ Image Symbol Table
     ../clib/microlib/division.c              0x00000000   Number         0  uldiv.o ABSOLUTE
     ../clib/microlib/division.c              0x00000000   Number         0  uidiv.o ABSOLUTE
     ../clib/microlib/errno.c                 0x00000000   Number         0  errno.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
@@ -3555,4 +3555,120 @@ Memory Map of the image
     0x20006fd4   0x08008b40   0x00000004   PAD
     0x20006fd8        -       0x00000200   Zero   RW            2    HEAP                startup_stm32f10x_cl.o
     0x200071d8        -       0x00000400   Zero   RW            1    STACK               startup_stm32f10x_cl.o
+
+
+==============================================================================
+
+Image component sizes
+
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
+
+       952         54        256         12        267     659974   bm1366.o
+        24          4          0          0          0       1784   debug_serial.o
+         8          0          0          0          0       1050   def.o
+      3712       1882        213         32       4144      40172   eth_drv.o
+       680        162         83         16       7760       7196   eth_netif.o
+      1432         56          0          1         96      11376   etharp.o
+       238          4         12          0          0       2698   ethernet.o
+       444          6          0          0          0       3289   icmp.o
+       334          0          0          0          0      13524   inet_chksum.o
+        26          0          0          0          0      15498   init.o
+         0          0          0          0         24       3282   ip.o
+       738         34          0          2          0       5436   ip4.o
+        46          0          4          0          0       8790   ip4_addr.o
+       516        112         66          0          0       6236   lwip_eth.o
+      3036       1274        216         46       2348       8700   main.o
+        30          0          0          0          0       2126   mem.o
+       178         16         96         24      13712       9632   memp.o
+       538         30          0         12          0      14112   netif.o
+      1048         16          0          1          0      26745   pbuf.o
+       478          6          0          0          0       6683   protocol.o
+        36          8        336          0       1536        864   startup_stm32f10x_cl.o
+       172         30          0         12          0       7293   stm32f1xx_hal.o
+       180         16          0          0          0      28202   stm32f1xx_hal_cortex.o
+      1238         34          0          0          0       5720   stm32f1xx_hal_eth.o
+       538         12          0          0          0       3617   stm32f1xx_hal_gpio.o
+       428         18          0          0          0       2255   stm32f1xx_hal_i2c.o
+       604         68          0          0          0       3453   stm32f1xx_hal_msp.o
+      2022         98         30          0          0       8392   stm32f1xx_hal_rcc.o
+       706          6          0          0          0       4784   stm32f1xx_hal_uart.o
+        40          4          0          0          0       4730   stm32f1xx_it.o
+        10          0          0          0          0       1426   sys_arch.o
+         2          0         24          4          0       1235   system_stm32f1xx.o
+      3052        104        201         32          0      36001   tcp.o
+      4300        162          0         36         16      22123   tcp_in.o
+      3318          8          0          0          0      25035   tcp_out.o
+       382         68         16         12          0       6534   timeouts.o
+
+    ----------------------------------------------------------------------
+     31542       4292       1596        248      29908    1009967   Object Totals
+         0          0         32          0          0          0   (incl. Generated)
+        56          0         11          6          5          0   (incl. Padding)
+
+    ----------------------------------------------------------------------
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Member Name
+
+         0          0          0          0          0          0   entry.o
+         0          0          0          0          0          0   entry10a.o
+         0          0          0          0          0          0   entry11a.o
+         4          0          0          0          0          0   entry12b.o
+         8          4          0          0          0          0   entry2.o
+         4          0          0          0          0          0   entry5.o
+         0          0          0          0          0          0   entry7b.o
+         0          0          0          0          0          0   entry8b.o
+         8          4          0          0          0          0   entry9a.o
+        30          0          0          0          0          0   handlers.o
+        36          8          0          0          0         68   init.o
+         0          0          0          0          0          0   iusefp.o
+        30          0          0          0          0         68   llshl.o
+        32          0          0          0          0         68   llushr.o
+       188         20          0          0          0        160   malloc.o
+        26          0          0          0          0         80   memcmp.o
+        64          0          0          0          0         76   memmovea.o
+        36          0          0          0          0        108   memseta.o
+         0          0          0          8          0          0   mvars.o
+      1142         54          0          0          0        352   printf8.o
+         0          0          0          4          0          0   stdout.o
+        98          0          0          0          0         92   uldiv.o
+        20          0          0          0          0         68   cfcmple.o
+       176          0          0          0          0        140   fadd.o
+       124          0          0          0          0         88   fdiv.o
+       110          0          0          0          0        168   fepilogue.o
+        10          0          0          0          0         68   ffltui.o
+       100          0          0          0          0         76   fmul.o
+
+    ----------------------------------------------------------------------
+      2250         90          0         12          0       1680   Library Totals
+         4          0          0          0          0          0   (incl. Padding)
+
+    ----------------------------------------------------------------------
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Name
+
+      1706         90          0         12          0       1072   mc_w.l
+       540          0          0          0          0        608   mf_w.l
+
+    ----------------------------------------------------------------------
+      2250         90          0         12          0       1680   Library Totals
+
+    ----------------------------------------------------------------------
+
+==============================================================================
+
+
+      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
+
+     33792       4382       1596        260      29908     998175   Grand Totals
+     33792       4382       1596        260      29908     998175   ELF Image Totals
+     33792       4382       1596        260          0          0   ROM Totals
+
+==============================================================================
+
+    Total RO  Size (Code + RO Data)                35388 (  34.56kB)
+    Total RW  Size (RW Data + ZI Data)             30168 (  29.46kB)
+    Total ROM Size (Code + RO Data + RW Data)      35648 (  34.81kB)
+
+==============================================================================
 

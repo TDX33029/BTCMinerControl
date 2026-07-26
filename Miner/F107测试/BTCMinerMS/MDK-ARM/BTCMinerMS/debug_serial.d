@@ -7,14 +7,14 @@ btcminerms\debug_serial.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def
 btcminerms\debug_serial.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
 btcminerms\debug_serial.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f107xc.h
 btcminerms\debug_serial.o: ../Drivers/CMSIS/Include/core_cm3.h
-btcminerms\debug_serial.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+btcminerms\debug_serial.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
 btcminerms\debug_serial.o: ../Drivers/CMSIS/Include/cmsis_version.h
 btcminerms\debug_serial.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 btcminerms\debug_serial.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 btcminerms\debug_serial.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
 btcminerms\debug_serial.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 btcminerms\debug_serial.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-btcminerms\debug_serial.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+btcminerms\debug_serial.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
 btcminerms\debug_serial.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
 btcminerms\debug_serial.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
 btcminerms\debug_serial.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h
@@ -28,4 +28,4 @@ btcminerms\debug_serial.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_fla
 btcminerms\debug_serial.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
 btcminerms\debug_serial.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 btcminerms\debug_serial.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-btcminerms\debug_serial.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+btcminerms\debug_serial.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
