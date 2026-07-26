@@ -57,6 +57,7 @@ btcminerms\main.o: ../Library/LwIP/src/include/lwip/priv/memp_std.h
 btcminerms\main.o: ../Library/LwIP/src/include/lwip/priv/memp_priv.h
 btcminerms\main.o: ../Library/LwIP/src/include/lwip/priv/mem_priv.h
 btcminerms\main.o: ../Library/LwIP/src/include/lwip/stats.h
+btcminerms\main.o: ../Core/Inc/Library/lwip_eth.h
 btcminerms\main.o: ../Core/Inc/debug_serial.h
 btcminerms\main.o: ../Core/Inc/Delay.h
 btcminerms\main.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdio.h

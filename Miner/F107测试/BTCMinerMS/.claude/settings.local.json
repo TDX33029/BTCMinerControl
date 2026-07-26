@@ -14,7 +14,8 @@
       "Bash(taskkill //IM UV4.exe //F)",
       "Read(//c/Keil_v5/ARM/ARMCC/bin/**)",
       "Read(//c/Keil_v5/**)",
-      "Bash(/c/Keil_v5/UV4/UV4.exe -b D:/Docunemt/临时工程项目/BTCMinerControl/BTCMinerControl/Miner/F107测试/BTCMinerMS/MDK-ARM/BTCMinerMS.uvprojx -o D:/Docunemt/临时工程项目/BTCMinerControl/BTCMinerControl/Miner/F107测试/BTCMinerMS/MDK-ARM/build.log)"
+      "Bash(/c/Keil_v5/UV4/UV4.exe -b D:/Docunemt/临时工程项目/BTCMinerControl/BTCMinerControl/Miner/F107测试/BTCMinerMS/MDK-ARM/BTCMinerMS.uvprojx -o D:/Docunemt/临时工程项目/BTCMinerControl/BTCMinerControl/Miner/F107测试/BTCMinerMS/MDK-ARM/build.log)",
+      "Bash(git --no-pager diff --stat HEAD)"
     ]
   }
 }

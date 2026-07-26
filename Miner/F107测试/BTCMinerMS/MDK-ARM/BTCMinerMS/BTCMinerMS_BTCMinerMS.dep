@@ -197,7 +197,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x6A630DAA)
 I (../Core/Inc/bm1366.h)(0x6A64819C)
 I (D:\Program Files\Keil5\ARM\ARMCC\include\string.h)(0x6025237E)
 I (D:\Program Files\Keil5\ARM\ARMCC\include\stdio.h)(0x60252374)
-F (..\Core\Src\Library\lwip_eth.c)(0x6A649B02)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Core/Inc/Library -I ../Library/LwIP/src/include-I"D:\Program Files\Keil5\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="542" -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F107xC-o btcminerms\lwip_eth.o --omf_browse btcminerms\lwip_eth.crf --depend btcminerms\lwip_eth.d)
+F (..\Core\Src\Library\lwip_eth.c)(0x6A65D505)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Core/Inc/Library -I ../Library/LwIP/src/include-I"D:\Program Files\Keil5\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="542" -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F107xC-o btcminerms\lwip_eth.o --omf_browse btcminerms\lwip_eth.crf --depend btcminerms\lwip_eth.d)
 I (../Core/Inc/Library/lwip_eth.h)(0x6A648057)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x6A630DAA)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6A64C2CD)
@@ -227,7 +227,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h)(0x6A630DAA)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x6A630DAA)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x6A630DAA)
 I (D:\Program Files\Keil5\ARM\ARMCC\include\stdio.h)(0x60252374)
-F (../Core/Src/main.c)(0x6A65B59D)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Core/Inc/Library -I ../Library/LwIP/src/include-I"D:\Program Files\Keil5\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="542" -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F107xC-o btcminerms\main.o --omf_browse btcminerms\main.crf --depend btcminerms\main.d)
+F (../Core/Src/main.c)(0x6A65EB52)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Core/Inc/Library -I ../Library/LwIP/src/include-I"D:\Program Files\Keil5\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="542" -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F107xC-o btcminerms\main.o --omf_browse btcminerms\main.crf --depend btcminerms\main.d)
 I (../Core/Inc/main.h)(0x6A62798C)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x6A630DAA)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6A64C2CD)
@@ -282,6 +282,7 @@ I (../Library/LwIP/src/include/lwip/memp.h)(0x67A2DD28)
 I (../Library/LwIP/src/include/lwip/priv/memp_std.h)(0x67A2DD28)
 I (../Library/LwIP/src/include/lwip/priv/memp_priv.h)(0x67A2DD28)
 I (../Library/LwIP/src/include/lwip/priv/mem_priv.h)(0x67A2DD28)
+I (../Core/Inc/Library/lwip_eth.h)(0x6A648057)
 I (../Core/Inc/debug_serial.h)(0x6A630C25)
 I (../Core/Inc/Delay.h)(0x6A630C25)
 I (D:\Program Files\Keil5\ARM\ARMCC\include\stdio.h)(0x60252374)
@@ -316,7 +317,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x6A630DAA)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x6A630DAA)
 I (../Core/Inc/stm32f1xx_it.h)(0x6A6314BF)
 I (../Core/Inc/bm1366.h)(0x6A64819C)
-F (../Core/Src/stm32f1xx_hal_msp.c)(0x6A62798C)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Core/Inc/Library -I ../Library/LwIP/src/include-I"D:\Program Files\Keil5\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="542" -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F107xC-o btcminerms\stm32f1xx_hal_msp.o --omf_browse btcminerms\stm32f1xx_hal_msp.crf --depend btcminerms\stm32f1xx_hal_msp.d)
+F (../Core/Src/stm32f1xx_hal_msp.c)(0x6A661C7D)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Core/Inc/Library -I ../Library/LwIP/src/include-I"D:\Program Files\Keil5\Keil\STM32F1xx_DFP\2.4.1\Device\Include"-D__UVISION_VERSION="542" -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F107xC-o btcminerms\stm32f1xx_hal_msp.o --omf_browse btcminerms\stm32f1xx_hal_msp.crf --depend btcminerms\stm32f1xx_hal_msp.d)
 I (../Core/Inc/main.h)(0x6A62798C)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x6A630DAA)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x6A64C2CD)

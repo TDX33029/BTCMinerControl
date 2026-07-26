@@ -15,6 +15,7 @@
 #include "protocol.h"
 #include "eth_drv.h"
 #include "eth_netif.h"
+#include "lwip_eth.h"
 #include "debug_serial.h"
 #include "Delay.h"
 #include <string.h>
@@ -180,8 +181,9 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  /* ---- USART first, so debug console is ready ASAP ---- */
   MX_GPIO_Init();
+  MX_ETH_Init();
+  MX_I2C1_Init();
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
@@ -203,6 +205,17 @@ int main(void)
   printf("[DIAG] PCLK2=%lu Hz (USART1 clk)\r\n", (unsigned long)HAL_RCC_GetPCLK2Freq());
   printf("[DIAG] huart2.gState=%d (expect 0x20=READY)\r\n", (int)huart2.gState);
 
+  /* MCO/PLL3 check: PA8 (MCO) should output 50 MHz from PLL3 -> DP83848.
+     If PLL3 isn't locked or MCO source isn't PLL3, PA8 is dead -> no clock
+     to PHY/MAC -> MX_ETH_Init hangs on the DMA SWR (link stays DOWN too). */
+  {
+    uint32_t to = 200000;
+    while (!__HAL_RCC_GET_FLAG(RCC_FLAG_PLLI2SRDY) && --to);
+    int p3 = __HAL_RCC_GET_FLAG(RCC_FLAG_PLLI2SRDY) ? 1 : 0;
+    printf("[CLK] PLL3(PLLI2S)ready=%d  RCC_CR=0x%08lX  RCC_CFGR=0x%08lX\r\n",
+           p3, (unsigned long)RCC->CR, (unsigned long)RCC->CFGR);
+  }
+
   /* STATUS LED blink: 3 fast blinks = USART init done */
   for (int i = 0; i < 3; i++) {
     HAL_GPIO_WritePin(STATUS_LED_PORT, STATUS_LED_PIN, GPIO_PIN_RESET);
@@ -211,7 +224,41 @@ int main(void)
     HAL_Delay(80);
   }
 
-  /* ---- Now init ETH (was blocking before) ---- */
+  /* ---- Probe PHY via MDIO BEFORE HAL_ETH_Init ----
+     On this board PD2 no longer resets the DP83848 (the PHY resets with the
+     MCU), so toggling PD2 is a no-op. HAL_ETH_Init's first step is a DMA
+     software reset (DMABMR.SWR) that only self-clears while the 50 MHz
+     REF_CLK (PHY -> PA1) is present; if REF_CLK is absent the SWR times out
+     (HAL_TIMEOUT) and MX_ETH_Init -> Error_Handler hangs. MDIO (MDC/MDIO)
+     does NOT need REF_CLK -- only the ETH peripheral clock -- so we can talk
+     to the PHY here, before the DMA-SWR gate, to see whether it's alive and
+     what mode it's strapped into. */
+  printf("[DIAG] MDIO probe of PHY @0x01...\r\n");
+  {
+    __HAL_RCC_ETH_CLK_ENABLE();
+    GPIO_InitTypeDef gi = {0};
+    gi.Mode = GPIO_MODE_AF_PP; gi.Speed = GPIO_SPEED_FREQ_HIGH;
+    gi.Pin = GPIO_PIN_1;  HAL_GPIO_Init(GPIOC, &gi);   /* MDC  = PC1 */
+    gi.Pin = GPIO_PIN_2;  HAL_GPIO_Init(GPIOA, &gi);   /* MDIO = PA2 */
+    uint16_t bcr  = ETH_ReadPHYRegister(0x01, 0x00);
+    uint16_t bsr  = ETH_ReadPHYRegister(0x01, 0x01);
+    uint16_t id1  = ETH_ReadPHYRegister(0x01, 0x02);
+    uint16_t id2  = ETH_ReadPHYRegister(0x01, 0x03);
+    uint16_t phys = ETH_ReadPHYRegister(0x01, 0x10);
+    uint16_t s18  = ETH_ReadPHYRegister(0x01, 0x18);
+    uint16_t s19  = ETH_ReadPHYRegister(0x01, 0x19);
+    printf("[PHYPROBE] BCR=0x%04X BSR=0x%04X ID=0x%04X:0x%04X (exp 0x2000:0x5C90)\r\n",
+           bcr, bsr, id1, id2);
+    printf("[PHYPROBE] PHYSTS(0x10)=0x%04X STRAP18=0x%04X STRAP19=0x%04X\r\n",
+           phys, s18, s19);
+    printf("[PHYPROBE] link=%s  (ID=0xFFFF/0x0000 -> PHY not responding; check 25MHz xtal, MDIO wiring, PHY addr)\r\n",
+           (bsr & 0x0004) ? "UP" : "DOWN");
+  }
+
+  /* Give the PHY time after MCU reset to emit a stable REF_CLK on PA1 */
+  HAL_Delay(300);
+
+  /* ---- Now init ETH ---- */
   printf("[DIAG] About to init ETH...\r\n");
   MX_ETH_Init();
   printf("[DIAG] ETH HAL init done\r\n");
