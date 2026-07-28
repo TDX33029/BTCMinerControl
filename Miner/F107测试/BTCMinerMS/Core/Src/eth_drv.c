@@ -23,7 +23,6 @@ static struct tcp_pcb *tcp_pcb = NULL;
 static ip_addr_t       server_ip;
 static uint16_t        server_port = 0;
 static uint32_t        tcp_connect_start = 0;
-static uint32_t        tcp_connect_timeout = 5000;
 
 /* ===== TCP receive ring buffer ===== */
 #define TCP_RX_BUF_SIZE  4096
@@ -37,17 +36,6 @@ static void phy_reset(void) {
     HAL_Delay(50);
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_SET);
     HAL_Delay(300);
-}
-
-/* ===== ?? SMI ???? PHY ===== */
-static void phy_soft_reset(void) {
-    uint16_t bcr = ETH_ReadPHYRegister(DP83848_PHY_ADDRESS, 0);
-    ETH_WritePHYRegister(DP83848_PHY_ADDRESS, 0, bcr | 0x8000);
-    uint32_t timeout = 100000;
-    while (ETH_ReadPHYRegister(DP83848_PHY_ADDRESS, 0) & 0x8000) {
-        if (!--timeout) break;
-    }
-    HAL_Delay(50);
 }
 
 /* ===== ETH Init - uses lwip_eth.c direct register access ===== */
@@ -75,25 +63,27 @@ int eth_init(const eth_config_t *cfg) {
     /* Init LwIP stack */
     lwip_init();
 
-    /* Configure netif */
-    ip4_addr_t ip, gw, netmask;
-    IP4_ADDR(&ip,  cfg->ip[0],  cfg->ip[1],  cfg->ip[2],  cfg->ip[3]);
-    IP4_ADDR(&gw,  cfg->gateway[0], cfg->gateway[1], cfg->gateway[2], cfg->gateway[3]);
+    /* Configure the explicit IPv4 settings supplied by main.c. DHCP is off:
+       this build intentionally omits UDP to keep the bare-metal image small. */
+    ip4_addr_t ip_address, gateway, netmask;
+    IP4_ADDR(&ip_address, cfg->ip[0], cfg->ip[1], cfg->ip[2], cfg->ip[3]);
+    IP4_ADDR(&gateway, cfg->gateway[0], cfg->gateway[1], cfg->gateway[2], cfg->gateway[3]);
     IP4_ADDR(&netmask, cfg->subnet[0], cfg->subnet[1], cfg->subnet[2], cfg->subnet[3]);
 
-    netif_add(&eth_netif, &ip, &netmask, &gw, NULL, ethernetif_init, ethernet_input);
+    if (netif_add(&eth_netif, &ip_address, &netmask, &gateway, NULL,
+                  ethernetif_init, ethernet_input) == NULL) {
+        printf("[LWIP] netif_add failed\r\n");
+        return 0;
+    }
     netif_set_default(&eth_netif);
     netif_set_up(&eth_netif);
-    ethernetif_set_link(&eth_netif, 1);  /* link UP now ? PHY already established */
+    ethernetif_set_link(&eth_netif, 1);
 
-    /* lwIP copies the source MAC for every outgoing frame from netif->hwaddr.
-       ethernetif_init() only sets hwaddr_len; without this memcpy the field
-       stays 00:00:00:00:00:00, so ARP replies / ICMP echo replies carry an
-       all-zero source MAC and the peer (PC) cannot resolve or ping us. */
+    /* lwIP copies the source MAC for every outgoing frame from netif->hwaddr. */
     memcpy(eth_netif.hwaddr, cfg->mac, 6);
     eth_netif.hwaddr_len = ETH_HWADDR_LEN;
 
-    printf("[LWIP] Stack init OK, IP=%d.%d.%d.%d\r\n",
+    printf("[LWIP] Static IP %d.%d.%d.%d\r\n",
            cfg->ip[0], cfg->ip[1], cfg->ip[2], cfg->ip[3]);
     return 1;
 }
@@ -276,12 +266,14 @@ int eth_link_status(void) {
 /* ===== TCP callbacks (LwIP raw API) ===== */
 static void tcp_client_err(void *arg, err_t err) {
     (void)arg;
+    /* lwIP calls this when the connection is aborted (ERR_ABRT=-13, RST,
+       retransmit timeout, keepalive failure). By the time the err callback
+       fires, lwIP has ALREADY freed the PCB -- so we must NOT call
+       tcp_abort()/tcp_close() on it (use-after-free -> hang). Just drop
+       our pointer and let the main loop reconnect. */
     printf("[TCP] ERR callback: err=%d\r\n", (int)err);
     tcp_connected = 0;
-    if (tcp_pcb) {
-        tcp_abort(tcp_pcb);
-        tcp_pcb = NULL;
-    }
+    tcp_pcb = NULL;
 }
 
 static err_t tcp_client_poll(void *arg, struct tcp_pcb *pcb) {
@@ -292,19 +284,44 @@ static err_t tcp_client_poll(void *arg, struct tcp_pcb *pcb) {
 static err_t tcp_client_recv(void *arg, struct tcp_pcb *pcb, struct pbuf *p, err_t err) {
     (void)arg;
     if (err != ERR_OK || p == NULL) {
+        /* Remote closed (or error). Must free the PCB -- without this the PCB
+           sits in CLOSE_WAIT forever and after MEMP_NUM_TCP_PCB(=4) cycles
+           tcp_new() returns NULL ("No PCB"). tcp_close() is safe in recv cb. */
         printf("[TCP] Connection closed\r\n");
         tcp_connected = 0;
+        if (tcp_pcb) {
+            if (tcp_close(pcb) != ERR_OK) {
+                tcp_abort(pcb);
+            }
+            tcp_pcb = NULL;
+        }
         return ERR_OK;
     }
     uint16_t total = p->tot_len;
+    int overflow = 0;
     for (struct pbuf *q = p; q != NULL; q = q->next) {
         uint8_t *src = (uint8_t *)q->payload;
         for (uint16_t i = 0; i < q->len; i++) {
             uint16_t next = (tcp_rx_head + 1) % TCP_RX_BUF_SIZE;
-            if (next == tcp_rx_tail) break;
+            if (next == tcp_rx_tail) {
+                overflow = 1;
+                break;
+            }
             tcp_rx_buf[tcp_rx_head] = src[i];
             tcp_rx_head = next;
         }
+        if (overflow) break;
+    }
+    if (overflow) {
+        /* Never acknowledge and silently discard the middle of a framed TCP
+           stream. Abort and reconnect so both endpoints restart at a frame
+           boundary instead of interpreting payload bytes as a length field. */
+        printf("[TCP] RX ring overflow; reconnecting\r\n");
+        pbuf_free(p);
+        tcp_connected = 0;
+        tcp_pcb = NULL;
+        tcp_abort(pcb);
+        return ERR_ABRT;
     }
     tcp_recved(pcb, total);
     pbuf_free(p);
@@ -321,6 +338,16 @@ static err_t tcp_client_connected(void *arg, struct tcp_pcb *pcb, err_t err) {
         tcp_recv(pcb, tcp_client_recv);
         tcp_err(pcb, tcp_client_err);
         tcp_poll(pcb, tcp_client_poll, 2);
+        /* Keepalive: send TCP probes when idle so an idle server / a dead link
+           is detected/kept instead of silently timing out and closing.
+           keep_intvl/keep_cnt only exist when LWIP_TCP_KEEPALIVE is enabled
+           (lwipopts.h) -- guard them so this compiles either way. */
+        pcb->so_options |= SOF_KEEPALIVE;
+        pcb->keep_idle  = 10000U;  /* 10s idle before first probe */
+#if LWIP_TCP_KEEPALIVE
+        pcb->keep_intvl = 2000U;   /* 2s between probes */
+        pcb->keep_cnt   = 3U;      /* 3 missed probes => drop */
+#endif
     } else {
         printf("[TCP] Connect failed: %d\r\n", (int)err);
         tcp_connected = 0;
@@ -342,7 +369,7 @@ int eth_connect(uint8_t dst[4], uint16_t port) {
     printf("[TCP] Connect %d.%d.%d.%d:%d...\r\n",
            dst[0], dst[1], dst[2], dst[3], port);
     err = tcp_connect(tcp_pcb, &server_ip, port, tcp_client_connected);
-    if (err != ERR_OK) { tcp_pcb = NULL; return 0; }
+    if (err != ERR_OK) { tcp_abort(tcp_pcb); tcp_pcb = NULL; return 0; }
     tcp_connect_start = HAL_GetTick();
     return 0;
 }
@@ -365,6 +392,10 @@ int eth_recv(uint8_t *buf, uint16_t buf_len) {
 }
 
 int eth_is_connected(void) { return tcp_connected; }
+
+int eth_has_ip(void) {
+    return !ip4_addr_isany(netif_ip4_addr(&eth_netif));
+}
 
 void eth_poll(void) {
     ethernetif_input(&eth_netif);

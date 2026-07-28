@@ -3,7 +3,7 @@
         "host": "stratum.braiins.com",
         "port": 3333,
         "user": "TDX33029",
-        "pass": "x"
+        "pass": "dl.braiins"
     },
     "board_port": 4028,
     "dashboard_port": 8080,

@@ -8,6 +8,8 @@
 #include <cstring>
 #include <sstream>
 #include <iomanip>
+#include <cmath>
+#include <limits>
 
 namespace sha256 {
 
@@ -26,7 +28,7 @@ static const uint32_t K[64] = {
     0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3,
     0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
     0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5,
-    0x391c0ef3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+    0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
     0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208,
     0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2,
 };
@@ -178,9 +180,21 @@ void reverse_endianness_per_word(uint8_t data[32]) {
 }
 
 uint32_t increment_bitmask(uint32_t value, uint32_t mask) {
-    uint32_t lsb = (~mask + 1) & mask;
-    uint32_t v = value + lsb;
-    return (v & ~mask) | (value & mask);
+    if (mask == 0) return value;
+
+    // Treat the selected bits as one packed binary counter. Walking from
+    // least to most significant propagates carries across gaps in the mask
+    // without changing any unmasked version bit.
+    uint32_t result = value & ~mask;
+    bool carry = true;
+    for (uint32_t bit = 1; bit != 0; bit <<= 1) {
+        if ((mask & bit) == 0) continue;
+        const bool old_bit = (value & bit) != 0;
+        const bool new_bit = old_bit ^ carry;
+        carry = carry && old_bit;
+        if (new_bit) result |= bit;
+    }
+    return result;
 }
 
 } // namespace sha256
@@ -189,40 +203,27 @@ uint32_t increment_bitmask(uint32_t value, uint32_t mask) {
 // Difficulty conversion
 // ---------------------------------------------------------------------------
 
-static double le256_to_double(const uint8_t target[32]) {
+static double le256_to_double(const uint8_t value[32]) {
     double result = 0.0;
-    for (int i = 0; i < 8; i++) {
-        uint32_t word = (uint32_t(target[i * 4 + 3]) << 24) |
-                        (uint32_t(target[i * 4 + 2]) << 16) |
-                        (uint32_t(target[i * 4 + 1]) << 8)  |
-                        (uint32_t(target[i * 4 + 0]));
-        if (word != 0) {
-            double wordf = double(word);
-            // pow(2, -32*(i+1))
-            int exp = -32 * (i + 1);
-            if (exp >= -1023) {
-                result += wordf * pow(2.0, exp);
-            } else {
-                result += wordf / pow(2.0, -exp);
-            }
-        }
+    for (int i = 31; i >= 0; --i) {
+        result = result * 256.0 + double(value[i]);
     }
-    return result * TRUE_DIFF_ONE;
+    return result;
 }
 
 double hash_to_pdiff(const uint8_t hash[32]) {
-    uint8_t hash_le[32];
-    for (int i = 0; i < 32; i++) hash_le[i] = hash[31 - i];
-    double d = le256_to_double(hash_le);
-    if (d == 0.0) return 0.0;
-    return TRUE_DIFF_ONE / d;
+    const double value = le256_to_double(hash);
+    if (value == 0.0) return std::numeric_limits<double>::infinity();
+    return TRUE_DIFF_ONE / value;
 }
 
 double network_difficulty(uint32_t nbits) {
-    uint8_t* b = reinterpret_cast<uint8_t*>(&nbits);
-    uint32_t mantissa = (uint32_t(b[1]) << 16) | (uint32_t(b[2]) << 8) | uint32_t(b[3]);
-    uint32_t exponent = b[0];
-    double target = double(mantissa) * pow(256.0, int(exponent) - 3);
+    const uint32_t exponent = nbits >> 24;
+    const uint32_t mantissa = nbits & 0x007fffffU;
+    if ((nbits & 0x00800000U) != 0 || mantissa == 0) return 0.0;
+
+    const double target = double(mantissa) * pow(256.0, int(exponent) - 3);
+    if (!std::isfinite(target) || target <= 0.0) return 0.0;
     return TRUE_DIFF_ONE / target;
 }
 
@@ -264,7 +265,7 @@ std::string extranonce_2_generate(uint64_t counter, uint8_t byte_len) {
     std::string hex;
     hex.reserve(byte_len * 2);
     for (int i = byte_len - 1; i >= 0; i--) {
-        uint8_t b = uint8_t(counter >> (i * 8));
+        uint8_t b = (i >= 8) ? 0 : uint8_t(counter >> (i * 8));
         char buf[3];
         snprintf(buf, sizeof(buf), "%02x", b);
         hex += buf;

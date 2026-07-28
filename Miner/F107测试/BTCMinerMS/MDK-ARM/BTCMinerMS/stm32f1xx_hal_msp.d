@@ -7,14 +7,14 @@ btcminerms\stm32f1xx_hal_msp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ha
 btcminerms\stm32f1xx_hal_msp.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
 btcminerms\stm32f1xx_hal_msp.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f107xc.h
 btcminerms\stm32f1xx_hal_msp.o: ../Drivers/CMSIS/Include/core_cm3.h
-btcminerms\stm32f1xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+btcminerms\stm32f1xx_hal_msp.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
 btcminerms\stm32f1xx_hal_msp.o: ../Drivers/CMSIS/Include/cmsis_version.h
 btcminerms\stm32f1xx_hal_msp.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 btcminerms\stm32f1xx_hal_msp.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 btcminerms\stm32f1xx_hal_msp.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
 btcminerms\stm32f1xx_hal_msp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 btcminerms\stm32f1xx_hal_msp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-btcminerms\stm32f1xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+btcminerms\stm32f1xx_hal_msp.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
 btcminerms\stm32f1xx_hal_msp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
 btcminerms\stm32f1xx_hal_msp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
 btcminerms\stm32f1xx_hal_msp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h

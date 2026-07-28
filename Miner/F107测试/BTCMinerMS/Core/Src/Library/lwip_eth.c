@@ -36,9 +36,10 @@ uint16_t ETH_ReadPHYRegister(uint16_t phy, uint16_t reg) {
     /* Wait with timeout */
     while (ETH->MACMIIAR & ETH_MACMIIAR_MB) {
         if (!--timeout) {
-            ETH->DMABMR |= ETH_DMABMR_SR;
-            while (ETH->DMABMR & ETH_DMABMR_SR);
-            break;
+            break;   /* MDIO timed out (PHY not responding). Do NOT DMA-reset
+                      * here: DMABMR.SWR only self-clears while REF_CLK is
+                      * present, so it would hang forever when the PHY itself
+                      * is the thing not responding. */
         }
     }
 
@@ -67,9 +68,7 @@ void ETH_WritePHYRegister(uint16_t phy, uint16_t reg, uint16_t val) {
     /* Wait with timeout */
     while (ETH->MACMIIAR & ETH_MACMIIAR_MB) {
         if (!--timeout) {
-            ETH->DMABMR |= ETH_DMABMR_SR;
-            while (ETH->DMABMR & ETH_DMABMR_SR);
-            break;
+            break;   /* MDIO write timed out -- see ETH_ReadPHYRegister */
         }
     }
 }

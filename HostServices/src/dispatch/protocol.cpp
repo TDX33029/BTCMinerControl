@@ -2,6 +2,7 @@
 #include "../mine/job.h"
 #include <cstring>
 #include <algorithm>
+#include <stdexcept>
 
 // ---------------------------------------------------------------------------
 // Helper: write big-endian integers
@@ -54,6 +55,10 @@ static std::vector<uint8_t> frame_message(MsgType type, const uint8_t* payload, 
 // Encode job → wire format
 // ---------------------------------------------------------------------------
 std::vector<uint8_t> encode_job(const MinerJob& job) {
+    if (job.midstates.empty() || job.midstates.size() > 4 ||
+        job.num_midstates != job.midstates.size()) {
+        throw std::invalid_argument("job has an invalid midstate count");
+    }
     // Calculate payload size
     size_t midstate_total = job.midstates.size() * 32;
     // job_id(1) + num_midstates(1) + midstates + version(4) + prev_hash(32) + merkle_root(32) + ntime(4) + nbits(4) + starting_nonce(4)
@@ -149,35 +154,49 @@ std::vector<uint8_t> encode_error(uint8_t code, const std::string& msg) {
     return frame_message(MsgType::Error, payload.data(), payload.size());
 }
 
-// ---------------------------------------------------------------------------
-// Receive a complete framed message
-// ---------------------------------------------------------------------------
-std::vector<uint8_t> recv_message(SOCKET sock, int timeout_ms) {
-    // Set timeout
-    if (timeout_ms > 0) {
-        setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&timeout_ms, sizeof(timeout_ms));
+ReceiveResult MessageReader::receive(
+    SOCKET sock, std::vector<uint8_t>& message, int timeout_ms) {
+    message.clear();
+
+    for (;;) {
+        if (m_buffer.size() >= 4) {
+            const uint32_t msg_len = read_u32(m_buffer.data());
+            if (msg_len == 0 || msg_len > kMaxMessageLength) {
+                m_buffer.clear();
+                return ReceiveResult::ProtocolError;
+            }
+
+            const size_t frame_len = size_t(msg_len) + 4;
+            if (m_buffer.size() >= frame_len) {
+                message.assign(m_buffer.begin() + 4,
+                               m_buffer.begin() + frame_len);
+                m_buffer.erase(m_buffer.begin(), m_buffer.begin() + frame_len);
+                return ReceiveResult::Message;
+            }
+        }
+
+        const int socket_timeout = timeout_ms <= 0 ? 1 : timeout_ms;
+        setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO,
+                   reinterpret_cast<const char*>(&socket_timeout),
+                   sizeof(socket_timeout));
+
+        uint8_t chunk[2048];
+        const int received = recv(sock, reinterpret_cast<char*>(chunk),
+                                  static_cast<int>(sizeof(chunk)), 0);
+        if (received > 0) {
+            m_buffer.insert(m_buffer.end(), chunk, chunk + received);
+            if (m_buffer.size() > kMaxMessageLength + 4) {
+                m_buffer.clear();
+                return ReceiveResult::ProtocolError;
+            }
+            continue;
+        }
+        if (received == 0) return ReceiveResult::Closed;
+
+        const int error = WSAGetLastError();
+        if (error == WSAETIMEDOUT || error == WSAEWOULDBLOCK) {
+            return ReceiveResult::Timeout;
+        }
+        return ReceiveResult::SocketError;
     }
-
-    // Read 4-byte length
-    uint8_t len_buf[4];
-    int total = 0;
-    while (total < 4) {
-        int n = recv(sock, (char*)(len_buf + total), 4 - total, 0);
-        if (n <= 0) return {};
-        total += n;
-    }
-
-    uint32_t msg_len = read_u32(len_buf);
-    if (msg_len > 1024 * 1024) return {}; // sanity check: max 1MB
-
-    // Read the rest (type byte + payload)
-    std::vector<uint8_t> data(msg_len);
-    total = 0;
-    while (total < (int)msg_len) {
-        int n = recv(sock, (char*)(data.data() + total), int(msg_len) - total, 0);
-        if (n <= 0) return {};
-        total += n;
-    }
-
-    return data; // [type_byte, payload...]
 }

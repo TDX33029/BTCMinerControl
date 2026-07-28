@@ -24,7 +24,7 @@
  #define BM1366_CMD_INACTIVE   0x03
  
  #define BM1366_NONCE_SPACE   0x100000000ULL  /* 2^32 */
- #define BM1366_FREQ_MULT     50.0f
+ #define BM1366_FREQ_MULT     25.0f    /* was 50 -- matches ESP-Miner FREQ_MULT (ref clk 25MHz) */
  #define BM1366_DEFAULT_FREQ  485.0f
  
  /* BM1366 job packets are built on the fly in bm1366_send_job() from a

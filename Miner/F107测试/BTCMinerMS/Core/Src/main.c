@@ -15,6 +15,7 @@
 #include "protocol.h"
 #include "eth_drv.h"
 #include "eth_netif.h"
+#include "lwip_eth.h"
 #include "debug_serial.h"
 #include "Delay.h"
 #include <string.h>
@@ -83,18 +84,24 @@ UART_HandleTypeDef huart2;
 #define PC_IP3     11
 #define PC_PORT    4028
 
-#define BM1366_EXPECTED_COUNT  0
+#define BM1366_EXPECTED_COUNT  1
 #define BM1366_TARGET_FREQ_MHZ 485.0f
+/* Bench-test switch: allow a received PC job to reach USART1 even when the
+   chip probe finds no BM1366. Disable this on production firmware if desired. */
+#define BM1366_UART_TEST_WITHOUT_ASIC  1
 
 #define FW_VERSION_MAJOR  2
 #define FW_VERSION_MINOR  0
 #define FW_VERSION        ((FW_VERSION_MAJOR << 8) | FW_VERSION_MINOR)
-#define BOARD_ID  0x0000000200000001ULL
+/* Board ID: read at runtime from the STM32F107 96-bit unique device ID (UID)
+   at 0x1FFFF7E8. We use the low 64 bits (UID words 0 and 1). */
 
 /* ===== Global Variables ===== */
 volatile uint32_t g_ms = 0;
 static int  asic_ready    = 0;
 static int  connected     = 0;
+static uint64_t BOARD_ID  = 0;   /* set from STM32F107 UID at runtime */
+static uint32_t active_job_version = 0;  /* base version of current job (for nonce version-rolling) */
 
 static const eth_config_t eth_cfg = {
     .mac = {CFG_MAC0, CFG_MAC1, CFG_MAC2, CFG_MAC3, CFG_MAC4, CFG_MAC5},
@@ -106,6 +113,7 @@ static const eth_config_t eth_cfg = {
 
 static uint8_t pc_ip_arr[4] = {PC_IP0, PC_IP1, PC_IP2, PC_IP3};
 static uint8_t net_rx_buf[2048];
+static uint16_t net_rx_buffered = 0;
 
 static uint32_t last_reconnect = 0;
 static uint32_t last_hello = 0;
@@ -180,8 +188,10 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  /* ---- USART first, so debug console is ready ASAP ---- */
   MX_GPIO_Init();
+  MX_GPIO_Init_Ext();
+  /* ETH and I2C are initialized after the PHY diagnostics below. Calling
+     MX_ETH_Init here can hang before diagnostics when REF_CLK is absent. */
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
@@ -203,6 +213,22 @@ int main(void)
   printf("[DIAG] PCLK2=%lu Hz (USART1 clk)\r\n", (unsigned long)HAL_RCC_GetPCLK2Freq());
   printf("[DIAG] huart2.gState=%d (expect 0x20=READY)\r\n", (int)huart2.gState);
 
+  /* Board ID = STM32F107 96-bit unique device ID (UID @ 0x1FFFF7E8), low 64 bits */
+  BOARD_ID = ((uint64_t)(*(uint32_t*)(UID_BASE + 4U)) << 32) | *(uint32_t*)UID_BASE;
+  printf("[DIAG] Board ID (UID): 0x%08lX%08lX\r\n",
+         (unsigned long)(BOARD_ID >> 32), (unsigned long)BOARD_ID);
+
+  /* MCO/PLL3 check: PA8 (MCO) should output 50 MHz from PLL3 -> DP83848.
+     If PLL3 isn't locked or MCO source isn't PLL3, PA8 is dead -> no clock
+     to PHY/MAC -> MX_ETH_Init hangs on the DMA SWR (link stays DOWN too). */
+  {
+    uint32_t to = 200000;
+    while (!__HAL_RCC_GET_FLAG(RCC_FLAG_PLLI2SRDY) && --to);
+    int p3 = __HAL_RCC_GET_FLAG(RCC_FLAG_PLLI2SRDY) ? 1 : 0;
+    printf("[CLK] PLL3(PLLI2S)ready=%d  RCC_CR=0x%08lX  RCC_CFGR=0x%08lX\r\n",
+           p3, (unsigned long)RCC->CR, (unsigned long)RCC->CFGR);
+  }
+
   /* STATUS LED blink: 3 fast blinks = USART init done */
   for (int i = 0; i < 3; i++) {
     HAL_GPIO_WritePin(STATUS_LED_PORT, STATUS_LED_PIN, GPIO_PIN_RESET);
@@ -211,7 +237,41 @@ int main(void)
     HAL_Delay(80);
   }
 
-  /* ---- Now init ETH (was blocking before) ---- */
+  /* ---- Probe PHY via MDIO BEFORE HAL_ETH_Init ----
+     On this board PD2 no longer resets the DP83848 (the PHY resets with the
+     MCU), so toggling PD2 is a no-op. HAL_ETH_Init's first step is a DMA
+     software reset (DMABMR.SWR) that only self-clears while the 50 MHz
+     REF_CLK (PHY -> PA1) is present; if REF_CLK is absent the SWR times out
+     (HAL_TIMEOUT) and MX_ETH_Init -> Error_Handler hangs. MDIO (MDC/MDIO)
+     does NOT need REF_CLK -- only the ETH peripheral clock -- so we can talk
+     to the PHY here, before the DMA-SWR gate, to see whether it's alive and
+     what mode it's strapped into. */
+  printf("[DIAG] MDIO probe of PHY @0x01...\r\n");
+  {
+    __HAL_RCC_ETH_CLK_ENABLE();
+    GPIO_InitTypeDef gi = {0};
+    gi.Mode = GPIO_MODE_AF_PP; gi.Speed = GPIO_SPEED_FREQ_HIGH;
+    gi.Pin = GPIO_PIN_1;  HAL_GPIO_Init(GPIOC, &gi);   /* MDC  = PC1 */
+    gi.Pin = GPIO_PIN_2;  HAL_GPIO_Init(GPIOA, &gi);   /* MDIO = PA2 */
+    uint16_t bcr  = ETH_ReadPHYRegister(0x01, 0x00);
+    uint16_t bsr  = ETH_ReadPHYRegister(0x01, 0x01);
+    uint16_t id1  = ETH_ReadPHYRegister(0x01, 0x02);
+    uint16_t id2  = ETH_ReadPHYRegister(0x01, 0x03);
+    uint16_t phys = ETH_ReadPHYRegister(0x01, 0x10);
+    uint16_t s18  = ETH_ReadPHYRegister(0x01, 0x18);
+    uint16_t s19  = ETH_ReadPHYRegister(0x01, 0x19);
+    printf("[PHYPROBE] BCR=0x%04X BSR=0x%04X ID=0x%04X:0x%04X (exp 0x2000:0x5C90)\r\n",
+           bcr, bsr, id1, id2);
+    printf("[PHYPROBE] PHYSTS(0x10)=0x%04X STRAP18=0x%04X STRAP19=0x%04X\r\n",
+           phys, s18, s19);
+    printf("[PHYPROBE] link=%s  (ID=0xFFFF/0x0000 -> PHY not responding; check 25MHz xtal, MDIO wiring, PHY addr)\r\n",
+           (bsr & 0x0004) ? "UP" : "DOWN");
+  }
+
+  /* Give the PHY time after MCU reset to emit a stable REF_CLK on PA1 */
+  HAL_Delay(300);
+
+  /* ---- Now init ETH ---- */
   printf("[DIAG] About to init ETH...\r\n");
   MX_ETH_Init();
   printf("[DIAG] ETH HAL init done\r\n");
@@ -251,7 +311,7 @@ int main(void)
   bm1366_uart_init();
   HAL_Delay(500);
   int chips = bm1366_init_chips(BM1366_EXPECTED_COUNT, BM1366_TARGET_FREQ_MHZ);
-  asic_ready = (chips > 0) ? 1 : 0;
+  asic_ready = (chips > 0) ? chips : 0;
   printf("[SYS] BM1366: %d chip(s)\r\n", chips);
 #else
   asic_ready = 0;
@@ -285,10 +345,12 @@ int main(void)
       int net_ok = eth_is_connected();
       if (net_ok && !connected) {
         connected = 1;
+        net_rx_buffered = 0;
         printf("[NET] TCP OK\r\n");
         send_board_hello();
       } else if (!net_ok && connected) {
         connected = 0;
+        net_rx_buffered = 0;
         printf("[NET] TCP down, will retry\r\n");
       }
     }
@@ -304,7 +366,7 @@ int main(void)
     receive_tcp_data();
     check_bm1366_results();
 
-  if (connected && (now - last_hello) > 60000) {
+  if (connected && (now - last_hello) > 20000) {   /* 20s keepalive hello (was 60s -- server closed on idle) */
       last_hello = now;
       send_board_hello();
   }
@@ -341,7 +403,7 @@ int main(void)
       }
     }
 
-    HAL_Delay(10);
+    HAL_Delay(1);   /* was 10ms -- that made ping latency jump to ~10ms; 1ms keeps RX responsive */
   }  /* while(1) */
 
   /* Prevent watchdog-like reset */;
@@ -660,15 +722,23 @@ static void check_bm1366_results(void) {
     if (!asic_ready) return;
     bm1366_result_raw_t raw;
     if (bm1366_read_result(&raw, 0) > 0) {
+        /* Field parsing matches ESP-Miner BM1366_process_work:
+           - nonce on wire is big-endian -> byte-swap for host order
+           - job_id_raw: high 5 bits = job_id, low 3 bits = small_core_id
+           - core_id and asic_nr are extracted from the NONCE (not midstate_num)
+           - version_raw is big-endian -> byte-swap, shift <<13, OR with base version */
         bm1366_result_t parsed = {0};
-        parsed.nonce  = raw.nonce;
-        parsed.job_id = raw.job_id_raw & 0x7F;
-        parsed.asic_nr = 0;
-        parsed.core_id = raw.midstate_num;
-        parsed.small_core_id = (raw.crc_and_flags >> 4) & 0x0F;
-        parsed.rolled_version = ((uint32_t)raw.version_raw) << 16;
-        printf("[NONCE] job_id=%d nonce=0x%08X core=%d small=%d\r\n",
-               parsed.job_id, parsed.nonce, parsed.core_id, parsed.small_core_id);
+        uint32_t nonce_h = ((raw.nonce & 0xFFU) << 24) | ((raw.nonce & 0xFF00U) << 8) |
+                            ((raw.nonce & 0xFF0000U) >> 8) | ((raw.nonce & 0xFF000000U) >> 24);
+        uint16_t ver_h   = ((raw.version_raw & 0xFFU) << 8) | ((raw.version_raw >> 8) & 0xFFU);
+        parsed.nonce        = nonce_h;
+        parsed.job_id       = raw.job_id_raw & 0xF8;
+        parsed.small_core_id= raw.job_id_raw & 0x07;
+        parsed.core_id      = (nonce_h >> 25) & 0x7F;
+        parsed.asic_nr      = ((nonce_h >> 17) & 0xFF) / bm1366_get_address_interval();
+        parsed.rolled_version = active_job_version | ((uint32_t)ver_h << 13);
+        printf("[NONCE] job_id=%d nonce=0x%08X core=%d small=%d asic=%d\r\n",
+               parsed.job_id, parsed.nonce, parsed.core_id, parsed.small_core_id, parsed.asic_nr);
         uint8_t buf[64];
         uint16_t len = protocol_encode_nonce(&parsed, BOARD_ID, buf);
         if (len > 0) eth_send(buf, len);
@@ -676,8 +746,10 @@ static void check_bm1366_results(void) {
 }
 
 static void receive_tcp_data(void) {
-    int len = eth_recv(net_rx_buf, sizeof(net_rx_buf));
-    if (len <= 0) return;
+    int received = eth_recv(net_rx_buf + net_rx_buffered,
+                            (uint16_t)(sizeof(net_rx_buf) - net_rx_buffered));
+    if (received > 0) net_rx_buffered = (uint16_t)(net_rx_buffered + received);
+    if (net_rx_buffered == 0) return;
 
     /* A single TCP segment may carry several protocol frames back-to-back,
        and they were already ACKed to lwIP inside eth_recv -- so we must walk
@@ -685,12 +757,16 @@ static void receive_tcp_data(void) {
        rest. The wire format is [4B big-endian total][1B type][payload],
        so the payload begins at offset 5 of each frame. */
     uint16_t off = 0;
-    while (off + 5 <= (uint16_t)len) {
+    while (off + 4 <= net_rx_buffered) {
         uint16_t frame_len, payload_len;
-        uint8_t type = protocol_peek_frame(net_rx_buf + off, (uint16_t)len - off,
+        uint8_t type = protocol_peek_frame(net_rx_buf + off, net_rx_buffered - off,
                                            &frame_len, &payload_len);
-        if (type == 0 || frame_len == 0) break;                 /* not a frame / leftover */
-        if ((uint32_t)off + frame_len > (uint32_t)len) break;   /* incomplete, wait for more */
+        if (frame_len == 0xFFFFU) {
+            printf("[TCP] Invalid frame length; dropping buffered stream\r\n");
+            net_rx_buffered = 0;
+            return;
+        }
+        if (type == 0) break;                                  /* incomplete: preserve it */
 
         const uint8_t *payload = net_rx_buf + off + 5;
         printf("[TCP] type=0x%02X frame=%d payload=%d\r\n", type, frame_len, payload_len);
@@ -699,10 +775,14 @@ static void receive_tcp_data(void) {
             case MSG_JOB: {
                 protocol_job_t job;
                 if (protocol_decode_job(payload, payload_len, &job) > 0) {
+                    active_job_version = job.version;   /* track for nonce version-rolling */
                     printf("[JOB] id=%d midstates=%d version=0x%08X nbits=0x%08X ntime=0x%08X nonce_start=0x%08X\r\n",
                            job.job_id, job.num_midstates, job.version,
                            job.nbits, job.ntime, job.starting_nonce);
-                    if (asic_ready) bm1366_send_job(&job);
+                    if (asic_ready || BM1366_UART_TEST_WITHOUT_ASIC) {
+                        bm1366_send_job(&job);
+                        if (!asic_ready) printf("[UART1-TEST] Job forwarded without ASIC\r\n");
+                    }
                 }
                 break;
             }
@@ -724,6 +804,14 @@ static void receive_tcp_data(void) {
         }
 
         off += frame_len;
+    }
+
+    if (off > 0) {
+        net_rx_buffered = (uint16_t)(net_rx_buffered - off);
+        if (net_rx_buffered > 0) memmove(net_rx_buf, net_rx_buf + off, net_rx_buffered);
+    } else if (net_rx_buffered == sizeof(net_rx_buf)) {
+        printf("[TCP] Receive frame exceeds buffer; dropping stream\r\n");
+        net_rx_buffered = 0;
     }
 }
 /* USER CODE END 4 */

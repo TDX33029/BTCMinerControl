@@ -36,12 +36,13 @@
  }
  
  int protocol_decode_job(const uint8_t *data, uint16_t len, protocol_job_t *job) {
-     if (len < 114) return 0;
+     if (len < 2) return 0;
      memset(job, 0, sizeof(protocol_job_t));
      uint16_t off = 0;
      job->job_id        = data[off];  off += 1;
      job->num_midstates = data[off];  off += 1;
-     if (job->num_midstates > 4) job->num_midstates = 4;
+     if (job->num_midstates < 1 || job->num_midstates > 4) return 0;
+     if (len < (uint16_t)(82U + 32U * job->num_midstates)) return 0;
      for (uint8_t i = 0; i < job->num_midstates; i++) {
          memcpy(job->midstates[i], data + off, 32);
          off += 32;
@@ -109,11 +110,16 @@
  
  uint8_t protocol_peek_frame(const uint8_t *buf, uint16_t buf_len,
                              uint16_t *frame_len, uint16_t *payload_len) {
-     if (buf_len < 5) return 0;
+     *frame_len = 0;
+     *payload_len = 0;
+     if (buf_len < 4) return 0;
      uint32_t total = read_u32(buf);
-     if (total > 2048 || total < 1) return 0;
-     if (buf_len < total + 4) return 0;
+     if (total > 2044 || total < 1) {
+         *frame_len = 0xFFFFU;
+         return 0;
+     }
      *frame_len   = (uint16_t)(total + 4);
      *payload_len = (uint16_t)(total - 1);
+     if (buf_len < *frame_len) return 0;
      return buf[4];
  }

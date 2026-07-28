@@ -15,6 +15,7 @@ struct AppConfig {
 
     // Dashboard
     uint16_t    dashboard_port = 8080;     // Web UI port
+    std::string dashboard_bind = "127.0.0.1"; // opt in to LAN exposure explicitly
 
     // Mining
     bool        version_rolling = true;
@@ -23,5 +24,5 @@ struct AppConfig {
     double      min_difficulty = 256.0;
 };
 
-// Load config from JSON file. Returns defaults on failure.
+// Load and validate config JSON. Returns safe defaults on failure.
 AppConfig load_config(const std::string& path = "config.json");

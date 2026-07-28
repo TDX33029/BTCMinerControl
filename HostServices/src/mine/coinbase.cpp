@@ -1,5 +1,6 @@
 #include "coinbase.h"
 #include <cstring>
+#include <stdexcept>
 #include <vector>
 
 std::array<uint8_t, 32> calculate_coinbase_tx_hash(
@@ -10,8 +11,13 @@ std::array<uint8_t, 32> calculate_coinbase_tx_hash(
 {
     // Decode each hex part
     auto decode = [](const std::string& hex) -> std::vector<uint8_t> {
+        if ((hex.length() & 1U) != 0) {
+            throw std::invalid_argument("coinbase component has odd-length hex");
+        }
         std::vector<uint8_t> bin(hex.length() / 2);
-        hex2bin(hex, bin.data(), bin.size());
+        if (!hex2bin(hex, bin.data(), bin.size())) {
+            throw std::invalid_argument("coinbase component contains invalid hex");
+        }
         return bin;
     };
 
