@@ -84,18 +84,22 @@ UART_HandleTypeDef huart2;
 #define PC_IP3     11
 #define PC_PORT    4028
 
-#define BM1366_EXPECTED_COUNT  0
+#define BM1366_EXPECTED_COUNT  1
 #define BM1366_TARGET_FREQ_MHZ 485.0f
 
 #define FW_VERSION_MAJOR  2
 #define FW_VERSION_MINOR  0
 #define FW_VERSION        ((FW_VERSION_MAJOR << 8) | FW_VERSION_MINOR)
-#define BOARD_ID  0x0000000200000001ULL
+/* Board ID: read at runtime from the STM32F107 96-bit unique device ID (UID)
+   at 0x1FFFF7E8. We use the low 64 bits (UID words 0 and 1). */
+#define UID_BASE  0x1FFFF7E8U
 
 /* ===== Global Variables ===== */
 volatile uint32_t g_ms = 0;
 static int  asic_ready    = 0;
 static int  connected     = 0;
+static uint64_t BOARD_ID  = 0;   /* set from STM32F107 UID at runtime */
+static uint32_t active_job_version = 0;  /* base version of current job (for nonce version-rolling) */
 
 static const eth_config_t eth_cfg = {
     .mac = {CFG_MAC0, CFG_MAC1, CFG_MAC2, CFG_MAC3, CFG_MAC4, CFG_MAC5},
@@ -204,6 +208,11 @@ int main(void)
   printf("[DIAG] PCLK1=%lu Hz (USART2 clk)\r\n", (unsigned long)HAL_RCC_GetPCLK1Freq());
   printf("[DIAG] PCLK2=%lu Hz (USART1 clk)\r\n", (unsigned long)HAL_RCC_GetPCLK2Freq());
   printf("[DIAG] huart2.gState=%d (expect 0x20=READY)\r\n", (int)huart2.gState);
+
+  /* Board ID = STM32F107 96-bit unique device ID (UID @ 0x1FFFF7E8), low 64 bits */
+  BOARD_ID = ((uint64_t)(*(uint32_t*)(UID_BASE + 4U)) << 32) | *(uint32_t*)UID_BASE;
+  printf("[DIAG] Board ID (UID): 0x%08lX%08lX\r\n",
+         (unsigned long)(BOARD_ID >> 32), (unsigned long)BOARD_ID);
 
   /* MCO/PLL3 check: PA8 (MCO) should output 50 MHz from PLL3 -> DP83848.
      If PLL3 isn't locked or MCO source isn't PLL3, PA8 is dead -> no clock
@@ -351,7 +360,7 @@ int main(void)
     receive_tcp_data();
     check_bm1366_results();
 
-  if (connected && (now - last_hello) > 60000) {
+  if (connected && (now - last_hello) > 20000) {   /* 20s keepalive hello (was 60s -- server closed on idle) */
       last_hello = now;
       send_board_hello();
   }
@@ -388,7 +397,7 @@ int main(void)
       }
     }
 
-    HAL_Delay(10);
+    HAL_Delay(1);   /* was 10ms -- that made ping latency jump to ~10ms; 1ms keeps RX responsive */
   }  /* while(1) */
 
   /* Prevent watchdog-like reset */;
@@ -707,15 +716,23 @@ static void check_bm1366_results(void) {
     if (!asic_ready) return;
     bm1366_result_raw_t raw;
     if (bm1366_read_result(&raw, 0) > 0) {
+        /* Field parsing matches ESP-Miner BM1366_process_work:
+           - nonce on wire is big-endian -> byte-swap for host order
+           - job_id_raw: high 5 bits = job_id, low 3 bits = small_core_id
+           - core_id and asic_nr are extracted from the NONCE (not midstate_num)
+           - version_raw is big-endian -> byte-swap, shift <<13, OR with base version */
         bm1366_result_t parsed = {0};
-        parsed.nonce  = raw.nonce;
-        parsed.job_id = raw.job_id_raw & 0x7F;
-        parsed.asic_nr = 0;
-        parsed.core_id = raw.midstate_num;
-        parsed.small_core_id = (raw.crc_and_flags >> 4) & 0x0F;
-        parsed.rolled_version = ((uint32_t)raw.version_raw) << 16;
-        printf("[NONCE] job_id=%d nonce=0x%08X core=%d small=%d\r\n",
-               parsed.job_id, parsed.nonce, parsed.core_id, parsed.small_core_id);
+        uint32_t nonce_h = ((raw.nonce & 0xFFU) << 24) | ((raw.nonce & 0xFF00U) << 8) |
+                            ((raw.nonce & 0xFF0000U) >> 8) | ((raw.nonce & 0xFF000000U) >> 24);
+        uint16_t ver_h   = ((raw.version_raw & 0xFFU) << 8) | ((raw.version_raw >> 8) & 0xFFU);
+        parsed.nonce        = nonce_h;
+        parsed.job_id       = raw.job_id_raw & 0xF8;
+        parsed.small_core_id= raw.job_id_raw & 0x07;
+        parsed.core_id      = (nonce_h >> 25) & 0x7F;
+        parsed.asic_nr      = ((nonce_h >> 17) & 0xFF) / bm1366_get_address_interval();
+        parsed.rolled_version = active_job_version | ((uint32_t)ver_h << 13);
+        printf("[NONCE] job_id=%d nonce=0x%08X core=%d small=%d asic=%d\r\n",
+               parsed.job_id, parsed.nonce, parsed.core_id, parsed.small_core_id, parsed.asic_nr);
         uint8_t buf[64];
         uint16_t len = protocol_encode_nonce(&parsed, BOARD_ID, buf);
         if (len > 0) eth_send(buf, len);
@@ -746,6 +763,7 @@ static void receive_tcp_data(void) {
             case MSG_JOB: {
                 protocol_job_t job;
                 if (protocol_decode_job(payload, payload_len, &job) > 0) {
+                    active_job_version = job.version;   /* track for nonce version-rolling */
                     printf("[JOB] id=%d midstates=%d version=0x%08X nbits=0x%08X ntime=0x%08X nonce_start=0x%08X\r\n",
                            job.job_id, job.num_midstates, job.version,
                            job.nbits, job.ntime, job.starting_nonce);

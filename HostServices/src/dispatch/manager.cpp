@@ -89,7 +89,7 @@ void BoardManager::acceptLoop() {
         // Expect a BoardHello as the first message
         auto data = recv_message(client, 5000);
         BoardHello hello;
-        if (!decode_board_hello(data.data(), data.size(), hello)) {
+        if (data.size() < 1 || !decode_board_hello(data.data() + 1, data.size() - 1, hello)) {
             std::cerr << "[boards] Invalid hello from " << ip_str << std::endl;
             closesocket(client);
             continue;
@@ -111,10 +111,32 @@ void BoardManager::acceptLoop() {
 
         {
             std::lock_guard<std::mutex> lock(m_mutex);
-            BoardStats stats;
-            stats.info = info;
-            stats.online = true;
-            m_boards.push_back(stats);
+            /* Deduplicate by board_id: if the board already exists (reconnection),
+               update it instead of adding a duplicate entry. */
+            bool found = false;
+            for (auto& b : m_boards) {
+                if (b.info.board_id == hello.board_id) {
+                    /* Close the old socket so the old recvLoop exits immediately
+                       (instead of waiting 30s to time out + racing online=false). */
+                    if (b.info.socket != INVALID_SOCKET && b.info.socket != client) {
+                        closesocket(b.info.socket);
+                    }
+                    b.info = info;
+                    b.online = true;
+                    b.nonces_returned = 0;
+                    b.jobs_sent = 0;
+                    b.hashrate_1m = 0;
+                    b.hashrate_10m = 0;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                BoardStats stats;
+                stats.info = info;
+                stats.online = true;
+                m_boards.push_back(stats);
+            }
         }
 
         // Start receive thread for this board
@@ -171,12 +193,18 @@ void BoardManager::recvLoop(SOCKET sock, BoardInfo board) {
         }
     }
 
-    // Board disconnected
+    // Board disconnected -- but only mark offline if THIS connection is still
+    // the active one. If the board reconnected (new socket replaced ours via
+    // the dedup in acceptLoop), leave it online.
     closesocket(sock);
     std::lock_guard<std::mutex> lock(m_mutex);
     for (auto& b : m_boards) {
         if (b.info.board_id == board.board_id) {
-            b.online = false;
+            if (b.info.socket == sock) {
+                // Our socket is still the active one -> board is really gone
+                b.online = false;
+            }
+            // else: board reconnected with a new socket, leave online=true
             break;
         }
     }

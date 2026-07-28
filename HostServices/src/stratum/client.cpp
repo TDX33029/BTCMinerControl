@@ -106,7 +106,18 @@ bool StratumClient::authorize(const std::string& username, const std::string& pa
 }
 
 bool StratumClient::configureVersionRolling() {
-    json params = json::array({{"version-rolling"}, {"version-rolling.mask", "1fffe000"}});
+    /* Match the exact format ESP-Miner uses with Braiins (proven to work):
+       params = [["version-rolling"], {"version-rolling.mask":"ffffffff"}]
+       -- 2nd param is an OBJECT (not an array), and the requested mask is
+       "ffffffff" (all bits); the pool negotiates the actual mask in its
+       response and we store that. The previous array form
+       [["version-rolling"],["version-rolling.mask","1fffe000"]] caused Braiins
+       to drop the connection right after configure. */
+    json params = json::array({
+        json::array({"version-rolling"}),
+        json::object({{"version-rolling.mask", "ffffffff"}})
+    });
+    std::cout << "[stratum] SEND configure: " << params.dump() << std::endl;
     return sendRequest("mining.configure", params);
 }
 
@@ -162,9 +173,9 @@ std::string StratumClient::readResponse(int timeout_ms) {
     // Extract the first complete line (JSON-RPC: newline-delimited)
     size_t pos = m_buffer.find('\n');
     if (pos == std::string::npos) {
-        // No complete line yet, return what we have
-        std::string partial = m_buffer;
-        return partial;
+        // No complete line yet -- keep buffering, return empty so the caller
+        // doesn't try to parse a partial JSON (which caused "last read: 'd'")
+        return "";
     }
 
     std::string line = m_buffer.substr(0, pos);

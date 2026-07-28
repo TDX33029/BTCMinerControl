@@ -17,28 +17,12 @@
  static uint8_t  bm1366_address_interval = 0;
  static uint32_t bm1366_cur_baud         = BM1366_DEFAULT_BAUD;
  
- /* ===== CRC5 Table ===== */
- static const uint8_t CRC5_TABLE[256] = {
-     0x00,0x05,0x0A,0x0F,0x14,0x11,0x1E,0x1B,0x08,0x0D,0x02,0x07,0x1C,0x19,0x16,0x13,
-     0x10,0x15,0x1A,0x1F,0x04,0x01,0x0E,0x0B,0x18,0x1D,0x12,0x17,0x0C,0x09,0x06,0x03,
-     0x00,0x05,0x0A,0x0F,0x14,0x11,0x1E,0x1B,0x08,0x0D,0x02,0x07,0x1C,0x19,0x16,0x13,
-     0x10,0x15,0x1A,0x1F,0x04,0x01,0x0E,0x0B,0x18,0x1D,0x12,0x17,0x0C,0x09,0x06,0x03,
-     0x00,0x05,0x0A,0x0F,0x14,0x11,0x1E,0x1B,0x08,0x0D,0x02,0x07,0x1C,0x19,0x16,0x13,
-     0x10,0x15,0x1A,0x1F,0x04,0x01,0x0E,0x0B,0x18,0x1D,0x12,0x17,0x0C,0x09,0x06,0x03,
-     0x00,0x05,0x0A,0x0F,0x14,0x11,0x1E,0x1B,0x08,0x0D,0x02,0x07,0x1C,0x19,0x16,0x13,
-     0x10,0x15,0x1A,0x1F,0x04,0x01,0x0E,0x0B,0x18,0x1D,0x12,0x17,0x0C,0x09,0x06,0x03,
-     0x00,0x05,0x0A,0x0F,0x14,0x11,0x1E,0x1B,0x08,0x0D,0x02,0x07,0x1C,0x19,0x16,0x13,
-     0x10,0x15,0x1A,0x1F,0x04,0x01,0x0E,0x0B,0x18,0x1D,0x12,0x17,0x0C,0x09,0x06,0x03,
-     0x00,0x05,0x0A,0x0F,0x14,0x11,0x1E,0x1B,0x08,0x0D,0x02,0x07,0x1C,0x19,0x16,0x13,
-     0x10,0x15,0x1A,0x1F,0x04,0x01,0x0E,0x0B,0x18,0x1D,0x12,0x17,0x0C,0x09,0x06,0x03,
-     0x00,0x05,0x0A,0x0F,0x14,0x11,0x1E,0x1B,0x08,0x0D,0x02,0x07,0x1C,0x19,0x16,0x13,
-     0x10,0x15,0x1A,0x1F,0x04,0x01,0x0E,0x0B,0x18,0x1D,0x12,0x17,0x0C,0x09,0x06,0x03,
-     0x00,0x05,0x0A,0x0F,0x14,0x11,0x1E,0x1B,0x08,0x0D,0x02,0x07,0x1C,0x19,0x16,0x13,
-     0x10,0x15,0x1A,0x1F,0x04,0x01,0x0E,0x0B,0x18,0x1D,0x12,0x17,0x0C,0x09,0x06,0x03,
- };
+ /* ===== CRC5 (bit-by-bit, matches ESP-Miner crc.c) =====
+  * The old 256-entry table had period 32 (duplicated 8x), ignoring bits 5-7
+  * of every byte -> every CMD packet had a wrong CRC5 and was rejected. */
  
  /* ===== UART Ring Buffer ===== */
- #define UART_RX_BUF_SIZE  256
+ #define UART_RX_BUF_SIZE  1024
  static uint8_t  uart_rx_buf[UART_RX_BUF_SIZE];
  static volatile uint16_t uart_rx_head = 0;
  static volatile uint16_t uart_rx_tail = 0;
@@ -118,9 +102,19 @@ void bm1366_uart_init(void) {
  }
  
  /* ===== CRC ===== */
+ /* Bit-by-bit CRC5, init 0x1F, poly x^5+x^2+1, MSB-first -- matches ESP-Miner. */
  uint8_t bm1366_crc5(const uint8_t *data, uint8_t len) {
      uint8_t crc = 0x1F;
-     for (uint8_t i = 0; i < len; i++) crc = CRC5_TABLE[(crc ^ data[i])];
+     for (uint8_t i = 0; i < len; i++) {
+         uint8_t byte = data[i];
+         for (uint8_t b = 0; b < 8; b++) {
+             uint8_t bit = (byte >> 7) & 1;
+             byte <<= 1;
+             uint8_t new_bit = ((crc >> 4) ^ bit) & 1;
+             crc = ((crc << 1) | new_bit) ^ (new_bit << 2);
+             crc &= 0x1F;
+         }
+     }
      return crc;
  }
  
@@ -164,38 +158,20 @@ void bm1366_uart_init(void) {
           chip_addr | job_id | num_midstates | starting_nonce | nbits |
           ntime | merkle_root[32] | prev_block_hash[32] | version |
           midstate[0..nm-1][32]
-        Header type 0x21 = job write, single group; is_job=1 selects CRC16. */
-     uint8_t data[1 + 1 + 1 + 4 + 4 + 4 + 32 + 32 + 4 + 4*32];
+        Header type 0x21 = job write, single group; is_job=1 selects CRC16.
+        Matches ESP-Miner BM1366_send_work exactly: NO chip_addr prefix, NO
+        appended midstates (BM1366 computes midstate internally), num_midstates
+        always 0x01, 4-byte fields LITTLE-endian (host memcpy = block-header order). */
+     uint8_t data[1 + 1 + 4 + 4 + 4 + 32 + 32 + 4];  /* 82 bytes */
      uint16_t pos = 0;
-     uint8_t nm = job->num_midstates;
-     if (nm > 4) nm = 4;
-
-     data[pos++] = 0x00;                          /* chip_addr: broadcast to chain */
      data[pos++] = job->job_id;
-     data[pos++] = nm;
-     data[pos++] = (uint8_t)(job->starting_nonce >> 24);
-     data[pos++] = (uint8_t)(job->starting_nonce >> 16);
-     data[pos++] = (uint8_t)(job->starting_nonce >> 8);
-     data[pos++] = (uint8_t)(job->starting_nonce);
-     data[pos++] = (uint8_t)(job->nbits >> 24);
-     data[pos++] = (uint8_t)(job->nbits >> 16);
-     data[pos++] = (uint8_t)(job->nbits >> 8);
-     data[pos++] = (uint8_t)(job->nbits);
-     data[pos++] = (uint8_t)(job->ntime >> 24);
-     data[pos++] = (uint8_t)(job->ntime >> 16);
-     data[pos++] = (uint8_t)(job->ntime >> 8);
-     data[pos++] = (uint8_t)(job->ntime);
-     memcpy(data + pos, job->merkle_root, 32);      pos += 32;
-     memcpy(data + pos, job->prev_block_hash, 32);   pos += 32;
-     data[pos++] = (uint8_t)(job->version >> 24);
-     data[pos++] = (uint8_t)(job->version >> 16);
-     data[pos++] = (uint8_t)(job->version >> 8);
-     data[pos++] = (uint8_t)(job->version);
-     for (uint8_t i = 0; i < nm; i++) {
-         memcpy(data + pos, job->midstates[i], 32);
-         pos += 32;
-     }
-
+     data[pos++] = 0x01;                           /* num_midstates always 1 */
+     memcpy(data + pos, &job->starting_nonce, 4); pos += 4;   /* LE */
+     memcpy(data + pos, &job->nbits, 4);         pos += 4;
+     memcpy(data + pos, &job->ntime, 4);         pos += 4;
+     memcpy(data + pos, job->merkle_root, 32);   pos += 32;
+     memcpy(data + pos, job->prev_block_hash, 32); pos += 32;
+     memcpy(data + pos, &job->version, 4);       pos += 4;
      _send_packet(0x20 | 0x00 | 0x01, data, (uint8_t)pos, 1);
  }
  
@@ -232,10 +208,11 @@ void bm1366_uart_init(void) {
          } else {
              buf[idx++] = byte;
              if (idx == 11) {
-                 uint8_t calc_crc = bm1366_crc5(buf + 2, 8);
-                 uint8_t rx_crc   = buf[10] & 0x1F;
                  idx = 0;                                   /* reset for next packet */
-                 if (calc_crc == rx_crc) {
+                 /* CRC5 residual check: crc5 over 9 bytes (8 payload + crc byte)
+                    must be 0. The old direct-compare (crc5(8)==buf[10]&0x1F)
+                    rejected ~97% of valid nonces. */
+                 if (bm1366_crc5(buf + 2, 9) == 0) {
                      memcpy(result, buf, 11);
                      return 1;
                  }
@@ -254,32 +231,51 @@ void bm1366_uart_init(void) {
      return v + 1;
  }
  
+ static uint8_t reverse_bits8(uint8_t num) {
+     uint8_t reversed = 0;
+     for (int i = 0; i < 8; i++) {
+         reversed <<= 1;
+         reversed |= num & 1;
+         num >>= 1;
+     }
+     return reversed;
+ }
+
  static void bm1366_get_difficulty_mask(uint16_t difficulty, uint8_t mask[6]) {
+     /* Ported from ESP-Miner get_difficulty_mask: mask = (1<<floor(log2(diff)))-1,
+        then each byte bit-reversed. For diff 256 -> {00 14 00 00 00 FF}. */
+     uint32_t diff_int = (uint32_t)difficulty;
+     int power = 0;
+     while (diff_int > 1) { diff_int >>= 1; power++; }
+     uint32_t m = (1U << power) - 1;
      mask[0] = 0x00;
-     mask[1] = 0x14;
-     mask[2] = 0x00;
-     mask[3] = 0x00;
-     mask[4] = (uint8_t)((difficulty >> 8) & 0xFF);
-     mask[5] = (uint8_t)(difficulty & 0xFF);
+     mask[1] = 0x14;  /* TICKET_MASK register */
+     mask[2] = reverse_bits8((m >> 24) & 0xFF);
+     mask[3] = reverse_bits8((m >> 16) & 0xFF);
+     mask[4] = reverse_bits8((m >>  8) & 0xFF);
+     mask[5] = reverse_bits8( m        & 0xFF);
  }
  
- /* ===== PLL calculation ===== */
+ /* ===== PLL calculation (matches ESP-Miner pll_get_parameters) =====
+  * The caller passes (target, 144, 235) -- 144/235 are the FB_DIVIDER bounds,
+  * NOT the refdiv. refdiv is searched over {1,2}. postdiv1 > postdiv2.
+  * freq = 25 * fb / (refdiv * pd1 * pd2). */
  bm1366_pll_params_t bm1366_pll_calc(float target_freq_mhz,
-                                      uint8_t ref_min, uint8_t ref_max) {
+                                      uint8_t fb_min, uint8_t fb_max) {
      bm1366_pll_params_t best = {0};
-     best.actual_freq = 0.0f;
- 
-     for (uint8_t fb = 0; fb <= 255; fb++) {
-         for (uint8_t ref = ref_min; ref <= ref_max; ref++) {
+     best.actual_freq = 1e9f;
+
+     for (uint8_t fb = fb_min; fb <= fb_max; fb++) {
+         for (uint8_t refdiv = 1; refdiv <= 2; refdiv++) {
              for (uint8_t pd1 = 1; pd1 <= 7; pd1++) {
-                 for (uint8_t pd2 = 1; pd2 <= 7; pd2++) {
-                     float f = 25.0f * (float)(fb + 1) / (float)((ref + 1) * pd1 * pd2);
+                 for (uint8_t pd2 = 1; pd2 < pd1; pd2++) {  /* pd1 > pd2 */
+                     float f = 25.0f * (float)fb / (float)((float)refdiv * (float)pd1 * (float)pd2);
                      if (fabsf(f - target_freq_mhz) < fabsf(best.actual_freq - target_freq_mhz)) {
-                         best.fb_divider    = fb + 1;
-                         best.refdiv        = ref + 1;
-                         best.postdiv1      = pd1;
-                         best.postdiv2      = pd2;
-                         best.actual_freq   = f;
+                         best.fb_divider = fb;
+                         best.refdiv     = refdiv;
+                         best.postdiv1   = pd1;
+                         best.postdiv2   = pd2;
+                         best.actual_freq = f;
                      }
                  }
              }
@@ -336,7 +332,7 @@ void bm1366_uart_init(void) {
      uint8_t ref  = p.refdiv;
      uint8_t pd1  = p.postdiv1;
      uint8_t pd2  = p.postdiv2;
-     uint8_t vdo_scale = ((uint32_t)fb * 50 / ref >= 2400) ? 0x50 : 0x40;
+     uint8_t vdo_scale = ((uint32_t)fb * 25 / ref >= 2400) ? 0x50 : 0x40;  /* 25 = FREQ_MULT (was 50) */
      uint8_t postdiv   = (uint8_t)(((pd1 - 1) & 0x0F) << 4) | ((pd2 - 1) & 0x0F);
      uint8_t cmd[] = {0x00, 0x08, vdo_scale, fb, ref, postdiv};
      bm1366_send_cmd(BM1366_TYPE_CMD | BM1366_GROUP_ALL | BM1366_CMD_WRITE, cmd, 6);
@@ -348,23 +344,31 @@ void bm1366_uart_init(void) {
  }
  
  int bm1366_count_chips(uint8_t expected_count) {
-     uint8_t cmd[] = {0x00, 0x00};
-     bm1366_send_cmd(BM1366_TYPE_CMD | BM1366_GROUP_ALL | BM1366_CMD_READ, cmd, 2);
+     /* init3 already sent the chip-ID read -- do NOT re-send (would double the
+        responses). Just drain the 11-byte replies. Response layout (matches
+        ESP-Miner count_asic_chips):
+          AA 55 | chip_id[2]=0x13,0x66 | core_num | addr | ... | crc5
+        chip_id is at buf[2..3], NOT buf[4..5] (that was the bug). */
      uint16_t total_wait = 100;
      uint16_t found = 0;
      uint32_t start = HAL_GetTick();
      while ((HAL_GetTick() - start) < total_wait && found < expected_count) {
+         uint8_t byte;
+         if (!uart_rb_get(&byte)) continue;
+         if (byte != 0xAA) continue;              /* scan for preamble */
          uint8_t buf[11];
-         uint8_t idx = 0;
-         while (idx < 11 && (HAL_GetTick() - start) < total_wait) {
-             uint8_t byte;
-             if (!uart_rb_get(&byte)) continue;
-             buf[idx++] = byte;
+         buf[0] = 0xAA;
+         uint8_t idx = 1;
+         uint32_t inner = HAL_GetTick();
+         while (idx < 11 && (HAL_GetTick() - inner) < 10) {
+             if (uart_rb_get(&buf[idx])) idx++;
          }
-         if (idx == 11) {
-             uint16_t chip_id = ((uint16_t)buf[4] << 8) | buf[5];
-             if (chip_id == BM1366_CHIP_ID) found++;
-         }
+         if (idx < 11) continue;                  /* incomplete frame */
+         if (buf[1] != 0x55) continue;            /* bad preamble */
+         uint16_t chip_id = ((uint16_t)buf[2] << 8) | buf[3];
+         if (chip_id != BM1366_CHIP_ID) continue;
+         if (bm1366_crc5(buf + 2, 9) != 0) continue;  /* CRC5 residual */
+         found++;
      }
      return found;
  }
@@ -457,7 +461,14 @@ void bm1366_uart_init(void) {
          uint8_t init795[] = {0x55, 0xAA, 0x51, 0x09, 0x00, 0xA4, 0x90, 0x00, 0xFF, 0xFF, 0x1C};
          bm1366_send_raw(init795, 11);
      }
- 
+
+     /* Switch to 1 Mbaud (matches ESP-Miner: write reg 0x28 then switch UART) */
+     {
+         uint8_t baud_cmd[] = {0x00, 0x28, 0x11, 0x30, 0x02, 0x00};
+         bm1366_send_cmd(BM1366_TYPE_CMD | BM1366_GROUP_ALL | BM1366_CMD_WRITE, baud_cmd, 6);
+         bm1366_uart_set_baud(BM1366_MAX_BAUD);
+     }
+
      return chips;
  }
  

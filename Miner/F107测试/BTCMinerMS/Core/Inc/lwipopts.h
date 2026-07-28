@@ -38,8 +38,8 @@
 /* ===== ICMP (ping) ===== */
 #define LWIP_ICMP                       1
 
-/* ===== No DHCP / DNS ===== */
-#define LWIP_DHCP                       0
+/* ===== DHCP on (IP auto-assigned by switch/router) ===== */
+#define LWIP_DHCP                       1
 #define LWIP_DNS                        0
 
 /* ===== Stats off ===== */
@@ -61,6 +61,11 @@
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx_hal.h"
 #define LWIP_RAND()                     ((u32_t)HAL_GetTick())
+
+/* Enable TCP keepalive probes (used by eth_drv.c tcp_client_connected).
+   If CubeMX regenerates this file, re-add this line (or set it in CubeMX
+   lwIP options) -- eth_drv.c compiles either way due to its #if guard. */
+#define LWIP_TCP_KEEPALIVE              1
 
 #endif /* __LWIPOPTS_H__ */
 
