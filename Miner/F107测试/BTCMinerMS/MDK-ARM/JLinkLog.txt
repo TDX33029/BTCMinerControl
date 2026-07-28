@@ -1,75 +1,175 @@
-T5430 000:150.407   SEGGER J-Link V9.62 Log File
-T5430 000:150.521   DLL Compiled: Jul 22 2026 13:17:19
-T5430 000:150.525   Logging started @ 2026-07-26 06:50
-T5430 000:150.528   Process: C:\Keil_v5\MDK\UV4\UV4.exe
-T5430 000:150.535 - 150.531ms 
-T5430 000:150.542 JLINK_SetWarnOutHandler(...)
-T5430 000:150.545 - 0.004ms 
-T5430 000:150.550 JLINK_OpenEx(...)
-T5430 000:154.503   Firmware: J-Link ARM V8 compiled Nov 28 2014 13:44:46
-T5430 000:156.314   Firmware: J-Link ARM V8 compiled Nov 28 2014 13:44:46
-T5430 000:160.521   Hardware: V8.00
-T5430 000:160.530   S/N: 308622870
-T5430 000:160.533   OEM: SEGGER
-T5430 000:160.537   Feature(s): RDI,FlashDL,FlashBP,JFlash,GDBFULL
-T5430 000:162.347   Bootloader: (FW returned invalid version)
-T5430 000:164.376   TELNET listener socket opened on port 19021
-T5430 000:164.495   WEBSRV WEBSRV_Init(): Starting webserver thread(s)
-T5430 000:164.601   WEBSRV Webserver running on local port 19080
-T5430 000:164.715   Looking for J-Link GUI Server exe at: C:\Keil_v5\MDK\ARM\Segger\JLinkGUIServer.exe
-T5430 000:164.785   Looking for J-Link GUI Server exe at: C:\Program Files\SEGGER\JLink_V962\JLinkGUIServer.exe
-T5430 000:164.806   Forking J-Link GUI Server: C:\Program Files\SEGGER\JLink_V962\JLinkGUIServer.exe
-T5430 000:187.219   J-Link GUI Server info: "J-Link GUI server V9.62 "
-T5430 000:188.233 - 37.675ms returns "O.K."
-T5430 000:188.259 JLINK_GetEmuCaps()
-T5430 000:188.269 - 0.007ms returns 0xB9FF7BBF
-T5430 000:188.278 JLINK_TIF_GetAvailable(...)
-T5430 000:188.697 - 0.418ms 
-T5430 000:188.714 JLINK_SetErrorOutHandler(...)
-T5430 000:188.720 - 0.005ms 
-T5430 000:188.745 JLINK_ExecCommand("ProjectFile = "D:\Document\tempPrj\BTCMinerControl\Miner\F107²âÊÔ\BTCMinerMS\MDK-ARM\JLinkSettings.ini"", ...). 
-T5430 000:199.182   Ref file found at: C:\Keil_v5\MDK\ARM\Segger\JLinkDevices.ref
-T5430 000:199.239   REF file references invalid XML file: C:\Program Files\SEGGER\JLink_V962\JLinkDevices.xml
-T5430 000:199.314 - 10.570ms returns 0x00
-T5430 000:199.328 JLINK_ExecCommand("Device = STM32F107VC", ...). 
-T5430 000:199.554   Device "STM32F107VC" selected.
-T5430 000:199.806 - 0.477ms returns 0x00
-T5430 000:199.817   ERROR: Unknown command
-T5430 000:199.823 JLINK_GetHardwareVersion()
-T5430 000:199.826 - 0.002ms returns 80000
-T5430 000:199.829 JLINK_GetDLLVersion()
-T5430 000:199.831 - 0.002ms returns 96200
-T5430 000:199.835 JLINK_GetOEMString(...)
-T5430 000:199.838 JLINK_GetFirmwareString(...)
-T5430 000:199.841 - 0.002ms 
-T5430 000:199.846 JLINK_GetDLLVersion()
-T5430 000:199.867 - 0.021ms returns 96200
-T5430 000:199.871 JLINK_GetCompileDateTime()
-T5430 000:199.873 - 0.002ms 
-T5430 000:199.877 JLINK_GetFirmwareString(...)
-T5430 000:199.879 - 0.002ms 
-T5430 000:199.882 JLINK_GetHardwareVersion()
-T5430 000:199.885 - 0.002ms returns 80000
-T5430 000:199.888 JLINK_GetSN()
-T5430 000:199.890 - 0.002ms returns 308622870
-T5430 000:199.893 JLINK_GetOEMString(...)
-T5430 000:199.899 JLINK_TIF_Select(JLINKARM_TIF_JTAG)
-T5430 000:202.240 - 2.340ms returns 0x00
-T5430 000:202.247 JLINK_HasError()
-T5430 000:202.254 JLINK_SetSpeed(5000)
-T5430 000:202.550 - 0.297ms 
-T5430 000:202.809 JLINK_HasError()
-T5430 000:202.814 JLINK_SetResetType(JLINKARM_RESET_TYPE_NORMAL)
-T5430 000:202.817 - 0.002ms returns JLINKARM_RESET_TYPE_NORMAL
-T5430 000:202.821 JLINK_Reset()
-T5430 000:203.188 - 0.367ms 
-T5430 000:203.197 JLINK_GetIdData(pIdData)
-T5430 000:203.635 - 0.438ms 
-T5430 000:203.640 JLINK_GetIdData(pIdData)
-T5430 000:204.015 - 0.374ms 
-T5430 000:207.814 JLINK_GetFirmwareString(...)
-T5430 000:207.826 - 0.011ms 
-T5430 003:541.185 JLINK_Close()
-T5430 003:552.234 - 11.048ms
-T5430 003:552.255   
-T5430 003:552.261   Closed
+T3A28 000:144.195   SEGGER J-Link V8.16 Log File
+T3A28 000:144.314   DLL Compiled: Feb 26 2025 12:07:26
+T3A28 000:144.318   Logging started @ 2026-07-26 07:34
+T3A28 000:144.321   Process: C:\Keil_v5\MDK\UV4\UV4.exe
+T3A28 000:144.328 - 144.324ms 
+T3A28 000:144.335 JLINK_SetWarnOutHandler(...)
+T3A28 000:144.349 - 0.015ms 
+T3A28 000:144.354 JLINK_OpenEx(...)
+T3A28 000:148.384   Firmware: J-Link ARM V8 compiled Nov 28 2014 13:44:46
+T3A28 000:149.752   Firmware: J-Link ARM V8 compiled Nov 28 2014 13:44:46
+T3A28 000:153.610   Hardware: V8.00
+T3A28 000:153.620   S/N: 308622870
+T3A28 000:153.623   OEM: SEGGER
+T3A28 000:153.627   Feature(s): RDI,FlashDL,FlashBP,JFlash,GDBFULL
+T3A28 000:155.851   Bootloader: (FW returned invalid version)
+T3A28 000:157.458   TELNET listener socket opened on port 19021
+T3A28 000:157.561   WEBSRV WEBSRV_Init(): Starting webserver thread(s)
+T3A28 000:157.655   WEBSRV Webserver running on local port 19080
+T3A28 000:157.762   Looking for J-Link GUI Server exe at: C:\Keil_v5\MDK\ARM\Segger\JLinkGUIServer.exe
+T3A28 000:157.824   Looking for J-Link GUI Server exe at: C:\Program Files\SEGGER\JLink_V962\JLinkGUIServer.exe
+T3A28 000:157.844   Forking J-Link GUI Server: C:\Program Files\SEGGER\JLink_V962\JLinkGUIServer.exe
+T3A28 000:161.064   J-Link GUI Server info: "J-Link GUI server V9.62 "
+T3A28 000:161.539 - 17.173ms returns "O.K."
+T3A28 000:161.576 JLINK_GetEmuCaps()
+T3A28 000:161.581 - 0.003ms returns 0xB9FF7BBF
+T3A28 000:161.592 JLINK_TIF_GetAvailable(...)
+T3A28 000:162.049 - 0.456ms 
+T3A28 000:162.095 JLINK_SetErrorOutHandler(...)
+T3A28 000:162.110 - 0.015ms 
+T3A28 000:162.139 JLINK_ExecCommand("ProjectFile = "D:\Document\tempPrj\BTCMinerControl\Miner\F107²âÊÔ\BTCMinerMS\MDK-ARM\JLinkSettings.ini"", ...). 
+T3A28 000:171.820   Ref file found at: C:\Keil_v5\MDK\ARM\Segger\JLinkDevices.ref
+T3A28 000:171.879   REF file references invalid XML file: C:\Program Files\SEGGER\JLink_V962\JLinkDevices.xml
+T3A28 000:172.698 - 10.560ms returns 0x00
+T3A28 000:172.715 JLINK_ExecCommand("Device = STM32F107VC", ...). 
+T3A28 000:172.887   Device "STM32F107VC" selected.
+T3A28 000:173.331 - 0.611ms returns 0x00
+T3A28 000:173.347 JLINK_ExecCommand("DisableConnectionTimeout", ...). 
+T3A28 000:173.362   ERROR: Unknown command
+T3A28 000:173.371 - 0.015ms returns 0x01
+T3A28 000:173.378 JLINK_GetHardwareVersion()
+T3A28 000:173.384 - 0.005ms returns 80000
+T3A28 000:173.390 JLINK_GetDLLVersion()
+T3A28 000:173.395 - 0.005ms returns 81600
+T3A28 000:173.402 JLINK_GetOEMString(...)
+T3A28 000:173.408 JLINK_GetFirmwareString(...)
+T3A28 000:173.414 - 0.005ms 
+T3A28 000:173.424 JLINK_GetDLLVersion()
+T3A28 000:173.439 - 0.014ms returns 81600
+T3A28 000:173.445 JLINK_GetCompileDateTime()
+T3A28 000:173.450 - 0.005ms 
+T3A28 000:173.458 JLINK_GetFirmwareString(...)
+T3A28 000:173.463 - 0.005ms 
+T3A28 000:173.470 JLINK_GetHardwareVersion()
+T3A28 000:173.475 - 0.005ms returns 80000
+T3A28 000:173.482 JLINK_GetSN()
+T3A28 000:173.487 - 0.005ms returns 308622870
+T3A28 000:173.494 JLINK_GetOEMString(...)
+T3A28 000:173.507 JLINK_TIF_Select(JLINKARM_TIF_JTAG)
+T3A28 000:176.060 - 2.554ms returns 0x00
+T3A28 000:176.067 JLINK_HasError()
+T3A28 000:176.074 JLINK_SetSpeed(5000)
+T3A28 000:176.375 - 0.302ms 
+T3A28 000:176.562 JLINK_HasError()
+T3A28 000:176.566 JLINK_SetResetType(JLINKARM_RESET_TYPE_NORMAL)
+T3A28 000:176.569 - 0.003ms returns JLINKARM_RESET_TYPE_NORMAL
+T3A28 000:176.572 JLINK_Reset()
+T3A28 000:177.034   InitTarget() start
+T3A28 000:177.053    J-Link Script File: Executing InitTarget()
+T3A28 000:177.617   JTAG selected. Identifying JTAG Chain...
+T3A28 000:178.993   Could not measure total IR len. TDO is constant high.
+T3A28 000:179.695   Error: Scanning JTAG chain failed.
+T3A28 000:179.712   Can not attach to CPU. Trying connect under reset.
+T3A28 000:230.982   JTAG selected. Identifying JTAG Chain...
+T3A28 000:232.539   TotalIRLen = 9, IRPrint = 0x0011
+T3A28 000:233.530   JTAG chain detection found 2 devices:
+T3A28 000:233.541    #0 Id: 0x3BA00477, IRLen: 04, CoreSight JTAG-DP
+T3A28 000:233.549    #1 Id: 0x06418041, IRLen: 05, STM32 Boundary Scan
+T3A28 000:233.652   JTAG Chain Identified. Connecting to DAP TAP...
+T3A28 000:233.661   Successfully connected to selected DAP TAP.
+T3A28 000:238.654   DAP initialized successfully.
+T3A28 000:374.250   InitTarget() end - Took 197ms
+T3A28 000:375.660   TotalIRLen = 9, IRPrint = 0x0011
+T3A28 000:376.888   JTAG chain detection found 2 devices:
+T3A28 000:376.906    #0 Id: 0x3BA00477, IRLen: 04, CoreSight JTAG-DP
+T3A28 000:376.915    #1 Id: 0x06418041, IRLen: 05, STM32 Boundary Scan
+T3A28 000:384.371   Old FW that does not support reading DPIDR via DAP jobs
+T3A28 000:391.566   DPv0 detected
+T3A28 000:391.581   CoreSight SoC-400 or earlier
+T3A28 000:391.607   Scanning AP map to find all available APs
+T3A28 000:397.403   AP[1]: Stopped AP scan as end of AP map has been reached
+T3A28 000:397.447   AP[0]: AHB-AP (IDR: 0x14770011, ADDR: 0x00000000)
+T3A28 000:397.471   Iterating through AP map to find AHB-AP to use
+T3A28 000:406.937   AP[0]: Core found
+T3A28 000:406.949   AP[0]: AHB-AP ROM base: 0xE00FF000
+T3A28 000:411.698   CPUID register: 0x411FC231. Implementer code: 0x41 (ARM)
+T3A28 000:411.720   Found Cortex-M3 r1p1, Little endian.
+T3A28 000:412.694   -- Max. mem block: 0x00002408
+T3A28 000:416.977   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T3A28 000:417.704   CPU_ReadMem(4 bytes @ 0xE0002000)
+T3A28 000:418.548   FPUnit: 6 code (BP) slots and 2 literal slots
+T3A28 000:418.561   CPU_ReadMem(4 bytes @ 0xE000EDFC)
+T3A28 000:419.289   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T3A28 000:419.869   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3A28 000:420.550   CPU_WriteMem(4 bytes @ 0xE0001000)
+T3A28 000:421.162   CPU_ReadMem(4 bytes @ 0xE000ED88)
+T3A28 000:421.847   CPU_WriteMem(4 bytes @ 0xE000ED88)
+T3A28 000:422.633   CPU_ReadMem(4 bytes @ 0xE000ED88)
+T3A28 000:423.360   CPU_WriteMem(4 bytes @ 0xE000ED88)
+T3A28 000:423.883   CoreSight components:
+T3A28 000:423.889   ROMTbl[0] @ E00FF000
+T3A28 000:423.894   CPU_ReadMem(64 bytes @ 0xE00FF000)
+T3A28 000:425.194   CPU_ReadMem(32 bytes @ 0xE000EFE0)
+T3A28 000:426.249   [0][0]: E000E000 CID B105E00D PID 001BB000 SCS
+T3A28 000:426.260   CPU_ReadMem(32 bytes @ 0xE0001FE0)
+T3A28 000:427.067   [0][1]: E0001000 CID B105E00D PID 001BB002 DWT
+T3A28 000:427.073   CPU_ReadMem(32 bytes @ 0xE0002FE0)
+T3A28 000:427.956   [0][2]: E0002000 CID B105E00D PID 000BB003 FPB
+T3A28 000:427.994   CPU_ReadMem(32 bytes @ 0xE0000FE0)
+T3A28 000:428.956   [0][3]: E0000000 CID B105E00D PID 001BB001 ITM
+T3A28 000:429.021   CPU_ReadMem(32 bytes @ 0xE0040FE0)
+T3A28 000:429.989   [0][4]: E0040000 CID B105900D PID 001BB923 TPIU-Lite
+T3A28 000:429.998   CPU_ReadMem(32 bytes @ 0xE0041FE0)
+T3A28 000:430.953   [0][5]: E0041000 CID B105900D PID 101BB924 ETM-M3
+T3A28 000:431.062   JLINK_GetResetTypeDesc
+T3A28 000:431.066   - 0.003ms 
+T3A28 000:431.074   Reset type: NORMAL (https://wiki.segger.com/J-Link_Reset_Strategies)
+T3A28 000:431.081   CPU is running
+T3A28 000:431.086   CPU_WriteMem(4 bytes @ 0xE000EDF0)
+T3A28 000:431.719   CPU is running
+T3A28 000:431.768   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T3A28 000:432.393   Reset: Halt core after reset via DEMCR.VC_CORERESET.
+T3A28 000:432.440   Reset: Reset device via AIRCR.SYSRESETREQ.
+T3A28 000:432.444   CPU is running
+T3A28 000:432.448   CPU_WriteMem(4 bytes @ 0xE000ED0C)
+T3A28 000:484.008   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T3A28 000:485.084   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T3A28 000:489.935   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T3A28 000:497.004   CPU_ReadMem(4 bytes @ 0xE000EDF0)
+T3A28 000:501.561   CPU_WriteMem(4 bytes @ 0xE000EDFC)
+T3A28 000:502.401   CPU_WriteMem(4 bytes @ 0xE0001028)
+T3A28 000:503.221   CPU_WriteMem(4 bytes @ 0xE0001038)
+T3A28 000:504.056   CPU_WriteMem(4 bytes @ 0xE0001048)
+T3A28 000:505.055   CPU_WriteMem(4 bytes @ 0xE0001058)
+T3A28 000:505.781   CPU_WriteMem(4 bytes @ 0xE0002000)
+T3A28 000:506.694   CPU_ReadMem(4 bytes @ 0xE000EDFC)
+T3A28 000:507.483   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3A28 000:508.430 - 331.855ms 
+T3A28 000:508.465 JLINK_GetIdData(pIdData)
+T3A28 000:508.492   pIdData->ScanLen=9
+T3A28 000:508.516   pIdData->NumDevices=2
+T3A28 000:508.533   pIdData->aId[0]=0x3BA00477
+T3A28 000:508.548   pIdData->aIrRead[0]=0
+T3A28 000:508.564   pIdData->aScanLen[0]=0
+T3A28 000:508.580   pIdData->aScanRead[0]=0
+T3A28 000:508.596 - 0.130ms 
+T3A28 000:508.615 JLINK_JTAG_GetDeviceID(DeviceIndex = 0)
+T3A28 000:508.628 - 0.013ms returns 1000342647
+T3A28 000:508.647 JLINK_JTAG_GetDeviceInfo(DeviceIndex = 0)
+T3A28 000:508.660 - 0.012ms returns 0
+T3A28 000:508.678 JLINK_JTAG_GetDeviceID(DeviceIndex = 1)
+T3A28 000:508.690 - 0.012ms returns 104955969
+T3A28 000:508.707 JLINK_JTAG_GetDeviceInfo(DeviceIndex = 1)
+T3A28 000:508.720 - 0.012ms returns 0
+T3A28 000:517.222 JLINK_GetFirmwareString(...)
+T3A28 000:517.238 - 0.016ms 
+T3A28 001:804.375 JLINK_Close()
+T3A28 001:805.054   OnDisconnectTarget() start
+T3A28 001:805.066    J-Link Script File: Executing OnDisconnectTarget()
+T3A28 001:805.087   CPU_WriteMem(4 bytes @ 0xE0042004)
+T3A28 001:805.885   OnDisconnectTarget() end - Took 817us
+T3A28 001:805.899   CPU_ReadMem(4 bytes @ 0xE0001000)
+T3A28 001:806.751   CPU_WriteMem(4 bytes @ 0xE0001004)
+T3A28 001:827.327 - 22.950ms
+T3A28 001:827.352   
+T3A28 001:827.359   Closed
