@@ -38,8 +38,8 @@
 /* ===== ICMP (ping) ===== */
 #define LWIP_ICMP                       1
 
-/* ===== DHCP on (IP auto-assigned by switch/router) ===== */
-#define LWIP_DHCP                       1
+/* ===== Static IPv4 (configured in main.c; DHCP requires UDP) ===== */
+#define LWIP_DHCP                       0
 #define LWIP_DNS                        0
 
 /* ===== Stats off ===== */
@@ -58,7 +58,6 @@
 #define LWIP_PROVIDE_ERRNO              1
 
 /* ===== Random seed for TCP ISN ===== */
-#include "stm32f1xx_hal.h"
 #include "stm32f1xx_hal.h"
 #define LWIP_RAND()                     ((u32_t)HAL_GetTick())
 

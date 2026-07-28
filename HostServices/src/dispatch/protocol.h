@@ -88,7 +88,23 @@ std::vector<uint8_t> encode_ack(uint8_t ack_type);
 // Encode an error message.
 std::vector<uint8_t> encode_error(uint8_t code, const std::string& msg);
 
-// Read a complete framed message from a socket.
-// Returns the raw payload (after the 5-byte header), or empty on error/timeout.
-// timeout_ms: 0 = non-blocking check
-std::vector<uint8_t> recv_message(SOCKET sock, int timeout_ms = 500);
+enum class ReceiveResult {
+    Message,
+    Timeout,
+    Closed,
+    SocketError,
+    ProtocolError,
+};
+
+// Stateful TCP frame reader. Partial length fields and payloads remain in the
+// buffer across receive timeouts, and coalesced frames are returned one by one.
+class MessageReader {
+public:
+    ReceiveResult receive(SOCKET sock, std::vector<uint8_t>& message,
+                          int timeout_ms = 500);
+    void clear() { m_buffer.clear(); }
+
+private:
+    static constexpr uint32_t kMaxMessageLength = 4096;
+    std::vector<uint8_t> m_buffer;
+};

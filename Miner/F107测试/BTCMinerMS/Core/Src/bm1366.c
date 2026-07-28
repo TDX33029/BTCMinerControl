@@ -15,7 +15,6 @@
  
  static uint8_t  bm1366_chip_count       = 0;
  static uint8_t  bm1366_address_interval = 0;
- static uint32_t bm1366_cur_baud         = BM1366_DEFAULT_BAUD;
  
  /* ===== CRC5 (bit-by-bit, matches ESP-Miner crc.c) =====
   * The old 256-entry table had period 32 (duplicated 8x), ignoring bits 5-7
@@ -71,7 +70,6 @@ void bm1366_uart_init(void) {
     __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
     HAL_NVIC_SetPriority(USART1_IRQn, 1, 0);
     HAL_NVIC_EnableIRQ(USART1_IRQn);
-    bm1366_cur_baud = 115200;
 }
  
  void bm1366_uart_set_baud(uint32_t baud) {
@@ -79,7 +77,6 @@ void bm1366_uart_init(void) {
     USART1->CR1 &= ~USART_CR1_UE;
     USART1->BRR = (uint32_t)(HAL_RCC_GetPCLK2Freq() / baud);
     USART1->CR1 |= USART_CR1_UE;
-    bm1366_cur_baud = baud;
 }
  
  void bm1366_uart_send(const uint8_t *data, uint16_t len) {
@@ -337,10 +334,6 @@ void bm1366_uart_init(void) {
      uint8_t cmd[] = {0x00, 0x08, vdo_scale, fb, ref, postdiv};
      bm1366_send_cmd(BM1366_TYPE_CMD | BM1366_GROUP_ALL | BM1366_CMD_WRITE, cmd, 6);
      return p.actual_freq;
- }
- 
- static void bm1366_frequency_immediate(float target_freq_mhz) {
-     bm1366_set_frequency(target_freq_mhz);
  }
  
  int bm1366_count_chips(uint8_t expected_count) {

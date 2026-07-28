@@ -1,42 +1,79 @@
 #pragma once
+
 #include "../mine/job.h"
 #include "manager.h"
-#include <queue>
-#include <mutex>
+#include <array>
 #include <atomic>
+#include <mutex>
+#include <optional>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
-// ---------------------------------------------------------------------------
-// Work Scheduler — manages job queue, distributes work to boards.
-//
-// When a new mining.notify arrives, it's processed into MinerJobs and
-// dispatched to all connected boards. The scheduler also tracks which
-// board gets which job for nonce verification.
-// ---------------------------------------------------------------------------
+// Everything needed to build an independent coinbase/header for a board.
+// The extranonce2 value is deliberately not stored here; the scheduler assigns
+// a unique value when it constructs each board's MinerJob.
+struct WorkDefinition {
+    std::string pool_job_id;
+    std::string prev_block_hash;
+    std::string coinbase_1;
+    std::string coinbase_2;
+    std::string extranonce_1;
+    std::vector<std::array<uint8_t, 32>> merkle_branches;
+    uint32_t version = 0;
+    uint32_t version_mask = 0;
+    uint32_t ntime = 0;
+    uint32_t nbits = 0;
+    double pool_difficulty = 0.0;
+    uint8_t extranonce_2_len = 0;
+    bool clean_jobs = false;
+};
 
 class WorkScheduler {
 public:
-    WorkScheduler(BoardManager& manager);
+    explicit WorkScheduler(BoardManager& manager);
 
-    // Called when a new mining.notify is received. Generates a batch of
-    // jobs (one per board, with unique extranonce_2 per board) and dispatches.
-    void dispatchNewWork(const MinerJob& template_job);
+    // Cache the latest notify and dispatch an independently constructed job to
+    // every online board.
+    void dispatchNewWork(const WorkDefinition& work);
 
-    // Get the job template for a specific job_id (for nonce verification).
-    const MinerJob* getJob(uint8_t job_id);
+    // Called when a board connects after the most recent mining.notify.
+    bool dispatchLatestToBoard(uint64_t board_id);
+    void clearLatestWork();
 
-    // Called when a nonce needs to be verified against its job.
-    // Returns Submit info if the nonce is valid enough to submit.
-    std::pair<bool, SubmitInfo> processNonce(const MinerJob& job, const NonceResult& result);
+    // Send a deterministic synthetic header for the no-ASIC USART1 test path.
+    bool dispatchUartTestWork(uint64_t board_id);
 
-    // Count of boards currently online
+    // Send rotating synthetic work at the firmware's 256-difficulty result
+    // threshold. Returned nonces can therefore be checked without a pool.
+    bool dispatchChipTestWork(uint64_t board_id);
+
+    // Return a protected snapshot, keyed by both board and BM1366 job ID.
+    std::optional<MinerJob> getJob(uint64_t board_id, uint8_t job_id) const;
+
+    VerifiedNonce processNonce(const MinerJob& job, const NonceResult& result);
     int boardCount();
 
 private:
+    static constexpr size_t kJobSlots = 16; // 0x00..0x78 in steps of eight
+
+    bool dispatchToBoard(const WorkDefinition& work, uint64_t board_id);
+    bool dispatchPreparedJob(uint64_t board_id, MinerJob job);
+    bool dispatchSyntheticWork(uint64_t board_id, double difficulty,
+                               const std::string& label, uint32_t sequence);
+    uint8_t nextJobId();
+
     BoardManager& m_manager;
     std::atomic<uint64_t> m_extranonce_counter{0};
+    std::atomic<uint32_t> m_job_sequence{0};
+    std::atomic<uint32_t> m_test_sequence{0};
 
-    // Job slots (128 positions, matching BM1366's 7-bit job_id space)
+    // Serializes notify dispatch and late-board replay, so an older cached job
+    // can never be sent after a newer notification.
+    mutable std::mutex m_dispatch_mutex;
+    std::optional<WorkDefinition> m_latest_work;
+
     mutable std::mutex m_jobs_mutex;
-    MinerJob m_jobs[128];
-    bool m_jobs_valid[128] = {};  // Removed incorrect initializer, initialized in constructor
+    std::unordered_map<uint64_t,
+        std::array<std::optional<MinerJob>, kJobSlots>> m_jobs_by_board;
 };

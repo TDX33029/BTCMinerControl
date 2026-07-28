@@ -1,409 +1,453 @@
-// Stratum V1 TCP client implementation using WinSock2.
-// Connects to a mining pool, handles JSON-RPC protocol.
-
 #include "client.h"
-#include "../json.hpp"
+#include "../mine/sha256.h"
+#include <algorithm>
+#include <chrono>
+#include <cstdio>
+#include <iomanip>
 #include <iostream>
+#include <limits>
 #include <sstream>
+#include <stdexcept>
 
 using json = nlohmann::json;
 
 #pragma comment(lib, "ws2_32.lib")
 
-// ---------------------------------------------------------------------------
-// WinSock initializer (RAII)
-// ---------------------------------------------------------------------------
-static struct WinSockInit {
+namespace {
+
+struct WinSockInit {
     WinSockInit() {
-        WSADATA wsa;
-        WSAStartup(MAKEWORD(2, 2), &wsa);
+        WSADATA wsa{};
+        if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
+            throw std::runtime_error("WSAStartup failed");
+        }
     }
-    ~WinSockInit() {
-        WSACleanup();
-    }
+    ~WinSockInit() { WSACleanup(); }
 } g_winsock;
 
-// ---------------------------------------------------------------------------
-// StratumClient
-// ---------------------------------------------------------------------------
-
-StratumClient::StratumClient() {}
-StratumClient::~StratumClient() {
-    stop();
-    if (m_socket != INVALID_SOCKET) {
-        closesocket(m_socket);
+bool send_all(SOCKET socket, const std::string& data) {
+    size_t offset = 0;
+    while (offset < data.size()) {
+        const int length = static_cast<int>(std::min<size_t>(
+            data.size() - offset, static_cast<size_t>(INT_MAX)));
+        const int sent = ::send(socket, data.data() + offset, length, 0);
+        if (sent <= 0) return false;
+        offset += static_cast<size_t>(sent);
     }
-}
-
-bool StratumClient::connect(const std::string& host, uint16_t port) {
-    m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (m_socket == INVALID_SOCKET) {
-        std::cerr << "[stratum] socket() failed: " << WSAGetLastError() << std::endl;
-        return false;
-    }
-
-    // Set TCP_NODELAY for low-latency mining
-    int nodelay = 1;
-    setsockopt(m_socket, IPPROTO_TCP, TCP_NODELAY, (const char*)&nodelay, sizeof(nodelay));
-
-    // Set receive timeout (5 seconds)
-    int timeout = 5000;
-    setsockopt(m_socket, SOL_SOCKET, SO_RCVTIMEO, (const char*)&timeout, sizeof(timeout));
-
-    // Resolve hostname
-    struct addrinfo hints = {}, *result = nullptr;
-    hints.ai_family = AF_INET;
-    hints.ai_socktype = SOCK_STREAM;
-    hints.ai_protocol = IPPROTO_TCP;
-
-    std::string port_str = std::to_string(port);
-    int ret = getaddrinfo(host.c_str(), port_str.c_str(), &hints, &result);
-    if (ret != 0) {
-        std::cerr << "[stratum] DNS resolution failed for " << host << ": " << gai_strerror(ret) << std::endl;
-        closesocket(m_socket);
-        m_socket = INVALID_SOCKET;
-        return false;
-    }
-
-    ret = ::connect(m_socket, result->ai_addr, (int)result->ai_addrlen);
-    freeaddrinfo(result);
-
-    if (ret == SOCKET_ERROR) {
-        std::cerr << "[stratum] connect() failed: " << WSAGetLastError() << std::endl;
-        closesocket(m_socket);
-        m_socket = INVALID_SOCKET;
-        return false;
-    }
-
-    std::cout << "[stratum] Connected to " << host << ":" << port << std::endl;
-    m_connected = true;
     return true;
 }
 
-bool StratumClient::sendLine(const std::string& line) {
-    if (m_socket == INVALID_SOCKET) return false;
-    std::string data = line + "\n";
-    int sent = ::send(m_socket, data.c_str(), (int)data.length(), 0);
-    return sent == (int)data.length();
+bool is_hex(const std::string& value, size_t exact_length = 0) {
+    if ((exact_length != 0 && value.size() != exact_length) ||
+        (value.size() & 1U) != 0) return false;
+    return std::all_of(value.begin(), value.end(), [](unsigned char c) {
+        return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') ||
+               (c >= 'A' && c <= 'F');
+    });
 }
 
-bool StratumClient::sendRequest(const std::string& method, const json& params) {
-    int id = m_send_uid++;
-    json req = {
-        {"id", id},
-        {"method", method},
-        {"params", params}
+uint32_t parse_hex_u32(const json& value, const char* field) {
+    if (!value.is_string()) throw std::invalid_argument(std::string(field) + " is not a string");
+    const std::string text = value.get<std::string>();
+    if (text.empty() || text.size() > 8 || !std::all_of(text.begin(), text.end(),
+        [](unsigned char c) { return std::isxdigit(c) != 0; })) {
+        throw std::invalid_argument(std::string(field) + " is not uint32 hex");
+    }
+    size_t consumed = 0;
+    const unsigned long parsed = std::stoul(text, &consumed, 16);
+    if (consumed != text.size() || parsed > std::numeric_limits<uint32_t>::max()) {
+        throw std::out_of_range(std::string(field) + " exceeds uint32");
+    }
+    return static_cast<uint32_t>(parsed);
+}
+
+std::string response_error(const json& root) {
+    if (!root.contains("error") || root["error"].is_null()) return {};
+    const auto& error = root["error"];
+    if (error.is_array() && error.size() >= 2 && error[1].is_string()) {
+        return error[1].get<std::string>();
+    }
+    if (error.is_object() && error.contains("message") &&
+        error["message"].is_string()) {
+        return error["message"].get<std::string>();
+    }
+    return error.dump();
+}
+
+std::string hex8(uint32_t value) {
+    std::ostringstream stream;
+    stream << std::hex << std::setfill('0') << std::setw(8) << value;
+    return stream.str();
+}
+
+} // namespace
+
+StratumClient::~StratumClient() {
+    stop();
+}
+
+bool StratumClient::connect(const std::string& host, uint16_t port) {
+    if (host.empty() || port == 0 || m_connected) return false;
+
+    addrinfo hints{};
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
+
+    addrinfo* addresses = nullptr;
+    const std::string port_text = std::to_string(port);
+    const int resolved = getaddrinfo(host.c_str(), port_text.c_str(),
+                                     &hints, &addresses);
+    if (resolved != 0) {
+        std::cerr << "[stratum] DNS resolution failed for " << host
+                  << ": " << gai_strerrorA(resolved) << std::endl;
+        return false;
+    }
+
+    SOCKET connected_socket = INVALID_SOCKET;
+    for (addrinfo* address = addresses; address; address = address->ai_next) {
+        SOCKET candidate = socket(address->ai_family, address->ai_socktype,
+                                  address->ai_protocol);
+        if (candidate == INVALID_SOCKET) continue;
+
+        int nodelay = 1;
+        setsockopt(candidate, IPPROTO_TCP, TCP_NODELAY,
+                   reinterpret_cast<const char*>(&nodelay), sizeof(nodelay));
+        if (::connect(candidate, address->ai_addr,
+                      static_cast<int>(address->ai_addrlen)) == 0) {
+            connected_socket = candidate;
+            break;
+        }
+        closesocket(candidate);
+    }
+    freeaddrinfo(addresses);
+
+    if (connected_socket == INVALID_SOCKET) {
+        std::cerr << "[stratum] connect() failed: " << WSAGetLastError() << std::endl;
+        return false;
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(m_send_mutex);
+        m_socket = connected_socket;
+        m_pending.clear();
+        m_send_uid = 1;
+    }
+    m_buffer.clear();
+    m_stop = false;
+    m_connected = true;
+    std::cout << "[stratum] Connected to " << host << ':' << port << std::endl;
+    return true;
+}
+
+bool StratumClient::sendRequest(const std::string& method, const json& params,
+                                RequestKind kind, uint64_t board_id,
+                                int* out_id) {
+    std::lock_guard<std::mutex> lock(m_send_mutex);
+    const SOCKET socket = m_socket.load();
+    if (socket == INVALID_SOCKET || !m_connected) return false;
+
+    const int id = m_send_uid++;
+    if (out_id) *out_id = id;
+    const json request = {
+        {"id", id}, {"method", method}, {"params", params}
     };
-    return sendLine(req.dump());
+    const std::string wire = request.dump() + '\n';
+
+    m_pending.emplace(id, PendingRequest{kind, board_id});
+    if (send_all(socket, wire)) return true;
+
+    m_pending.erase(id);
+    m_connected = false;
+    return false;
 }
 
 bool StratumClient::subscribe(const std::string& user_agent) {
-    return sendRequest("mining.subscribe", json::array({user_agent}));
+    return !user_agent.empty() && sendRequest("mining.subscribe",
+        json::array({user_agent}), RequestKind::Subscribe);
 }
 
-bool StratumClient::authorize(const std::string& username, const std::string& password) {
-    return sendRequest("mining.authorize", json::array({username, password}));
+bool StratumClient::authorize(const std::string& username,
+                              const std::string& password) {
+    return !username.empty() && sendRequest("mining.authorize",
+        json::array({username, password}), RequestKind::Authorize);
 }
 
 bool StratumClient::configureVersionRolling() {
-    /* Match the exact format ESP-Miner uses with Braiins (proven to work):
-       params = [["version-rolling"], {"version-rolling.mask":"ffffffff"}]
-       -- 2nd param is an OBJECT (not an array), and the requested mask is
-       "ffffffff" (all bits); the pool negotiates the actual mask in its
-       response and we store that. The previous array form
-       [["version-rolling"],["version-rolling.mask","1fffe000"]] caused Braiins
-       to drop the connection right after configure. */
-    json params = json::array({
+    const json params = json::array({
         json::array({"version-rolling"}),
         json::object({{"version-rolling.mask", "ffffffff"}})
     });
-    std::cout << "[stratum] SEND configure: " << params.dump() << std::endl;
-    return sendRequest("mining.configure", params);
+    return sendRequest("mining.configure", params, RequestKind::Configure);
 }
 
 bool StratumClient::submitShare(const ShareSubmit& share, int& out_msg_id) {
-    out_msg_id = m_send_uid;
-    std::ostringstream ntime_hex;
-    ntime_hex << std::hex << share.ntime;
-    std::ostringstream nonce_hex;
-    nonce_hex << std::hex << share.nonce;
-
-    // Version bits: hex string, zero-padded to 8 chars
-    char vb_hex[16];
-    snprintf(vb_hex, sizeof(vb_hex), "%08x", share.version_bits);
-
-    json params = json::array({
-        share.username,
-        share.job_id,
-        share.extranonce_2,
-        ntime_hex.str(),
-        nonce_hex.str(),
-        std::string(vb_hex)
+    if (!is_hex(share.extranonce_2)) return false;
+    const json params = json::array({
+        share.username, share.job_id, share.extranonce_2,
+        hex8(share.ntime), hex8(share.nonce), hex8(share.version_bits)
     });
-    return sendRequest("mining.submit", params);
+    return sendRequest("mining.submit", params, RequestKind::Submit,
+                       share.board_id, &out_msg_id);
 }
 
 bool StratumClient::suggestDifficulty(uint32_t difficulty) {
-    return sendRequest("mining.suggest_difficulty", json::array({difficulty}));
+    return difficulty != 0 && sendRequest("mining.suggest_difficulty",
+        json::array({difficulty}), RequestKind::SuggestDifficulty);
+}
+
+bool StratumClient::popBufferedLine(std::string& line) {
+    const size_t newline = m_buffer.find('\n');
+    if (newline == std::string::npos) return false;
+    line = m_buffer.substr(0, newline);
+    m_buffer.erase(0, newline + 1);
+    if (!line.empty() && line.back() == '\r') line.pop_back();
+    return true;
+}
+
+bool StratumClient::appendFromSocket(int timeout_ms) {
+    const SOCKET socket = m_socket.load();
+    if (socket == INVALID_SOCKET) return false;
+
+    const int effective_timeout = timeout_ms <= 0 ? 1 : timeout_ms;
+    setsockopt(socket, SOL_SOCKET, SO_RCVTIMEO,
+               reinterpret_cast<const char*>(&effective_timeout),
+               sizeof(effective_timeout));
+
+    char chunk[8192];
+    const int received = recv(socket, chunk, sizeof(chunk), 0);
+    if (received > 0) {
+        m_buffer.append(chunk, static_cast<size_t>(received));
+        if (m_buffer.size() > 1024 * 1024) {
+            std::cerr << "[stratum] Receive buffer exceeded 1 MiB" << std::endl;
+            m_connected = false;
+            return false;
+        }
+        return true;
+    }
+    if (received == 0) {
+        m_connected = false;
+        return false;
+    }
+
+    const int error = WSAGetLastError();
+    if (error == WSAETIMEDOUT || error == WSAEWOULDBLOCK) return false;
+    if (!m_stop) std::cerr << "[stratum] recv() error: " << error << std::endl;
+    m_connected = false;
+    return false;
 }
 
 std::string StratumClient::readResponse(int timeout_ms) {
-    if (m_socket == INVALID_SOCKET) return "";
-
-    // Set timeout for this read
-    setsockopt(m_socket, SOL_SOCKET, SO_RCVTIMEO, (const char*)&timeout_ms, sizeof(timeout_ms));
-
-    char buf[8192];
-    int received = recv(m_socket, buf, sizeof(buf) - 1, 0);
-
-    // Restore long timeout for the main loop
-    int long_timeout = 5000;
-    setsockopt(m_socket, SOL_SOCKET, SO_RCVTIMEO, (const char*)&long_timeout, sizeof(long_timeout));
-
-    if (received <= 0) {
-        if (received == 0) {
-            m_connected = false;
-        }
-        return "";
+    std::string line;
+    if (!popBufferedLine(line)) {
+        if (!appendFromSocket(timeout_ms) || !popBufferedLine(line)) return {};
     }
-
-    buf[received] = '\0';
-    m_buffer += buf;
-
-    // Extract the first complete line (JSON-RPC: newline-delimited)
-    size_t pos = m_buffer.find('\n');
-    if (pos == std::string::npos) {
-        // No complete line yet -- keep buffering, return empty so the caller
-        // doesn't try to parse a partial JSON (which caused "last read: 'd'")
-        return "";
+    if (!line.empty()) {
+        std::cout << "[stratum] RECV " << line << std::endl;
+        dispatchLine(line);
     }
-
-    std::string line = m_buffer.substr(0, pos);
-    m_buffer.erase(0, pos + 1);
-
-    if (!line.empty() && line.back() == '\r') line.pop_back();
-
-    // Log the raw line for debugging
-    std::cout << "[stratum] RECV " << line << std::endl;
-
-    // Try to dispatch it
-    dispatchLine(line);
-
     return line;
 }
 
 void StratumClient::stop() {
     m_stop = true;
-    if (m_socket != INVALID_SOCKET) {
-        closesocket(m_socket);
-        m_socket = INVALID_SOCKET;
-    }
     m_connected = false;
+
+    std::lock_guard<std::mutex> lock(m_send_mutex);
+    const SOCKET socket = m_socket.exchange(INVALID_SOCKET);
+    if (socket != INVALID_SOCKET) {
+        shutdown(socket, SD_BOTH);
+        closesocket(socket);
+    }
+    m_pending.clear();
 }
 
 void StratumClient::run() {
     m_stop = false;
-    char buf[8192];
-    m_buffer.clear();
 
     while (!m_stop && m_connected) {
-        int received = recv(m_socket, buf, sizeof(buf) - 1, 0);
-        if (received <= 0) {
-            if (received == 0) {
-                std::cerr << "[stratum] Connection closed by pool." << std::endl;
-            } else {
-                int err = WSAGetLastError();
-                if (err == WSAETIMEDOUT) continue; // timeout, retry
-                std::cerr << "[stratum] recv() error: " << err << std::endl;
-            }
-            m_connected = false;
-            break;
+        std::string line;
+        while (popBufferedLine(line)) {
+            if (!line.empty()) dispatchLine(line);
+            if (m_stop || !m_connected) return;
         }
-
-        buf[received] = '\0';
-        m_buffer += buf;
-
-        // Process complete lines (JSON-RPC uses newline framing)
-        while (true) {
-            size_t pos = m_buffer.find('\n');
-            if (pos == std::string::npos) break;
-
-            std::string line = m_buffer.substr(0, pos);
-            m_buffer.erase(0, pos + 1);
-
-            // Trim trailing \r
-            if (!line.empty() && line.back() == '\r') {
-                line.pop_back();
-            }
-
-            if (!line.empty()) {
-                dispatchLine(line);
-            }
-        }
+        appendFromSocket(5000);
     }
 }
 
 void StratumClient::dispatchLine(const std::string& line) {
     try {
-        json root = json::parse(line);
+        const json root = json::parse(line);
+        if (!root.is_object()) throw std::invalid_argument("root is not an object");
 
-        // Check for "method" → it's a request/notification from the pool
         if (root.contains("method")) {
-            std::string method = root["method"];
-            auto& params = root["params"];
-
-            if (method == "mining.notify") {
-                handleMiningNotify(params);
-            } else if (method == "mining.set_difficulty") {
-                handleSetDifficulty(params);
-            } else if (method == "mining.set_extranonce") {
-                handleSetExtranonce(params);
-            } else if (method == "mining.set_version_mask") {
-                handleSetVersionMask(params);
-            } else if (method == "client.show_message") {
-                handleShowMessage(params);
-            } else {
-                std::cout << "[stratum] Unknown method: " << method << std::endl;
+            if (!root["method"].is_string() || !root.contains("params") ||
+                !root["params"].is_array()) {
+                throw std::invalid_argument("invalid notification envelope");
             }
+            const std::string method = root["method"].get<std::string>();
+            const auto& params = root["params"];
+            if (method == "mining.notify") handleMiningNotify(params);
+            else if (method == "mining.set_difficulty") handleSetDifficulty(params);
+            else if (method == "mining.set_extranonce") handleSetExtranonce(params);
+            else if (method == "mining.set_version_mask") handleSetVersionMask(params);
+            else if (method == "client.show_message") handleShowMessage(params);
+            else std::cout << "[stratum] Unknown method: " << method << std::endl;
             return;
         }
 
-        // Check for "result" — it's a response to one of our requests
-        if (root.contains("id") && root.contains("result")) {
+        if (root.contains("id") &&
+            (root.contains("result") || root.contains("error"))) {
             handleResult(root);
             return;
         }
-
-        std::cout << "[stratum] Unrecognized message: " << line.substr(0, 100) << std::endl;
-    } catch (const json::parse_error& e) {
-        std::cerr << "[stratum] JSON parse error: " << e.what() << std::endl;
+        throw std::invalid_argument("unrecognized JSON-RPC message");
+    } catch (const std::exception& error) {
+        std::cerr << "[stratum] Invalid message: " << error.what() << std::endl;
     }
 }
 
-// ---------------------------------------------------------------------------
-// Notification handlers
-// ---------------------------------------------------------------------------
-
 void StratumClient::handleMiningNotify(const json& params) {
-    MiningNotify n;
-    n.job_id          = params[0].get<std::string>();
-    n.prev_block_hash = params[1].get<std::string>();
-    n.coinbase_1      = params[2].get<std::string>();
-    n.coinbase_2      = params[3].get<std::string>();
-
-    // merkle_branches: params[4] is an array of hex strings
-    for (const auto& branch : params[4]) {
-        n.merkle_branches.push_back(branch.get<std::string>());
+    if (params.size() < 9 || !params[0].is_string() ||
+        !params[1].is_string() || !params[2].is_string() ||
+        !params[3].is_string() || !params[4].is_array() ||
+        !params[8].is_boolean()) {
+        throw std::invalid_argument("malformed mining.notify");
     }
 
-    // Parse hex values to uint32
-    auto hex2u32 = [](const std::string& s) -> uint32_t {
-        return uint32_t(std::stoul(s, nullptr, 16));
-    };
-
-    n.version   = hex2u32(params[5].get<std::string>());
-    n.nbits     = hex2u32(params[6].get<std::string>());
-    n.ntime     = hex2u32(params[7].get<std::string>());
-
-    // clean_jobs is the last parameter
-    n.clean_jobs = params[8].get<bool>();
-
-    if (onNotify) onNotify(n);
+    MiningNotify notify{};
+    notify.job_id = params[0].get<std::string>();
+    notify.prev_block_hash = params[1].get<std::string>();
+    notify.coinbase_1 = params[2].get<std::string>();
+    notify.coinbase_2 = params[3].get<std::string>();
+    if (notify.job_id.empty() || !is_hex(notify.prev_block_hash, 64) ||
+        !is_hex(notify.coinbase_1) || !is_hex(notify.coinbase_2)) {
+        throw std::invalid_argument("invalid notify hex fields");
+    }
+    for (const auto& branch : params[4]) {
+        if (!branch.is_string()) throw std::invalid_argument("merkle branch is not a string");
+        const std::string branch_hex = branch.get<std::string>();
+        if (!is_hex(branch_hex, 64)) throw std::invalid_argument("invalid merkle branch");
+        notify.merkle_branches.push_back(branch_hex);
+    }
+    notify.version = parse_hex_u32(params[5], "version");
+    notify.nbits = parse_hex_u32(params[6], "nbits");
+    notify.ntime = parse_hex_u32(params[7], "ntime");
+    notify.clean_jobs = params[8].get<bool>();
+    if (onNotify) onNotify(notify);
 }
 
 void StratumClient::handleSetDifficulty(const json& params) {
-    double diff = params[0].get<double>();
-    if (onSetDifficulty) onSetDifficulty(diff);
+    if (params.empty() || !params[0].is_number()) {
+        throw std::invalid_argument("invalid mining.set_difficulty");
+    }
+    const double difficulty = params[0].get<double>();
+    if (!std::isfinite(difficulty) || difficulty <= 0.0) {
+        throw std::invalid_argument("difficulty must be finite and positive");
+    }
+    if (onSetDifficulty) onSetDifficulty(difficulty);
 }
 
 void StratumClient::handleSetExtranonce(const json& params) {
-    m_extranonce = params[0].get<std::string>();
-    m_extranonce_2_len = params[1].get<int>();
-    std::cout << "[stratum] Extranonce: " << m_extranonce << " (len2=" << m_extranonce_2_len << ")" << std::endl;
-    if (onSetExtranonce) onSetExtranonce(m_extranonce);
+    if (params.size() < 2 || !params[0].is_string() ||
+        !params[1].is_number_integer()) {
+        throw std::invalid_argument("invalid mining.set_extranonce");
+    }
+    SubscribeResult value{params[0].get<std::string>(), params[1].get<int>()};
+    if (!is_hex(value.extranonce) || value.extranonce_2_len <= 0 ||
+        value.extranonce_2_len > 32) {
+        throw std::invalid_argument("invalid extranonce values");
+    }
+    m_extranonce = value.extranonce;
+    m_extranonce_2_len = value.extranonce_2_len;
+    if (onSetExtranonce) onSetExtranonce(value);
 }
 
 void StratumClient::handleSetVersionMask(const json& params) {
-    if (onConfigureResult) {
-        ConfigureResult r;
-        r.version_mask = uint32_t(std::stoul(params[0].get<std::string>(), nullptr, 16));
-        onConfigureResult(r);
-    }
+    if (params.empty()) throw std::invalid_argument("empty version mask");
+    ConfigureResult result{true, parse_hex_u32(params[0], "version mask")};
+    if (onConfigureResult) onConfigureResult(result);
 }
 
 void StratumClient::handleShowMessage(const json& params) {
-    std::string msg = params[0].get<std::string>();
-    std::cout << "[stratum] Pool message: " << msg << std::endl;
-    if (onShowMessage) onShowMessage(msg);
+    if (params.empty() || !params[0].is_string()) {
+        throw std::invalid_argument("invalid client.show_message");
+    }
+    const std::string message = params[0].get<std::string>();
+    std::cout << "[stratum] Pool message: " << message << std::endl;
+    if (onShowMessage) onShowMessage(message);
 }
 
-// ---------------------------------------------------------------------------
-// Response handler
-// ---------------------------------------------------------------------------
-
 void StratumClient::handleResult(const json& root) {
-    int id = root["id"].get<int>();
-    auto& result = root["result"];
-
-    // Try to determine response type by structure
-
-    // Subscribe response: [ ["mining.notify", ...], extranonce_1, extranonce_2_size ]
-    if (result.is_array() && result.size() >= 3 && result[1].is_string()) {
-        SubscribeResult sr;
-        sr.extranonce = result[1].get<std::string>();
-        sr.extranonce_2_len = result[2].get<int>();
-        m_extranonce = sr.extranonce;
-        m_extranonce_2_len = sr.extranonce_2_len;
-        std::cout << "[stratum] Subscribed. Extranonce: " << sr.extranonce
-                  << " (extranonce_2_len=" << sr.extranonce_2_len << ")" << std::endl;
-        if (onSubscribeResult) onSubscribeResult(sr);
-        return;
+    if (!root["id"].is_number_integer()) {
+        throw std::invalid_argument("response id is not an integer");
     }
+    const int id = root["id"].get<int>();
 
-    // Configure response: { "version-rolling": true, "version-rolling.mask": "1fffe000" }
-    if (result.is_object() && result.contains("version-rolling.mask")) {
-        ConfigureResult cr;
-        cr.version_mask = uint32_t(std::stoul(result["version-rolling.mask"].get<std::string>(), nullptr, 16));
-        std::cout << "[stratum] Version-rolling enabled. Mask: 0x" << std::hex << cr.version_mask << std::dec << std::endl;
-        if (onConfigureResult) onConfigureResult(cr);
-        return;
-    }
-
-    // Authorize response: true/false
-    if (result.is_boolean()) {
-        bool ok = result.get<bool>();
-        std::cout << "[stratum] Authorize: " << (ok ? "OK" : "FAILED") << std::endl;
-        if (onAuthorizeResult) onAuthorizeResult(ok, "");
-        return;
-    }
-
-    // Share submit response: { "status": "ok" } or null or true
-    bool accepted = false;
-    std::string error_msg;
-    if (result.is_null()) {
-        accepted = true; // null = rejected? Actually pools vary. Let's check.
-    } else if (result.is_boolean()) {
-        accepted = result.get<bool>();
-    } else if (result.is_object()) {
-        if (result.contains("status") && result["status"] == "ok") {
-            accepted = true;
-        } else if (result.contains("error")) {
-            accepted = false;
-            error_msg = result["error"].is_string() ? result["error"].get<std::string>()
-                                                     : result["error"].dump();
+    PendingRequest pending{};
+    {
+        std::lock_guard<std::mutex> lock(m_send_mutex);
+        const auto found = m_pending.find(id);
+        if (found == m_pending.end()) {
+            std::cout << "[stratum] Response for unknown request " << id << std::endl;
+            return;
         }
+        pending = found->second;
+        m_pending.erase(found);
     }
 
-    // Check root-level error
-    if (root.contains("error") && !root["error"].is_null()) {
-        accepted = false;
-        auto& err = root["error"];
-        if (err.is_array() && err.size() >= 2) {
-            error_msg = err[1].get<std::string>();
-        } else if (err.is_object() && err.contains("message")) {
-            error_msg = err["message"].get<std::string>();
+    const std::string error = response_error(root);
+    const json result = root.contains("result") ? root["result"] : json(nullptr);
+
+    switch (pending.kind) {
+    case RequestKind::Subscribe: {
+        if (!error.empty() || !result.is_array() || result.size() < 3 ||
+            !result[1].is_string() || !result[2].is_number_integer()) {
+            throw std::invalid_argument("subscribe failed: " + error);
         }
+        SubscribeResult value{result[1].get<std::string>(), result[2].get<int>()};
+        if (!is_hex(value.extranonce) || value.extranonce_2_len <= 0 ||
+            value.extranonce_2_len > 32) {
+            throw std::invalid_argument("subscribe returned invalid extranonce");
+        }
+        m_extranonce = value.extranonce;
+        m_extranonce_2_len = value.extranonce_2_len;
+        if (onSubscribeResult) onSubscribeResult(value);
+        break;
     }
-
-    if (onShareResponse) onShareResponse(id, accepted, error_msg);
+    case RequestKind::Configure: {
+        ConfigureResult value{};
+        if (error.empty() && result.is_object()) {
+            value.enabled = result.value("version-rolling", false);
+            if (value.enabled && result.contains("version-rolling.mask")) {
+                value.version_mask = parse_hex_u32(
+                    result["version-rolling.mask"], "version mask");
+            }
+        }
+        if (onConfigureResult) onConfigureResult(value);
+        break;
+    }
+    case RequestKind::Authorize: {
+        const bool accepted = error.empty() && result.is_boolean() &&
+                              result.get<bool>();
+        if (onAuthorizeResult) onAuthorizeResult(accepted, error);
+        break;
+    }
+    case RequestKind::Submit: {
+        bool accepted = false;
+        if (error.empty()) {
+            if (result.is_boolean()) accepted = result.get<bool>();
+            else if (result.is_object() && result.contains("status") &&
+                     result["status"].is_string()) {
+                accepted = result["status"].get<std::string>() == "ok";
+            }
+        }
+        if (onShareResponse) {
+            onShareResponse(id, pending.board_id, accepted, error);
+        }
+        break;
+    }
+    case RequestKind::SuggestDifficulty:
+        break;
+    }
 }

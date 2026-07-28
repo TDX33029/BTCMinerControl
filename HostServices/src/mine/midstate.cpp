@@ -4,9 +4,10 @@
 #include "midstate.h"
 #include "sha256.h"
 #include <cstring>
+#include <stdexcept>
 
 MinerJob build_job(const JobParams& params, uint8_t job_id) {
-    MinerJob job;
+    MinerJob job{};
     job.job_id = job_id;
     job.ntime = params.ntime;
     job.nbits = params.nbits;
@@ -17,7 +18,9 @@ MinerJob build_job(const JobParams& params, uint8_t job_id) {
 
     // Step 1: Decode prev_block_hash from hex
     uint8_t prev_hash_bin[32];
-    hex2bin(params.prev_block_hash, prev_hash_bin, 32);
+    if (!hex2bin(params.prev_block_hash, prev_hash_bin, 32)) {
+        throw std::invalid_argument("previous block hash must be 32-byte hex");
+    }
 
     // Step 2: Reverse endianness of each 32-bit word in prev_hash
     sha256::reverse_endianness_per_word(prev_hash_bin);

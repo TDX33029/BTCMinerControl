@@ -15,78 +15,84 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\mine\sha256.cpp">
+    <ClCompile Include="..\src\mine\sha256.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\mine\coinbase.cpp">
+    <ClCompile Include="..\src\mine\coinbase.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\mine\merkle.cpp">
+    <ClCompile Include="..\src\mine\merkle.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\mine\midstate.cpp">
+    <ClCompile Include="..\src\mine\midstate.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\mine\verify.cpp">
+    <ClCompile Include="..\src\mine\verify.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\stratum\client.cpp">
+    <ClCompile Include="..\src\stratum\client.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\dispatch\protocol.cpp">
+    <ClCompile Include="..\src\dispatch\protocol.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\dispatch\manager.cpp">
+    <ClCompile Include="..\src\dispatch\manager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\dispatch\scheduler.cpp">
+    <ClCompile Include="..\src\dispatch\scheduler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\dashboard\server.cpp">
+    <ClCompile Include="..\src\dashboard\server.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\config.cpp">
+    <ClCompile Include="..\src\config.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\src\main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\self_test.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\mine\job.h">
+    <ClInclude Include="..\src\mine\job.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\mine\sha256.h">
+    <ClInclude Include="..\src\mine\sha256.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\mine\coinbase.h">
+    <ClInclude Include="..\src\mine\coinbase.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\mine\merkle.h">
+    <ClInclude Include="..\src\mine\merkle.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\mine\midstate.h">
+    <ClInclude Include="..\src\mine\midstate.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\mine\verify.h">
+    <ClInclude Include="..\src\mine\verify.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\stratum\client.h">
+    <ClInclude Include="..\src\stratum\client.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\dispatch\protocol.h">
+    <ClInclude Include="..\src\dispatch\protocol.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\dispatch\manager.h">
+    <ClInclude Include="..\src\dispatch\manager.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\dispatch\scheduler.h">
+    <ClInclude Include="..\src\dispatch\scheduler.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\dashboard\server.h">
+    <ClInclude Include="..\src\dashboard\server.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\config.h">
+    <ClInclude Include="..\src\config.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\self_test.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

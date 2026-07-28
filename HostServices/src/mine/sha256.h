@@ -40,7 +40,7 @@ uint32_t increment_bitmask(uint32_t value, uint32_t mask);
 /// True difficulty-1 target as a double.
 constexpr double TRUE_DIFF_ONE = 26959535291011309493156476344723991336010898738574164086137773096960.0;
 
-/// Convert a 256-bit little-endian hash to pool difficulty (pdiff).
+/// Convert the raw SHA-256 digest (Bitcoin's little-endian uint256) to pdiff.
 double hash_to_pdiff(const uint8_t hash[32]);
 
 /// Compute network difficulty from nBits (compact target format).

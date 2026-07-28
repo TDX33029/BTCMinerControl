@@ -141,6 +141,7 @@
     <ClInclude Include="..\src\dispatch\scheduler.h" />
     <ClInclude Include="..\src\dashboard\server.h" />
     <ClInclude Include="..\src\config.h" />
+    <ClInclude Include="..\src\self_test.h" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\mine\sha256.cpp" />
     <ClCompile Include="..\src\mine\coinbase.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="..\src\dispatch\scheduler.cpp" />
     <ClCompile Include="..\src\dashboard\server.cpp" />
     <ClCompile Include="..\src\config.cpp" />
+    <ClCompile Include="..\src\self_test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

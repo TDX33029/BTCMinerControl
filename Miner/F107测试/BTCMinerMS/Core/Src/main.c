@@ -86,13 +86,15 @@ UART_HandleTypeDef huart2;
 
 #define BM1366_EXPECTED_COUNT  1
 #define BM1366_TARGET_FREQ_MHZ 485.0f
+/* Bench-test switch: allow a received PC job to reach USART1 even when the
+   chip probe finds no BM1366. Disable this on production firmware if desired. */
+#define BM1366_UART_TEST_WITHOUT_ASIC  1
 
 #define FW_VERSION_MAJOR  2
 #define FW_VERSION_MINOR  0
 #define FW_VERSION        ((FW_VERSION_MAJOR << 8) | FW_VERSION_MINOR)
 /* Board ID: read at runtime from the STM32F107 96-bit unique device ID (UID)
    at 0x1FFFF7E8. We use the low 64 bits (UID words 0 and 1). */
-#define UID_BASE  0x1FFFF7E8U
 
 /* ===== Global Variables ===== */
 volatile uint32_t g_ms = 0;
@@ -111,6 +113,7 @@ static const eth_config_t eth_cfg = {
 
 static uint8_t pc_ip_arr[4] = {PC_IP0, PC_IP1, PC_IP2, PC_IP3};
 static uint8_t net_rx_buf[2048];
+static uint16_t net_rx_buffered = 0;
 
 static uint32_t last_reconnect = 0;
 static uint32_t last_hello = 0;
@@ -186,8 +189,9 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_ETH_Init();
-  MX_I2C1_Init();
+  MX_GPIO_Init_Ext();
+  /* ETH and I2C are initialized after the PHY diagnostics below. Calling
+     MX_ETH_Init here can hang before diagnostics when REF_CLK is absent. */
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
@@ -307,7 +311,7 @@ int main(void)
   bm1366_uart_init();
   HAL_Delay(500);
   int chips = bm1366_init_chips(BM1366_EXPECTED_COUNT, BM1366_TARGET_FREQ_MHZ);
-  asic_ready = (chips > 0) ? 1 : 0;
+  asic_ready = (chips > 0) ? chips : 0;
   printf("[SYS] BM1366: %d chip(s)\r\n", chips);
 #else
   asic_ready = 0;
@@ -341,10 +345,12 @@ int main(void)
       int net_ok = eth_is_connected();
       if (net_ok && !connected) {
         connected = 1;
+        net_rx_buffered = 0;
         printf("[NET] TCP OK\r\n");
         send_board_hello();
       } else if (!net_ok && connected) {
         connected = 0;
+        net_rx_buffered = 0;
         printf("[NET] TCP down, will retry\r\n");
       }
     }
@@ -740,8 +746,10 @@ static void check_bm1366_results(void) {
 }
 
 static void receive_tcp_data(void) {
-    int len = eth_recv(net_rx_buf, sizeof(net_rx_buf));
-    if (len <= 0) return;
+    int received = eth_recv(net_rx_buf + net_rx_buffered,
+                            (uint16_t)(sizeof(net_rx_buf) - net_rx_buffered));
+    if (received > 0) net_rx_buffered = (uint16_t)(net_rx_buffered + received);
+    if (net_rx_buffered == 0) return;
 
     /* A single TCP segment may carry several protocol frames back-to-back,
        and they were already ACKed to lwIP inside eth_recv -- so we must walk
@@ -749,12 +757,16 @@ static void receive_tcp_data(void) {
        rest. The wire format is [4B big-endian total][1B type][payload],
        so the payload begins at offset 5 of each frame. */
     uint16_t off = 0;
-    while (off + 5 <= (uint16_t)len) {
+    while (off + 4 <= net_rx_buffered) {
         uint16_t frame_len, payload_len;
-        uint8_t type = protocol_peek_frame(net_rx_buf + off, (uint16_t)len - off,
+        uint8_t type = protocol_peek_frame(net_rx_buf + off, net_rx_buffered - off,
                                            &frame_len, &payload_len);
-        if (type == 0 || frame_len == 0) break;                 /* not a frame / leftover */
-        if ((uint32_t)off + frame_len > (uint32_t)len) break;   /* incomplete, wait for more */
+        if (frame_len == 0xFFFFU) {
+            printf("[TCP] Invalid frame length; dropping buffered stream\r\n");
+            net_rx_buffered = 0;
+            return;
+        }
+        if (type == 0) break;                                  /* incomplete: preserve it */
 
         const uint8_t *payload = net_rx_buf + off + 5;
         printf("[TCP] type=0x%02X frame=%d payload=%d\r\n", type, frame_len, payload_len);
@@ -767,7 +779,10 @@ static void receive_tcp_data(void) {
                     printf("[JOB] id=%d midstates=%d version=0x%08X nbits=0x%08X ntime=0x%08X nonce_start=0x%08X\r\n",
                            job.job_id, job.num_midstates, job.version,
                            job.nbits, job.ntime, job.starting_nonce);
-                    if (asic_ready) bm1366_send_job(&job);
+                    if (asic_ready || BM1366_UART_TEST_WITHOUT_ASIC) {
+                        bm1366_send_job(&job);
+                        if (!asic_ready) printf("[UART1-TEST] Job forwarded without ASIC\r\n");
+                    }
                 }
                 break;
             }
@@ -789,6 +804,14 @@ static void receive_tcp_data(void) {
         }
 
         off += frame_len;
+    }
+
+    if (off > 0) {
+        net_rx_buffered = (uint16_t)(net_rx_buffered - off);
+        if (net_rx_buffered > 0) memmove(net_rx_buf, net_rx_buf + off, net_rx_buffered);
+    } else if (net_rx_buffered == sizeof(net_rx_buf)) {
+        printf("[TCP] Receive frame exceeds buffer; dropping stream\r\n");
+        net_rx_buffered = 0;
     }
 }
 /* USER CODE END 4 */

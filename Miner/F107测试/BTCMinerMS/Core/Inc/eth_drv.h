@@ -31,7 +31,7 @@ int  eth_connect(uint8_t dest_ip[4], uint16_t port);
 int  eth_send(const uint8_t *data, uint16_t len);
 int  eth_recv(uint8_t *buf, uint16_t buf_len);
 int  eth_is_connected(void);
-int  eth_has_ip(void);       /* true once DHCP assigned an IP */
+int  eth_has_ip(void);       /* true once the static IPv4 address is active */
 void eth_poll(void);
 
 #endif

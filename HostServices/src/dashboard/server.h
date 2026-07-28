@@ -20,9 +20,11 @@
 class DashboardServer {
 public:
     DashboardServer();
+    ~DashboardServer();
 
     // Start on port. The BoardManager provides live stats.
-    bool start(uint16_t port, BoardManager* board_mgr);
+    bool start(uint16_t port, BoardManager* board_mgr,
+               const std::string& bind_address = "127.0.0.1");
 
     void stop();
 
@@ -31,6 +33,9 @@ public:
     // Set pool-level stats displayed on the dashboard.
     void setPoolStats(const std::string& pool_url, bool connected,
                       uint64_t accepted, uint64_t rejected, double hashrate_total);
+
+    // Non-empty in local hardware-test modes where no mining pool is used.
+    void setTestMode(const std::string& mode);
 
 private:
     void acceptLoop();
@@ -42,7 +47,11 @@ private:
     std::thread m_thread;
     BoardManager* m_boards = nullptr;
 
+    std::mutex m_clients_mutex;
+    std::vector<SOCKET> m_client_sockets;
+
     mutable std::mutex m_pool_mutex;
+    std::string m_test_mode;
     std::string m_pool_url;
     bool m_pool_connected = false;
     uint64_t m_shares_accepted = 0;
