@@ -33,6 +33,9 @@ enum class MsgType : uint8_t {
     BoardHello   = 0x04,
     SetParams    = 0x05,
     Ack          = 0x06,
+    BoardTelemetry = 0x07,
+    SetPower      = 0x08,
+    LatencyProbe  = 0x09,
     Error        = 0xFF,
 };
 
@@ -65,6 +68,26 @@ struct AsicRegister {
     uint32_t value;
 };
 
+struct BoardTelemetry {
+    uint8_t flags = 0;
+    uint8_t tps_address = 0;
+    uint8_t tmp1075_address = 0;
+    uint8_t power_enabled = 0;
+    uint16_t vout_mv = 0;
+    uint32_t iout_ma = 0;
+    uint32_t power_mw = 0;
+    int16_t tmp1075_temperature_centi_c = 0;
+    int16_t tps_temperature_centi_c = 0;
+    uint16_t tps_status_word = 0;
+
+    bool tpsDetected() const { return (flags & 0x01U) != 0; }
+    bool tmp1075Detected() const { return (flags & 0x02U) != 0; }
+    bool tpsValid() const { return (flags & 0x04U) != 0; }
+    bool tmp1075Valid() const { return (flags & 0x08U) != 0; }
+    bool powerStateValid() const { return (flags & 0x10U) != 0; }
+    bool powerEnabled() const { return powerStateValid() && power_enabled != 0; }
+};
+
 // Encode a job into the binary wire format.
 // Returns the complete framed message ready to send.
 std::vector<uint8_t> encode_job(const MinerJob& job);
@@ -79,8 +102,19 @@ bool decode_board_hello(const uint8_t* data, size_t len, BoardHello& out);
 // Decode an ASIC register message.
 bool decode_asic_register(const uint8_t* data, size_t len, AsicRegister& out);
 
+// Decode board power/temperature telemetry (20-byte payload).
+bool decode_board_telemetry(const uint8_t* data, size_t len,
+                            BoardTelemetry& out);
+
 // Encode a frequency/voltage setting command.
 std::vector<uint8_t> encode_set_params(uint16_t freq_mhz, uint16_t voltage_mv);
+
+// Enable or disable the TPS546D24A output on one board.
+std::vector<uint8_t> encode_set_power(bool enabled);
+
+// Echoed by the board so the host can measure TCP round-trip latency.
+std::vector<uint8_t> encode_latency_probe(uint64_t token);
+bool decode_latency_probe(const uint8_t* data, size_t len, uint64_t& token);
 
 // Encode an ACK message.
 std::vector<uint8_t> encode_ack(uint8_t ack_type);

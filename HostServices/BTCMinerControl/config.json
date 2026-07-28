@@ -1,14 +1,17 @@
 {
+    "board_port": 4028,
+    "board_detection_interval_ms": 5000,
+    "dashboard_credentials": "AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAVwfZRES6YkKAv7nSz3scWQAAAABAAAAAQgBUAEMATQBpAG4AZQByAEMAbwBuAHQAcgBvAGwAIABXAGUAYgAgAGMAcgBlAGQAZQBuAHQAaQBhAGwAcwAAABBmAAAAAQAAIAAAADqbGJ8DHnoPTPkTPfFrAB00XXKbcZpxid+NQ6Qwp6n1AAAAAA6AAAAAAgAAIAAAAIuPth7w+1Tnx4cMGX7Eew/6zJK1GZmfjck5p1FtRJiyMAAAAF5PbZb2BE5YW3G5UPp2R6je8etxSkNPPcYtCSfrIpk0k6XosZfkEaT2Qx711sHDZ0AAAACnaYlpEJczw92JwRW5kmb2XRRcfbMCZIa/WopTSnlEAbC5LWBDzCE1B0W+LAUYucoNkrYIrujTcE+1+gLCDxyb",
+    "dashboard_port": 8080,
+    "frequency_mhz": 485,
+    "min_difficulty": 256,
     "pool": {
         "host": "stratum.braiins.com",
+        "management_url": "https://pool.braiins.com/",
+        "pass": "dl.general",
         "port": 3333,
-        "user": "TDX33029",
-        "pass": "dl.braiins"
+        "user": "h431972"
     },
-    "board_port": 4028,
-    "dashboard_port": 8080,
     "version_rolling": true,
-    "frequency_mhz": 485,
-    "voltage_mv": 1200,
-    "min_difficulty": 256
+    "voltage_mv": 1200
 }

@@ -10,6 +10,7 @@
 #include <cmath>
 #include <cstring>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <thread>
 #include <winsock2.h>
@@ -208,6 +209,30 @@ SOCKET connect_test_board(uint16_t port, uint64_t board_id) {
     return socket_handle;
 }
 
+bool send_test_telemetry(SOCKET socket_handle, bool power_enabled = true) {
+    uint8_t frame[25]{};
+    frame[3] = 21; // type byte plus 20-byte payload
+    frame[4] = 0x07;
+    frame[5] = 0x1F; // devices, readings, and TPS power state are valid
+    frame[6] = 0x24;
+    frame[7] = 0x4A;
+    frame[8] = power_enabled ? 1 : 0;
+    frame[9] = 0x04; frame[10] = 0xB0; // 1200 mV
+    frame[11] = 0x00; frame[12] = 0x00; frame[13] = 0x88; frame[14] = 0xB8; // 35000 mA
+    frame[15] = 0x00; frame[16] = 0x00; frame[17] = 0xA4; frame[18] = 0x10; // 42000 mW
+    frame[19] = 0x18; frame[20] = 0xB5; // TMP1075 63.25 C
+    frame[21] = 0x16; frame[22] = 0xDA; // TPS 58.50 C
+    size_t offset = 0;
+    while (offset < sizeof(frame)) {
+        const int sent = ::send(socket_handle,
+            reinterpret_cast<const char*>(frame + offset),
+            static_cast<int>(sizeof(frame) - offset), 0);
+        if (sent <= 0) return false;
+        offset += static_cast<size_t>(sent);
+    }
+    return true;
+}
+
 bool receive_test_frame(SOCKET socket_handle, std::vector<uint8_t>& frame) {
     int timeout = 2000;
     setsockopt(socket_handle, SOL_SOCKET, SO_RCVTIMEO,
@@ -232,6 +257,26 @@ bool receive_test_frame(SOCKET socket_handle, std::vector<uint8_t>& frame) {
             static_cast<int>(frame.size() - offset), 0);
         if (received <= 0) return false;
         offset += static_cast<size_t>(received);
+    }
+    return true;
+}
+
+bool send_test_frame(SOCKET socket_handle, const std::vector<uint8_t>& frame) {
+    if (frame.empty() || frame.size() > 4096) return false;
+    std::vector<uint8_t> wire(frame.size() + 4);
+    const uint32_t length = static_cast<uint32_t>(frame.size());
+    wire[0] = static_cast<uint8_t>(length >> 24);
+    wire[1] = static_cast<uint8_t>(length >> 16);
+    wire[2] = static_cast<uint8_t>(length >> 8);
+    wire[3] = static_cast<uint8_t>(length);
+    std::copy(frame.begin(), frame.end(), wire.begin() + 4);
+    size_t offset = 0;
+    while (offset < wire.size()) {
+        const int sent = ::send(socket_handle,
+            reinterpret_cast<const char*>(wire.data() + offset),
+            static_cast<int>(wire.size() - offset), 0);
+        if (sent <= 0) return false;
+        offset += static_cast<size_t>(sent);
     }
     return true;
 }
@@ -275,6 +320,70 @@ bool fetch_dashboard_stats(uint16_t port, nlohmann::json& stats) {
     } catch (...) {
         return false;
     }
+}
+
+bool post_dashboard_power(uint16_t port, uint64_t board_id, bool enabled) {
+    SOCKET client = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (client == INVALID_SOCKET) return false;
+
+    sockaddr_in address{};
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+    address.sin_port = htons(port);
+    if (::connect(client, reinterpret_cast<sockaddr*>(&address),
+                  sizeof(address)) != 0) {
+        closesocket(client);
+        return false;
+    }
+
+    std::ostringstream id;
+    id << std::hex << std::uppercase << board_id;
+    const std::string request =
+        "POST /api/board-power?id=" + id.str() +
+        "&enabled=" + (enabled ? "1" : "0") +
+        " HTTP/1.1\r\nHost: 127.0.0.1\r\n"
+        "X-BTCMiner-Control: 1\r\nConnection: close\r\n\r\n";
+    bool ok = socket_send_all(client, request);
+    std::string response;
+    char buffer[512];
+    while (ok) {
+        const int received = recv(client, buffer, sizeof(buffer), 0);
+        if (received == 0) break;
+        if (received < 0) { ok = false; break; }
+        response.append(buffer, static_cast<size_t>(received));
+    }
+    closesocket(client);
+    return ok && response.rfind("HTTP/1.1 200", 0) == 0;
+}
+
+bool post_dashboard_action(uint16_t port, const std::string& target) {
+    SOCKET client = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (client == INVALID_SOCKET) return false;
+
+    sockaddr_in address{};
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+    address.sin_port = htons(port);
+    if (::connect(client, reinterpret_cast<sockaddr*>(&address),
+                  sizeof(address)) != 0) {
+        closesocket(client);
+        return false;
+    }
+
+    const std::string request =
+        "POST " + target + " HTTP/1.1\r\nHost: 127.0.0.1\r\n"
+        "X-BTCMiner-Control: 1\r\nConnection: close\r\n\r\n";
+    bool ok = socket_send_all(client, request);
+    std::string response;
+    char buffer[512];
+    while (ok) {
+        const int received = recv(client, buffer, sizeof(buffer), 0);
+        if (received == 0) break;
+        if (received < 0) { ok = false; break; }
+        response.append(buffer, static_cast<size_t>(received));
+    }
+    closesocket(client);
+    return ok && response.rfind("HTTP/1.1 200", 0) == 0;
 }
 
 bool test_multiboard_work_construction() {
@@ -373,6 +482,69 @@ bool test_chip_test_work_rotation() {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     ok &= !boards.getStats().empty();
+    if (ok) ok &= send_test_telemetry(board);
+    const auto telemetry_deadline = std::chrono::steady_clock::now() +
+                                    std::chrono::seconds(2);
+    while (ok && !boards.getStats().empty() &&
+           boards.getStats()[0].telemetry_updated == 0 &&
+           std::chrono::steady_clock::now() < telemetry_deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    ok &= !boards.getStats().empty() &&
+          boards.getStats()[0].telemetry_updated != 0;
+
+    std::vector<uint8_t> power_frame;
+    if (ok) ok &= post_dashboard_power(dashboard_port, board_id, false);
+    if (ok) ok &= receive_test_frame(board, power_frame);
+    if (ok) ok &= power_frame.size() == 2 &&
+                  power_frame[0] == 0x08 && power_frame[1] == 0x00;
+    if (ok) ok &= send_test_telemetry(board, false);
+    const auto power_deadline = std::chrono::steady_clock::now() +
+                                std::chrono::seconds(2);
+    while (ok && !boards.getStats().empty() &&
+           boards.getStats()[0].telemetry.powerEnabled() &&
+           std::chrono::steady_clock::now() < power_deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    ok &= !boards.getStats().empty() &&
+          boards.getStats()[0].telemetry.powerStateValid() &&
+          !boards.getStats()[0].telemetry.powerEnabled();
+
+    std::ostringstream latency_id;
+    latency_id << std::hex << std::uppercase << board_id;
+    std::vector<uint8_t> latency_frame;
+    if (ok) ok &= post_dashboard_action(
+        dashboard_port, "/api/board-latency?id=" + latency_id.str());
+    if (ok) ok &= receive_test_frame(board, latency_frame);
+    if (ok) ok &= latency_frame.size() == 9 &&
+                  latency_frame[0] == static_cast<uint8_t>(MsgType::LatencyProbe);
+    if (ok) ok &= send_test_frame(board, latency_frame);
+    const auto latency_deadline = std::chrono::steady_clock::now() +
+                                  std::chrono::seconds(2);
+    while (ok && !boards.getStats().empty() &&
+           !boards.getStats()[0].latency_valid &&
+           std::chrono::steady_clock::now() < latency_deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
+    ok &= !boards.getStats().empty() && boards.getStats()[0].latency_valid;
+
+    uint64_t first_latency_update =
+        ok && !boards.getStats().empty() ? boards.getStats()[0].latency_updated : 0;
+    latency_frame.clear();
+    if (ok) ok &= post_dashboard_action(dashboard_port, "/api/board-latency-all");
+    if (ok) ok &= receive_test_frame(board, latency_frame);
+    if (ok) ok &= latency_frame.size() == 9 &&
+                  latency_frame[0] == static_cast<uint8_t>(MsgType::LatencyProbe);
+    if (ok) ok &= send_test_frame(board, latency_frame);
+    const auto all_latency_deadline = std::chrono::steady_clock::now() +
+                                      std::chrono::seconds(2);
+    while (ok && !boards.getStats().empty() &&
+           boards.getStats()[0].latency_updated <= first_latency_update &&
+           std::chrono::steady_clock::now() < all_latency_deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
+    ok &= !boards.getStats().empty() && boards.getStats()[0].latency_valid &&
+          boards.getStats()[0].latency_updated > first_latency_update;
 
     std::vector<uint8_t> first_frame, second_frame;
     if (ok) ok &= scheduler.dispatchChipTestWork(board_id);
@@ -405,6 +577,10 @@ bool test_chip_test_work_rotation() {
     ok &= fetch_dashboard_stats(dashboard_port, stats);
     if (ok) {
         ok &= stats.value("test_mode", std::string()) == "CHIP TEST";
+        ok &= stats.value("board_port", 0) == port;
+        ok &= stats.value("dashboard_port", 0) == dashboard_port;
+        ok &= stats.value("board_detection_interval_ms", 0) == 5000;
+        ok &= stats.value("uptime_ms", -1LL) >= 0;
         ok &= stats.contains("boards") && stats["boards"].size() == 1;
         if (stats.contains("boards") && stats["boards"].size() == 1) {
             const auto& board_stats = stats["boards"][0];
@@ -412,8 +588,49 @@ bool test_chip_test_work_rotation() {
             ok &= board_stats.value("jobs_sent", 0) == 2;
             ok &= board_stats.value("nonces_returned", 0) == 1;
             ok &= board_stats.value("best_diff", 0.0) == 300.0;
+            ok &= board_stats.value("tps_detected", false);
+            ok &= board_stats.value("tmp1075_detected", false);
+            ok &= board_stats.value("tps_telemetry_valid", false);
+            ok &= board_stats.value("tmp1075_telemetry_valid", false);
+            ok &= board_stats.value("power_state_valid", false);
+            ok &= !board_stats.value("power_enabled", true);
+            ok &= board_stats.value("board_id_hex", std::string()) == "1366";
+            ok &= std::abs(board_stats.value("power_w", 0.0) - 42.0) < 0.001;
+            ok &= std::abs(board_stats.value("temperature_c", 0.0) - 63.25) < 0.001;
+            ok &= board_stats.value("latency_valid", false);
+            ok &= !board_stats.value("latency_pending", true);
+            ok &= !board_stats.value("latency_timeout", true);
+            ok &= board_stats.value("latency_ms", -1.0) >= 0.0;
+        }
+        ok &= stats.contains("events") && !stats["events"].empty();
+        if (stats.contains("events") && !stats["events"].empty()) {
+            const std::string timestamp =
+                stats["events"][0].value("timestamp", std::string());
+            ok &= timestamp.size() == 23 && timestamp[4] == ':' &&
+                  timestamp[7] == ':' && timestamp[10] == ' ' &&
+                  timestamp[13] == ':' && timestamp[16] == ':' &&
+                  timestamp[19] == '.';
         }
     }
+
+    const uint64_t periodic_latency_before =
+        ok && !boards.getStats().empty()
+            ? boards.getStats()[0].latency_updated : 0;
+    if (ok) ok &= boards.setDetectionIntervalMs(1000);
+    latency_frame.clear();
+    if (ok) ok &= receive_test_frame(board, latency_frame);
+    if (ok) ok &= latency_frame.size() == 9 &&
+                  latency_frame[0] == static_cast<uint8_t>(MsgType::LatencyProbe);
+    if (ok) ok &= send_test_frame(board, latency_frame);
+    const auto periodic_latency_deadline =
+        std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    while (ok && !boards.getStats().empty() &&
+           boards.getStats()[0].latency_updated <= periodic_latency_before &&
+           std::chrono::steady_clock::now() < periodic_latency_deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
+    ok &= !boards.getStats().empty() && boards.getStats()[0].latency_valid &&
+          boards.getStats()[0].latency_updated > periodic_latency_before;
 
     if (board != INVALID_SOCKET) closesocket(board);
     dashboard.stop();
@@ -493,6 +710,36 @@ bool run_self_tests() {
     const auto frame = encode_job(job);
     ok &= check(frame.size() == 119 && frame[4] == 0x01 && frame[5] == 0x08,
                 "PC-to-board job frame");
+    const uint8_t telemetry_payload[20] = {
+        0x1F, 0x24, 0x4A, 0x01, 0x04, 0xB0,
+        0x00, 0x00, 0x88, 0xB8, 0x00, 0x00, 0xA4, 0x10,
+        0xFF, 0x9C, 0x16, 0xDA, 0x12, 0x34
+    };
+    BoardTelemetry telemetry{};
+    ok &= check(decode_board_telemetry(telemetry_payload,
+                                       sizeof(telemetry_payload), telemetry) &&
+                telemetry.tpsDetected() && telemetry.tmp1075Detected() &&
+                telemetry.powerStateValid() && telemetry.powerEnabled() &&
+                telemetry.vout_mv == 1200 && telemetry.iout_ma == 35000 &&
+                telemetry.power_mw == 42000 &&
+                telemetry.tmp1075_temperature_centi_c == -100 &&
+                telemetry.tps_temperature_centi_c == 5850 &&
+                telemetry.tps_status_word == 0x1234,
+                "board telemetry decode");
+    const auto power_off_frame = encode_set_power(false);
+    ok &= check(power_off_frame.size() == 6 &&
+                power_off_frame[3] == 2 && power_off_frame[4] == 0x08 &&
+                power_off_frame[5] == 0,
+                "per-board TPS power command");
+    const uint64_t latency_token = 0x0123456789ABCDEFULL;
+    const auto latency_probe = encode_latency_probe(latency_token);
+    uint64_t decoded_latency_token = 0;
+    ok &= check(latency_probe.size() == 13 && latency_probe[3] == 9 &&
+                latency_probe[4] == 0x09 &&
+                decode_latency_probe(latency_probe.data() + 5, 8,
+                                     decoded_latency_token) &&
+                decoded_latency_token == latency_token,
+                "board latency probe frame");
     ok &= check(test_fragmented_board_frames(),
                 "fragmented/coalesced board TCP frames");
     ok &= check(test_stratum_response_routing(),

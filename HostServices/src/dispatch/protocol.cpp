@@ -30,6 +30,10 @@ static uint32_t read_u32(const uint8_t* buf) {
          | (uint32_t(buf[2]) << 8)  |  uint32_t(buf[3]);
 }
 
+static uint16_t read_u16(const uint8_t* buf) {
+    return (uint16_t(buf[0]) << 8) | uint16_t(buf[1]);
+}
+
 static uint64_t read_u64(const uint8_t* buf) {
     uint64_t v = 0;
     for (int i = 0; i < 8; i++) {
@@ -127,6 +131,25 @@ bool decode_asic_register(const uint8_t* data, size_t len, AsicRegister& out) {
     return true;
 }
 
+bool decode_board_telemetry(const uint8_t* data, size_t len,
+                            BoardTelemetry& out) {
+    if (data == nullptr || len < 20) return false;
+
+    out.flags = data[0];
+    out.tps_address = data[1];
+    out.tmp1075_address = data[2];
+    out.power_enabled = data[3];
+    out.vout_mv = read_u16(data + 4);
+    out.iout_ma = read_u32(data + 6);
+    out.power_mw = read_u32(data + 10);
+    out.tmp1075_temperature_centi_c =
+        static_cast<int16_t>(read_u16(data + 14));
+    out.tps_temperature_centi_c =
+        static_cast<int16_t>(read_u16(data + 16));
+    out.tps_status_word = read_u16(data + 18);
+    return true;
+}
+
 // ---------------------------------------------------------------------------
 // Encode set params
 // ---------------------------------------------------------------------------
@@ -135,6 +158,23 @@ std::vector<uint8_t> encode_set_params(uint16_t freq_mhz, uint16_t voltage_mv) {
     write_u16(payload, freq_mhz);
     write_u16(payload + 2, voltage_mv);
     return frame_message(MsgType::SetParams, payload, 4);
+}
+
+std::vector<uint8_t> encode_set_power(bool enabled) {
+    const uint8_t payload = enabled ? 1U : 0U;
+    return frame_message(MsgType::SetPower, &payload, 1);
+}
+
+std::vector<uint8_t> encode_latency_probe(uint64_t token) {
+    uint8_t payload[8];
+    write_u64(payload, token);
+    return frame_message(MsgType::LatencyProbe, payload, sizeof(payload));
+}
+
+bool decode_latency_probe(const uint8_t* data, size_t len, uint64_t& token) {
+    if (data == nullptr || len != 8) return false;
+    token = read_u64(data);
+    return true;
 }
 
 // ---------------------------------------------------------------------------

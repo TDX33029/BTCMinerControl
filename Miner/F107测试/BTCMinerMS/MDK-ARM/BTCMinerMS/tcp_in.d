@@ -8,14 +8,14 @@ btcminerms\tcp_in.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
 btcminerms\tcp_in.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
 btcminerms\tcp_in.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f107xc.h
 btcminerms\tcp_in.o: ../Drivers/CMSIS/Include/core_cm3.h
-btcminerms\tcp_in.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+btcminerms\tcp_in.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 btcminerms\tcp_in.o: ../Drivers/CMSIS/Include/cmsis_version.h
 btcminerms\tcp_in.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 btcminerms\tcp_in.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 btcminerms\tcp_in.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
 btcminerms\tcp_in.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 btcminerms\tcp_in.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-btcminerms\tcp_in.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
+btcminerms\tcp_in.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 btcminerms\tcp_in.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
 btcminerms\tcp_in.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
 btcminerms\tcp_in.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h
@@ -32,10 +32,10 @@ btcminerms\tcp_in.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 btcminerms\tcp_in.o: ../Library/LwIP/src/include/lwip/debug.h
 btcminerms\tcp_in.o: ../Library/LwIP/src/include/lwip/arch.h
 btcminerms\tcp_in.o: ../Library/LwIP/src/include/lwip/arch/cc.h
-btcminerms\tcp_in.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\string.h
-btcminerms\tcp_in.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\inttypes.h
-btcminerms\tcp_in.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\limits.h
-btcminerms\tcp_in.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\ctype.h
+btcminerms\tcp_in.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+btcminerms\tcp_in.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
+btcminerms\tcp_in.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
+btcminerms\tcp_in.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
 btcminerms\tcp_in.o: ../Library/LwIP/src/include/lwip/opt.h
 btcminerms\tcp_in.o: ../Library/LwIP/src/include/lwip/priv/tcp_priv.h
 btcminerms\tcp_in.o: ../Library/LwIP/src/include/lwip/tcp.h

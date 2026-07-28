@@ -82,10 +82,21 @@ int main(int argc, char* argv[]) {
                  "============================================" << std::endl;
 
     const AppConfig config = load_config(config_path);
+    if (!config.dashboard_credentials_protected &&
+        !save_dashboard_credentials(config_path, config.dashboard_username,
+                                    config.dashboard_password)) {
+        std::cerr << "[config] Warning: Web credentials could not be protected"
+                  << std::endl;
+    }
     const std::string pool_label = config.pool_host + ':' +
                                    std::to_string(config.pool_port);
 
     BoardManager board_manager;
+    if (!board_manager.setDetectionIntervalMs(
+            config.board_detection_interval_ms)) {
+        std::cerr << "[main] Invalid board detection interval" << std::endl;
+        return 1;
+    }
     if (!board_manager.start(config.board_port)) {
         std::cerr << "[main] Failed to start board server" << std::endl;
         return 1;
@@ -94,11 +105,15 @@ int main(int argc, char* argv[]) {
     WorkScheduler scheduler(board_manager);
     DashboardServer dashboard;
     if (!dashboard.start(config.dashboard_port, &board_manager,
-                         config.dashboard_bind)) {
+                         config.dashboard_bind, config.dashboard_username,
+                         config.dashboard_password, config_path,
+                         config.board_port,
+                         config.board_detection_interval_ms)) {
         std::cerr << "[main] Failed to start dashboard" << std::endl;
         board_manager.stop();
         return 1;
     }
+    dashboard.setPoolManagementUrl(config.pool_management_url);
 
     StratumClient stratum;
 

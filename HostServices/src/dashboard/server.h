@@ -24,7 +24,12 @@ public:
 
     // Start on port. The BoardManager provides live stats.
     bool start(uint16_t port, BoardManager* board_mgr,
-               const std::string& bind_address = "127.0.0.1");
+               const std::string& bind_address = "127.0.0.1",
+               const std::string& username = "TDX33029",
+               const std::string& password = std::string(),
+               const std::string& config_path = std::string(),
+               uint16_t configured_board_port = 0,
+               uint32_t detection_interval_ms = 5000);
 
     void stop();
 
@@ -33,6 +38,7 @@ public:
     // Set pool-level stats displayed on the dashboard.
     void setPoolStats(const std::string& pool_url, bool connected,
                       uint64_t accepted, uint64_t rejected, double hashrate_total);
+    void setPoolManagementUrl(const std::string& url);
 
     // Non-empty in local hardware-test modes where no mining pool is used.
     void setTestMode(const std::string& mode);
@@ -46,6 +52,13 @@ private:
     std::atomic<bool> m_stop{false};
     std::thread m_thread;
     BoardManager* m_boards = nullptr;
+    std::string m_dashboard_username;
+    std::string m_dashboard_password;
+    std::string m_config_path;
+    uint16_t m_dashboard_port = 0;
+    uint16_t m_configured_board_port = 0;
+    uint16_t m_configured_dashboard_port = 0;
+    uint64_t m_started_ms = 0;
 
     std::mutex m_clients_mutex;
     std::vector<SOCKET> m_client_sockets;
@@ -53,6 +66,7 @@ private:
     mutable std::mutex m_pool_mutex;
     std::string m_test_mode;
     std::string m_pool_url;
+    std::string m_pool_management_url;
     bool m_pool_connected = false;
     uint64_t m_shares_accepted = 0;
     uint64_t m_shares_rejected = 0;

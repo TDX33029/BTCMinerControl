@@ -5,6 +5,8 @@
 "btcminerms\delay.o"
 "btcminerms\eth_drv.o"
 "btcminerms\protocol.o"
+"btcminerms\tps546d24a.o"
+"btcminerms\tmp1075.o"
 "btcminerms\lwip_eth.o"
 "btcminerms\main.o"
 "btcminerms\stm32f1xx_it.o"

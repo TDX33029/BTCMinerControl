@@ -18,6 +18,8 @@
 #include "lwip_eth.h"
 #include "debug_serial.h"
 #include "Delay.h"
+#include "tps546d24a.h"
+#include "tmp1075.h"
 #include <string.h>
 #include <stdio.h>
 /* USER CODE END Includes */
@@ -91,7 +93,7 @@ UART_HandleTypeDef huart2;
 #define BM1366_UART_TEST_WITHOUT_ASIC  1
 
 #define FW_VERSION_MAJOR  2
-#define FW_VERSION_MINOR  0
+#define FW_VERSION_MINOR  4
 #define FW_VERSION        ((FW_VERSION_MAJOR << 8) | FW_VERSION_MINOR)
 /* Board ID: read at runtime from the STM32F107 96-bit unique device ID (UID)
    at 0x1FFFF7E8. We use the low 64 bits (UID words 0 and 1). */
@@ -117,6 +119,16 @@ static uint16_t net_rx_buffered = 0;
 
 static uint32_t last_reconnect = 0;
 static uint32_t last_hello = 0;
+static uint32_t last_sensor_probe = 0;
+static uint32_t last_telemetry_sample = 0;
+static tps546d24a_t tps546d24a;
+static tmp1075_t tmp1075;
+static uint8_t tps_detected = 0;
+static uint8_t tmp_detected = 0;
+static uint8_t tps_reported_state = 0xFFU;
+static uint8_t tmp_reported_state = 0xFFU;
+static uint8_t tps_desired_enabled = 1;
+static protocol_telemetry_t board_telemetry;
 
 /* USER CODE END PV */
 
@@ -134,6 +146,9 @@ static void MX_GPIO_Init_Ext(void);
 
 /* Board hello / nonce send / TCP recv helpers */
 static void send_board_hello(void);
+static void send_board_telemetry(void);
+static void probe_i2c_devices(void);
+static void sample_i2c_telemetry(void);
 static void check_bm1366_results(void);
 static void receive_tcp_data(void);
 
@@ -280,6 +295,13 @@ int main(void)
   MX_I2C1_Init();
   printf("[DIAG] I2C init done\r\n");
 
+  tps546d24a_init(&tps546d24a, &hi2c1);
+  tmp1075_init(&tmp1075, &hi2c1);
+  probe_i2c_devices();
+  sample_i2c_telemetry();
+  last_sensor_probe = HAL_GetTick();
+  last_telemetry_sample = last_sensor_probe;
+
   /* ?? network banner */
   printf("[NET] MAC: %02X:%02X:%02X:%02X:%02X:%02X\r\n",
          eth_cfg.mac[0], eth_cfg.mac[1], eth_cfg.mac[2],
@@ -321,8 +343,6 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  printf("[LOOP] Entered main loop\r\n");
-  static uint32_t last_beat = 0;
   static uint32_t last_led_toggle = 0;
   static uint32_t last_status     = 0;
   (void)last_reconnect; (void)last_hello;   /* file-scope static */
@@ -330,12 +350,6 @@ int main(void)
   while (1) {
     uint32_t now = HAL_GetTick();
 
-
-    /* ???? "." ??????? */
-    if ((now - last_beat) > 1000) {
-        last_beat = now;
-        printf("[LOOP] . tick=%lu\r\n", (unsigned long)now);
-    }
 
     /* Drive the local 'connected' flag off the real TCP state in eth_drv.
        eth_connect() returns 0 right after issuing the (async) connect, and
@@ -348,6 +362,7 @@ int main(void)
         net_rx_buffered = 0;
         printf("[NET] TCP OK\r\n");
         send_board_hello();
+        send_board_telemetry();
       } else if (!net_ok && connected) {
         connected = 0;
         net_rx_buffered = 0;
@@ -365,6 +380,18 @@ int main(void)
     eth_poll();
     receive_tcp_data();
     check_bm1366_results();
+
+    if ((!tps_detected || !tmp_detected) &&
+        (now - last_sensor_probe) >= 10000U) {
+      last_sensor_probe = now;
+      probe_i2c_devices();
+    }
+
+    if ((now - last_telemetry_sample) >= 2000U) {
+      last_telemetry_sample = now;
+      sample_i2c_telemetry();
+      if (connected) send_board_telemetry();
+    }
 
   if (connected && (now - last_hello) > 20000) {   /* 20s keepalive hello (was 60s -- server closed on idle) */
       last_hello = now;
@@ -394,16 +421,8 @@ int main(void)
         }
     }
 
-    /* ? 3 ????????????????????? */
-    { static uint32_t alive_cnt = 0;
-      alive_cnt++;
-      if ((alive_cnt % 100000) == 0) {
-          printf("[ALIVE] loop cnt=%lu tick=%lu\r\n",
-                 (unsigned long)alive_cnt, (unsigned long)now);
-      }
-    }
-
-    HAL_Delay(1);   /* was 10ms -- that made ping latency jump to ~10ms; 1ms keeps RX responsive */
+    /* Do not delay here. Ethernet RX is polled, so even a 1 ms sleep adds
+       directly to ICMP and host-to-board command latency. */
   }  /* while(1) */
 
   /* Prevent watchdog-like reset */;
@@ -718,6 +737,78 @@ static void send_board_hello(void) {
     }
 }
 
+static void probe_i2c_devices(void) {
+    if (!tps_detected) {
+        tps_detected = tps546d24a_probe(&tps546d24a);
+        if (tps_detected &&
+            !tps546d24a_set_enabled(&tps546d24a, tps_desired_enabled)) {
+            printf("[I2C] TPS546D24A default power command failed\r\n");
+        }
+    }
+    if (!tmp_detected) tmp_detected = tmp1075_probe(&tmp1075);
+    if (tps_reported_state != tps_detected) {
+        printf("[I2C] TPS546D24A @0x%02X: %s\r\n",
+               TPS546D24A_I2C_ADDRESS,
+               tps_detected ? "detected" : "not detected");
+        tps_reported_state = tps_detected;
+    }
+    if (tmp_reported_state != tmp_detected) {
+        if (tmp_detected) {
+            printf("[I2C] TMP1075 @0x%02X: detected\r\n", tmp1075.address);
+        } else {
+            printf("[I2C] TMP1075 @0x48-0x4F: not detected\r\n");
+        }
+        tmp_reported_state = tmp_detected;
+    }
+}
+
+static void sample_i2c_telemetry(void) {
+    tps546d24a_telemetry_t tps_data;
+    int16_t tmp_temperature = 0;
+    uint8_t tps_valid = 0;
+    uint8_t tmp_valid = 0;
+
+    memset(&board_telemetry, 0, sizeof(board_telemetry));
+    if (tps_detected) {
+        tps_valid = tps546d24a_read_telemetry(&tps546d24a, &tps_data);
+        if (tps_valid) {
+            board_telemetry.vout_mv = tps_data.vout_mv;
+            board_telemetry.iout_ma = tps_data.iout_ma;
+            board_telemetry.power_mw = tps_data.power_mw;
+            board_telemetry.tps_temperature_centi_c = tps_data.temperature_centi_c;
+            board_telemetry.tps_status_word = tps_data.status_word;
+            board_telemetry.power_enabled = tps_data.enabled;
+        } else if (!tps546d24a_probe(&tps546d24a)) {
+            tps_detected = 0;
+        }
+    }
+
+    if (tmp_detected) {
+        tmp_valid = tmp1075_read_temperature(&tmp1075, &tmp_temperature);
+        if (tmp_valid) {
+            board_telemetry.tmp_temperature_centi_c = tmp_temperature;
+        } else if (HAL_I2C_IsDeviceReady(&hi2c1,
+                   (uint16_t)(tmp1075.address << 1), 1, 20) != HAL_OK) {
+            tmp_detected = 0;
+            tmp1075.address = 0;
+        }
+    }
+
+    if (tps_detected) board_telemetry.flags |= TELEMETRY_FLAG_TPS_DETECTED;
+    if (tmp_detected) board_telemetry.flags |= TELEMETRY_FLAG_TMP_DETECTED;
+    if (tps_valid) board_telemetry.flags |= TELEMETRY_FLAG_TPS_VALID;
+    if (tmp_valid) board_telemetry.flags |= TELEMETRY_FLAG_TMP_VALID;
+    if (tps_valid) board_telemetry.flags |= TELEMETRY_FLAG_POWER_VALID;
+    board_telemetry.tps_address = tps_detected ? tps546d24a.address : 0;
+    board_telemetry.tmp_address = tmp_detected ? tmp1075.address : 0;
+}
+
+static void send_board_telemetry(void) {
+    uint8_t buf[32];
+    uint16_t len = protocol_encode_telemetry(&board_telemetry, buf);
+    if (len > 0) eth_send(buf, len);
+}
+
 static void check_bm1366_results(void) {
     if (!asic_ready) return;
     bm1366_result_raw_t raw;
@@ -769,7 +860,9 @@ static void receive_tcp_data(void) {
         if (type == 0) break;                                  /* incomplete: preserve it */
 
         const uint8_t *payload = net_rx_buf + off + 5;
-        printf("[TCP] type=0x%02X frame=%d payload=%d\r\n", type, frame_len, payload_len);
+        if (type != MSG_LATENCY_PROBE) {
+            printf("[TCP] type=0x%02X frame=%d payload=%d\r\n", type, frame_len, payload_len);
+        }
 
         switch (type) {
             case MSG_JOB: {
@@ -792,6 +885,35 @@ static void receive_tcp_data(void) {
                     printf("[PARAM] freq=%d MHz voltage=%d mV\r\n",
                            params.freq_mhz, params.voltage_mv);
                     if (asic_ready) bm1366_frequency_transition((float)params.freq_mhz, 100);
+                }
+                break;
+            }
+            case MSG_SET_POWER: {
+                protocol_setpower_t power;
+                uint8_t reply[64];
+                uint16_t reply_len;
+                if (!protocol_decode_setpower(payload, payload_len, &power)) {
+                    reply_len = protocol_encode_error(0x20, "invalid power command", reply);
+                } else if (!tps_detected) {
+                    reply_len = protocol_encode_error(0x21, "TPS546D24A not detected", reply);
+                } else if (!tps546d24a_set_enabled(&tps546d24a, power.enabled)) {
+                    reply_len = protocol_encode_error(0x22, "TPS546D24A power command failed", reply);
+                } else {
+                    tps_desired_enabled = power.enabled;
+                    printf("[POWER] TPS546D24A %s\r\n", power.enabled ? "ON" : "OFF");
+                    sample_i2c_telemetry();
+                    send_board_telemetry();
+                    reply_len = protocol_encode_ack(MSG_SET_POWER, reply);
+                }
+                if (reply_len > 0) eth_send(reply, reply_len);
+                break;
+            }
+            case MSG_LATENCY_PROBE: {
+                protocol_latency_t latency;
+                uint8_t reply[16];
+                if (protocol_decode_latency(payload, payload_len, &latency)) {
+                    uint16_t reply_len = protocol_encode_latency(&latency, reply);
+                    if (reply_len > 0) eth_send(reply, reply_len);
                 }
                 break;
             }

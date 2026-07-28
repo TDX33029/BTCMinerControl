@@ -63,6 +63,29 @@
      params->voltage_mv = ((uint16_t)data[2] << 8) | data[3];
      return 1;
  }
+
+ static uint64_t read_u64(const uint8_t *buf) {
+     uint64_t value = 0;
+     int i;
+     for (i = 0; i < 8; i++) {
+         value = (value << 8) | buf[i];
+     }
+     return value;
+ }
+
+ int protocol_decode_setpower(const uint8_t *data, uint16_t len,
+                              protocol_setpower_t *power) {
+     if (len < 1 || data[0] > 1) return 0;
+     power->enabled = data[0];
+     return 1;
+ }
+
+ int protocol_decode_latency(const uint8_t *data, uint16_t len,
+                             protocol_latency_t *latency) {
+     if (data == NULL || latency == NULL || len != 8) return 0;
+     latency->token = read_u64(data);
+     return 1;
+ }
  
  uint16_t protocol_encode_hello(const protocol_hello_t *hello, uint8_t *buf) {
      uint8_t payload[12];
@@ -97,6 +120,29 @@
  
  uint16_t protocol_encode_ack(uint8_t ack_type, uint8_t *buf) {
      return build_frame(MSG_ACK, &ack_type, 1, buf);
+ }
+
+ uint16_t protocol_encode_telemetry(const protocol_telemetry_t *telemetry,
+                                    uint8_t *buf) {
+     uint8_t payload[20];
+     payload[0] = telemetry->flags;
+     payload[1] = telemetry->tps_address;
+     payload[2] = telemetry->tmp_address;
+     payload[3] = telemetry->power_enabled;
+     write_u16(payload + 4, telemetry->vout_mv);
+     write_u32(payload + 6, telemetry->iout_ma);
+     write_u32(payload + 10, telemetry->power_mw);
+     write_u16(payload + 14, (uint16_t)telemetry->tmp_temperature_centi_c);
+     write_u16(payload + 16, (uint16_t)telemetry->tps_temperature_centi_c);
+     write_u16(payload + 18, telemetry->tps_status_word);
+     return build_frame(MSG_BOARD_TELEMETRY, payload, sizeof(payload), buf);
+ }
+
+ uint16_t protocol_encode_latency(const protocol_latency_t *latency,
+                                  uint8_t *buf) {
+     uint8_t payload[8];
+     write_u64(payload, latency->token);
+     return build_frame(MSG_LATENCY_PROBE, payload, sizeof(payload), buf);
  }
  
  uint16_t protocol_encode_error(uint8_t code, const char *msg, uint8_t *buf) {

@@ -1,4 +1,2 @@
-﻿  manager.cpp
-  client.cpp
-  正在生成代码...
-  BTCMinerControl.vcxproj -> D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\x64\Debug\BTCMinerControl.exe
+﻿  server.cpp
+  BTCMinerControl.vcxproj -> D:\Document\tempPrj\BTCMinerControl\HostServices\x64\Debug\BTCMinerControl.exe

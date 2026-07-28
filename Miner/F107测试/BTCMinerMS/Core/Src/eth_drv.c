@@ -332,6 +332,7 @@ static err_t tcp_client_connected(void *arg, struct tcp_pcb *pcb, err_t err) {
     (void)arg;
     if (err == ERR_OK) {
         tcp_connected = 1;
+        tcp_nagle_disable(pcb);  /* send control replies without Nagle delay */
         printf("[TCP] Connected to %d.%d.%d.%d:%d\r\n",
                ip4_addr1(&server_ip), ip4_addr2(&server_ip),
                ip4_addr3(&server_ip), ip4_addr4(&server_ip), server_port);
