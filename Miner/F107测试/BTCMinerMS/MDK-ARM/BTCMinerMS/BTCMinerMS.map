@@ -3792,47 +3792,47 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-      2418        288          0          8       1035     668926   bm1366.o
-        24          4          0          0          0       1736   debug_serial.o
-         8          0          0          0          0       1002   def.o
-      3876       1948        213         32       4144      39536   eth_drv.o
-       680        162         83         16       7760       6888   eth_netif.o
-      1432         56          0          1         96      11016   etharp.o
-       238          4         12          0          0       2574   ethernet.o
-       444          6          0          0          0       3165   icmp.o
-       334          0          0          0          0      13268   inet_chksum.o
-        26          0          0          0          0      15398   init.o
-         0          0          0          0         24       3230   ip.o
-       738         34          0          2          0       5240   ip4.o
-        46          0          4          0          0       8650   ip4_addr.o
-       492        106         66          0          0       5928   lwip_eth.o
-      4800       1934        392         88       2372      12688   main.o
-        30          0          0          0          0       2014   mem.o
-       178         16         96         24      13744       9352   memp.o
-       538         30          0         12          0      13640   netif.o
-      1048         16          0          1          0      26153   pbuf.o
-       784          6          0          0          0      10992   protocol.o
-        36          8        336          0       1536        840   startup_stm32f10x_cl.o
-       172         30          0         12          0       7081   stm32f1xx_hal.o
-       208         16          0          0          0      28751   stm32f1xx_hal_cortex.o
-      1238         34          0          0          0       5552   stm32f1xx_hal_eth.o
-       538         12          0          0          0       3513   stm32f1xx_hal_gpio.o
-      3410         62          0          0          0      15222   stm32f1xx_hal_i2c.o
-       628         74          0          0          0       3377   stm32f1xx_hal_msp.o
-      2022         98         30          0          0       8152   stm32f1xx_hal_rcc.o
-       706          6          0          0          0       4616   stm32f1xx_hal_uart.o
-        40          4          0          0          0       4458   stm32f1xx_it.o
-        10          0          0          0          0       1350   sys_arch.o
-         2          0         24          4          0       1155   system_stm32f1xx.o
-      3064        104        201         32          0      35041   tcp.o
-      4300        162          0         36         16      21743   tcp_in.o
-      3318          8          0          0          0      24315   tcp_out.o
-       382         68         16         12          0       6266   timeouts.o
-       146          0          0          0          0       2802   tmp1075.o
-       538          4          0          0          0       6558   tps546d24a.o
+      2418        288          0          8       1035     670058   bm1366.o
+        24          4          0          0          0       1784   debug_serial.o
+         8          0          0          0          0       1050   def.o
+      3876       1948        213         32       4144      40436   eth_drv.o
+       680        162         83         16       7760       7196   eth_netif.o
+      1432         56          0          1         96      11376   etharp.o
+       238          4         12          0          0       2698   ethernet.o
+       444          6          0          0          0       3289   icmp.o
+       334          0          0          0          0      13524   inet_chksum.o
+        26          0          0          0          0      15538   init.o
+         0          0          0          0         24       3282   ip.o
+       738         34          0          2          0       5436   ip4.o
+        46          0          4          0          0       8790   ip4_addr.o
+       492        106         66          0          0       6172   lwip_eth.o
+      4800       1934        392         88       2372      13084   main.o
+        30          0          0          0          0       2126   mem.o
+       178         16         96         24      13744       9632   memp.o
+       538         30          0         12          0      14112   netif.o
+      1048         16          0          1          0      26785   pbuf.o
+       784          6          0          0          0      11468   protocol.o
+        36          8        336          0       1536        864   startup_stm32f10x_cl.o
+       172         30          0         12          0       7293   stm32f1xx_hal.o
+       208         16          0          0          0      28899   stm32f1xx_hal_cortex.o
+      1238         34          0          0          0       5720   stm32f1xx_hal_eth.o
+       538         12          0          0          0       3617   stm32f1xx_hal_gpio.o
+      3410         62          0          0          0      15566   stm32f1xx_hal_i2c.o
+       628         74          0          0          0       3517   stm32f1xx_hal_msp.o
+      2022         98         30          0          0       8392   stm32f1xx_hal_rcc.o
+       706          6          0          0          0       4784   stm32f1xx_hal_uart.o
+        40          4          0          0          0       4730   stm32f1xx_it.o
+        10          0          0          0          0       1426   sys_arch.o
+         2          0         24          4          0       1235   system_stm32f1xx.o
+      3064        104        201         32          0      36065   tcp.o
+      4300        162          0         36         16      22163   tcp_in.o
+      3318          8          0          0          0      25035   tcp_out.o
+       382         68         16         12          0       6534   timeouts.o
+       146          0          0          0          0       2942   tmp1075.o
+       538          4          0          0          0       6822   tps546d24a.o
 
     ----------------------------------------------------------------------
-     38950       5300       1516        284      30728    1042188   Object Totals
+     38950       5300       1516        284      30728    1053440   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         58          0         11          4          1          0   (incl. Padding)
 
@@ -3900,8 +3900,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     42072       5390       1516        296      30728    1028300   Grand Totals
-     42072       5390       1516        296      30728    1028300   ELF Image Totals
+     42072       5390       1516        296      30728    1039552   Grand Totals
+     42072       5390       1516        296      30728    1039552   ELF Image Totals
      42072       5390       1516        296          0          0   ROM Totals
 
 ==============================================================================

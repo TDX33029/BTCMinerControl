@@ -97,9 +97,12 @@ int main(int argc, char* argv[]) {
         std::cerr << "[main] Invalid board detection interval" << std::endl;
         return 1;
     }
-    if (!board_manager.start(config.board_port)) {
-        std::cerr << "[main] Failed to start board server" << std::endl;
-        return 1;
+    const bool board_server_started = board_manager.start(config.board_port);
+    if (!board_server_started) {
+        std::cerr << "[main] Board server is unavailable on port "
+                  << config.board_port << "; continuing with the Web UI so "
+                     "the listener settings can be corrected."
+                  << std::endl;
     }
 
     WorkScheduler scheduler(board_manager);

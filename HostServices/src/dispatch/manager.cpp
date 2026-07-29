@@ -83,7 +83,18 @@ bool BoardManager::start(uint16_t port) {
 
     if (bind(m_listen_sock, reinterpret_cast<sockaddr*>(&addr), sizeof(addr))
         == SOCKET_ERROR) {
-        std::cerr << "[boards] bind() failed: " << WSAGetLastError() << std::endl;
+        const int error = WSAGetLastError();
+        std::cerr << "[boards] bind(0.0.0.0:" << port
+                  << ") failed: " << error << std::endl;
+        if (error == WSAEACCES) {
+            std::cerr << "[boards] Access denied. This port may be inside a "
+                         "Windows excluded port range; run `netsh interface "
+                         "ipv4 show excludedportrange protocol=tcp` to check."
+                      << std::endl;
+        } else if (error == WSAEADDRINUSE) {
+            std::cerr << "[boards] The port is already in use by another process."
+                      << std::endl;
+        }
         closesocket(m_listen_sock);
         m_listen_sock = INVALID_SOCKET;
         return false;

@@ -12,7 +12,7 @@ struct AppConfig {
     std::string pool_management_url = "https://pool.braiins.com/";
 
     // Board server
-    uint16_t    board_port = 4028;         // Port for STM32 boards to connect
+    uint16_t    board_port = 4200;         // Port for STM32 boards to connect
     uint32_t    board_detection_interval_ms = 5000; // Periodic latency probe
 
     // Dashboard

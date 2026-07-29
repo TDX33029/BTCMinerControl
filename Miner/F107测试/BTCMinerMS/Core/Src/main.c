@@ -84,7 +84,7 @@ UART_HandleTypeDef huart2;
 #define PC_IP1     8
 #define PC_IP2     1
 #define PC_IP3     11
-#define PC_PORT    4028
+#define PC_PORT    4200
 
 #define BM1366_EXPECTED_COUNT  1
 #define BM1366_TARGET_FREQ_MHZ 485.0f
