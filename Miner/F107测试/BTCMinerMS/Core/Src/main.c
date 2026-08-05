@@ -56,41 +56,39 @@ UART_HandleTypeDef huart2;
 /* USER CODE BEGIN PV */
 
 /* ===== Application Config (edit to match your network) ===== */
-#define CFG_MAC0   0x00
+/* MAC: last 3 bytes are derived at runtime from the board UID (see main()),
+   so every board gets a unique MAC for multi-board deployments. The values
+   below are just the initial placeholder, overwritten before eth_init(). */
+#define CFG_MAC0   0x02   /* locally administered, unicast */
 #define CFG_MAC1   0x08
 #define CFG_MAC2   0xDC
 #define CFG_MAC3   0xAB
 #define CFG_MAC4   0xCD
 #define CFG_MAC5   0xEF
 
-#define CFG_IP0    26
-#define CFG_IP1    8
-#define CFG_IP2    1
-#define CFG_IP3    20
-
-#define CFG_GW0    26
-#define CFG_GW1    8
-#define CFG_GW2    1
-#define CFG_GW3    1
-
-#define CFG_SN0    255
-#define CFG_SN1    255
-#define CFG_SN2    255
-#define CFG_SN3    0
+/* IPv4 address/g+ateway/netmask are obtained via DHCP at runtime
+   (see eth_drv.c eth_init -> dhcp_start). The board's own IP is no
+   longer statically configured. */
 
 #define CFG_LOCAL_PORT   6000
 
-#define PC_IP0     26
+/* Host PC running BTCMinerControl (HostServices board listener on PC_PORT).
+   Board's own IP is obtained via DHCP, so only the server address is static. */
+#define PC_IP0     10
 #define PC_IP1     8
 #define PC_IP2     1
-#define PC_IP3     11
+#define PC_IP3     3
 #define PC_PORT    4200
 
-#define BM1366_EXPECTED_COUNT  1
+#define BM1366_EXPECTED_COUNT  6
 #define BM1366_TARGET_FREQ_MHZ 485.0f
 /* Bench-test switch: allow a received PC job to reach USART1 even when the
    chip probe finds no BM1366. Disable this on production firmware if desired. */
 #define BM1366_UART_TEST_WITHOUT_ASIC  1
+/* When 0, parsed PC jobs are logged but NOT forwarded to the ASIC (bring-up:
+   detect chips and report the count without hashing). Flip to 1 to start
+   dispatching real work. */
+#define BM1366_DISPATCH_JOBS  0
 
 #define FW_VERSION_MAJOR  2
 #define FW_VERSION_MINOR  4
@@ -105,11 +103,8 @@ static int  connected     = 0;
 static uint64_t BOARD_ID  = 0;   /* set from STM32F107 UID at runtime */
 static uint32_t active_job_version = 0;  /* base version of current job (for nonce version-rolling) */
 
-static const eth_config_t eth_cfg = {
+static eth_config_t eth_cfg = {
     .mac = {CFG_MAC0, CFG_MAC1, CFG_MAC2, CFG_MAC3, CFG_MAC4, CFG_MAC5},
-    .ip  = {CFG_IP0, CFG_IP1, CFG_IP2, CFG_IP3},
-    .gateway = {CFG_GW0, CFG_GW1, CFG_GW2, CFG_GW3},
-    .subnet  = {CFG_SN0, CFG_SN1, CFG_SN2, CFG_SN3},
     .local_port = CFG_LOCAL_PORT
 };
 
@@ -233,6 +228,16 @@ int main(void)
   printf("[DIAG] Board ID (UID): 0x%08lX%08lX\r\n",
          (unsigned long)(BOARD_ID >> 32), (unsigned long)BOARD_ID);
 
+  /* Derive a unique MAC per board from the UID so multiple boards can coexist
+     on the same L2 segment (50-board deployment). 0x02 = locally administered,
+     unicast; last 3 bytes from the UID -> unique per chip. */
+  eth_cfg.mac[0] = 0x02;
+  eth_cfg.mac[1] = 0x08;
+  eth_cfg.mac[2] = 0xDC;
+  eth_cfg.mac[3] = (uint8_t)((BOARD_ID >> 56) & 0xFF);  /* UID word1 (wafer Y coord) */
+  eth_cfg.mac[4] = (uint8_t)((BOARD_ID >> 48) & 0xFF);
+  eth_cfg.mac[5] = (uint8_t)((BOARD_ID >> 40) & 0xFF);
+
   /* MCO/PLL3 check: PA8 (MCO) should output 50 MHz from PLL3 -> DP83848.
      If PLL3 isn't locked or MCO source isn't PLL3, PA8 is dead -> no clock
      to PHY/MAC -> MX_ETH_Init hangs on the DMA SWR (link stays DOWN too). */
@@ -306,10 +311,7 @@ int main(void)
   printf("[NET] MAC: %02X:%02X:%02X:%02X:%02X:%02X\r\n",
          eth_cfg.mac[0], eth_cfg.mac[1], eth_cfg.mac[2],
          eth_cfg.mac[3], eth_cfg.mac[4], eth_cfg.mac[5]);
-  printf("[NET] IP: %d.%d.%d.%d  GW: %d.%d.%d.%d  SN: %d.%d.%d.%d\r\n",
-         eth_cfg.ip[0], eth_cfg.ip[1], eth_cfg.ip[2], eth_cfg.ip[3],
-         eth_cfg.gateway[0], eth_cfg.gateway[1], eth_cfg.gateway[2], eth_cfg.gateway[3],
-         eth_cfg.subnet[0], eth_cfg.subnet[1], eth_cfg.subnet[2], eth_cfg.subnet[3]);
+  printf("[NET] IP: DHCP (acquired at runtime)\r\n");
   printf("[NET] Server: %d.%d.%d.%d:%d\r\n", PC_IP0, PC_IP1, PC_IP2, PC_IP3, PC_PORT);
 
   /* SysTick for g_ms (HAL already started SysTick) */
@@ -334,7 +336,8 @@ int main(void)
   HAL_Delay(500);
   int chips = bm1366_init_chips(BM1366_EXPECTED_COUNT, BM1366_TARGET_FREQ_MHZ);
   asic_ready = (chips > 0) ? chips : 0;
-  printf("[SYS] BM1366: %d chip(s)\r\n", chips);
+  printf("[SYS] BM1366: %d/%d chip(s) detected\r\n", chips, BM1366_EXPECTED_COUNT);
+  printf("[SYS] Job dispatch: %s\r\n", BM1366_DISPATCH_JOBS ? "ENABLED" : "DISABLED (bring-up)");
 #else
   asic_ready = 0;
   printf("[SYS] BM1366 disabled (ETH test mode)\r\n");
@@ -370,7 +373,7 @@ int main(void)
       }
     }
 
-    if (!connected && (now - last_reconnect) > 1000) {
+    if (!connected && eth_has_ip() && (now - last_reconnect) > 1000) {
       last_reconnect = now;
       printf("[NET] Connecting %d.%d.%d.%d:%d...\r\n",
              PC_IP0, PC_IP1, PC_IP2, PC_IP3, PC_PORT);
@@ -400,9 +403,12 @@ int main(void)
 
     /* ? 30s ???????? */
     if ((now - last_status) > 10000) {
+        uint8_t ip[4];
         last_status = now;
-        printf("\r\n[STATUS] up=%lus  eth=%s  bm1366=%s  chips=%d  link=%s  rx=%lu tx=%lu DMASR=0x%08lX\r\n",
+        eth_get_ip(ip);
+        printf("\r\n[STATUS] up=%lus  ip=%u.%u.%u.%u  eth=%s  bm1366=%s  chips=%d  link=%s  rx=%lu tx=%lu DMASR=0x%08lX\r\n",
                (unsigned long)(now / 1000),
+               ip[0], ip[1], ip[2], ip[3],
                connected ? "CONN" : "WAIT",
                asic_ready ? "OK" : "OFF",
                asic_ready ? bm1366_get_chip_count() : 0,
@@ -872,10 +878,11 @@ static void receive_tcp_data(void) {
                     printf("[JOB] id=%d midstates=%d version=0x%08X nbits=0x%08X ntime=0x%08X nonce_start=0x%08X\r\n",
                            job.job_id, job.num_midstates, job.version,
                            job.nbits, job.ntime, job.starting_nonce);
-                    if (asic_ready || BM1366_UART_TEST_WITHOUT_ASIC) {
+                    if (BM1366_DISPATCH_JOBS && (asic_ready || BM1366_UART_TEST_WITHOUT_ASIC)) {
                         bm1366_send_job(&job);
                         if (!asic_ready) printf("[UART1-TEST] Job forwarded without ASIC\r\n");
                     }
+                    /* else: BM1366_DISPATCH_JOBS=0 -> job parsed/logged above but not forwarded (bring-up) */
                 }
                 break;
             }

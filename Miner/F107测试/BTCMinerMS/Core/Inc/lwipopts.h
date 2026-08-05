@@ -14,8 +14,8 @@
 #define PBUF_POOL_BUFSIZE               1524
 #define PBUF_LINK_HLEN                  16
 
-/* ===== TCP ===== */
-#define LWIP_UDP                       0
+/* ===== UDP (required by DHCP) ===== */
+#define LWIP_UDP                        1
 #define LWIP_TCP                        1
 #define TCP_TTL                         64
 #define TCP_WND                         (4*TCP_MSS)
@@ -38,8 +38,14 @@
 /* ===== ICMP (ping) ===== */
 #define LWIP_ICMP                       1
 
-/* ===== Static IPv4 (configured in main.c; DHCP requires UDP) ===== */
-#define LWIP_DHCP                       0
+/* ===== DHCP: IPv4 address/gateway/netmask acquired at runtime (needs UDP).
+   If CubeMX regenerates this file, re-enable LWIP_UDP + LWIP_DHCP here. */
+#define LWIP_DHCP                       1
+#define LWIP_DHCP_DOES_ACD_CHECK        0   /* disable address-conflict detection:
+   ACD probes the leased IP via ARP and can false-positive on routers with proxy
+   ARP (or any ARP responder), causing a DHCPDECLINE that drops the lease
+   immediately -- matches the "lease appears then instantly expires" symptom. */
+#define LWIP_NETIF_HOSTNAME             1   /* send DHCP option 12 (hostname) */
 #define LWIP_DNS                        0
 
 /* ===== Stats off ===== */

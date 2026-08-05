@@ -83,7 +83,6 @@ h1{background:#003b73;color:#fff;border:1px solid #00284f;padding:7px 10px;margi
     <span id="connectionLabel">Pool</span>: <span id="poolUrl">-</span>
     <span id="poolStatus" class="status offline">disconnected</span>
     <a id="poolManagementLink" class="pool-link disabled" target="_blank" rel="noopener noreferrer">Pool Management</a>
-    <a class="pool-link" href="/account">Account</a>
     <a class="pool-link" href="/settings">Settings</a>
   </div>
   <div class="header-actions">
@@ -291,39 +290,6 @@ uint64_t steady_time_us() {
         std::chrono::steady_clock::now().time_since_epoch()).count());
 }
 
-bool constant_time_equal(const std::string& left, const std::string& right) {
-    size_t difference = left.size() ^ right.size();
-    const size_t count = std::max(left.size(), right.size());
-    for (size_t i = 0; i < count; ++i) {
-        const unsigned char a = i < left.size() ? left[i] : 0;
-        const unsigned char b = i < right.size() ? right[i] : 0;
-        difference |= static_cast<size_t>(a ^ b);
-    }
-    return difference == 0;
-}
-
-std::string base64_encode(const std::string& value) {
-    static const char alphabet[] =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    std::string encoded;
-    encoded.reserve((value.size() + 2) / 3 * 4);
-    for (size_t offset = 0; offset < value.size(); offset += 3) {
-        const uint32_t first = static_cast<unsigned char>(value[offset]);
-        const uint32_t second = offset + 1 < value.size()
-            ? static_cast<unsigned char>(value[offset + 1]) : 0;
-        const uint32_t third = offset + 2 < value.size()
-            ? static_cast<unsigned char>(value[offset + 2]) : 0;
-        const uint32_t block = (first << 16) | (second << 8) | third;
-        encoded.push_back(alphabet[(block >> 18) & 0x3F]);
-        encoded.push_back(alphabet[(block >> 12) & 0x3F]);
-        encoded.push_back(offset + 1 < value.size()
-            ? alphabet[(block >> 6) & 0x3F] : '=');
-        encoded.push_back(offset + 2 < value.size()
-            ? alphabet[block & 0x3F] : '=');
-    }
-    return encoded;
-}
-
 std::string header_value(const std::string& request,
                          const std::string& requested_name) {
     const size_t headers_end = request.find("\r\n\r\n");
@@ -339,11 +305,14 @@ std::string header_value(const std::string& request,
         if (separator != std::string::npos && separator < line_end) {
             std::string name = request.substr(line_start, separator - line_start);
             std::transform(name.begin(), name.end(), name.begin(),
-                [](unsigned char value) { return static_cast<char>(std::tolower(value)); });
+                [](unsigned char value) {
+                    return static_cast<char>(std::tolower(value));
+                });
             if (name == requested_name) {
                 size_t value_start = separator + 1;
                 while (value_start < line_end &&
-                       (request[value_start] == ' ' || request[value_start] == '\t')) {
+                       (request[value_start] == ' ' ||
+                        request[value_start] == '\t')) {
                     ++value_start;
                 }
                 return request.substr(value_start, line_end - value_start);
@@ -352,16 +321,6 @@ std::string header_value(const std::string& request,
         line_start = line_end + 2;
     }
     return std::string();
-}
-
-bool is_basic_authorized(const std::string& request,
-                         const std::string& username,
-                         const std::string& password) {
-    if (password.empty()) return true;
-    const std::string expected =
-        "Basic " + base64_encode(username + ':' + password);
-    return constant_time_equal(header_value(request, "authorization"),
-                               expected);
 }
 
 int hex_digit(char value) {
@@ -470,55 +429,6 @@ std::string redirect_response(const std::string& location,
     if (!cookie.empty()) response += "Set-Cookie: " + cookie + "\r\n";
     response += "Content-Length: 0\r\n\r\n";
     return response;
-}
-
-std::string unauthorized_response(bool api) {
-    const std::string body = api
-        ? "{\"ok\":false,\"error\":\"authentication required\"}"
-        : "Authentication required\n";
-    return "HTTP/1.1 401 Unauthorized\r\n"
-           "WWW-Authenticate: Basic realm=\"BTCMinerControl\", charset=\"UTF-8\"\r\n"
-           "Content-Type: " + std::string(api
-                ? "application/json; charset=utf-8"
-                : "text/plain; charset=utf-8") + "\r\n"
-           "X-Content-Type-Options: nosniff\r\n"
-           "Cache-Control: no-store\r\n"
-           "Connection: close\r\n"
-           "Content-Length: " + std::to_string(body.size()) +
-           "\r\n\r\n" + body;
-}
-
-std::string account_page(const std::string& username,
-                         const std::string& message = std::string(),
-                         bool error = false) {
-    const std::string message_html = message.empty() ? std::string() :
-        "<div class=\"message " + std::string(error ? "error" : "ok") + "\">" +
-        html_escape(message) + "</div>";
-    return "<!DOCTYPE html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\">"
-        "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
-        "<title>Web Account</title><style>"
-        "*{box-sizing:border-box}body{margin:0;background:#d4d0c8;color:#202020;"
-        "font:13px Tahoma,Arial,sans-serif;display:flex;align-items:center;"
-        "justify-content:center;min-height:100vh}.panel{width:430px;background:#ece9d8;"
-        "border:2px outset #f4f2e9;padding:5px}.title{background:#003b73;color:#fff;"
-        "padding:8px 10px;font-size:18px;font-weight:bold}.form{padding:16px}"
-        "label{display:block;margin:10px 0 4px;font-weight:bold}input{width:100%;"
-        "height:30px;border:2px inset #eee;padding:4px 6px;font:13px Tahoma}"
-        ".hint{color:#666;margin-top:5px}.actions{display:flex;gap:8px;margin-top:16px}"
-        "button,a{height:30px;border:2px outset #f4f2e9;background:#e5e5e5;"
-        "color:#202020;padding:5px 14px;text-decoration:none;font-weight:bold}"
-        ".message{margin-top:12px;font-weight:bold}.error{color:#a11f1f}.ok{color:#247126}"
-        "</style></head><body><div class=\"panel\"><div class=\"title\">Web Account</div>"
-        "<form class=\"form\" method=\"post\" action=\"/account\">"
-        "<label for=\"username\">Username</label><input id=\"username\" name=\"username\" "
-        "autocomplete=\"username\" maxlength=\"64\" required value=\"" +
-        html_escape(username) + "\"><label for=\"password\">New password</label>"
-        "<input id=\"password\" name=\"password\" type=\"password\" maxlength=\"128\" "
-        "autocomplete=\"new-password\"><div class=\"hint\">Leave blank to keep the current password.</div>"
-        "<label for=\"confirm\">Confirm password</label><input id=\"confirm\" name=\"confirm\" "
-        "type=\"password\" maxlength=\"128\" autocomplete=\"new-password\">" +
-        message_html + "<div class=\"actions\"><button type=\"submit\">Save</button>"
-        "<a href=\"/\">Back</a></div></form></div></body></html>";
 }
 
 std::string settings_page(uint16_t configured_board_port,
@@ -643,15 +553,11 @@ DashboardServer::~DashboardServer() { stop(); }
 
 bool DashboardServer::start(uint16_t port, BoardManager* board_mgr,
                             const std::string& bind_address,
-                            const std::string& username,
-                            const std::string& password,
                             const std::string& config_path,
                             uint16_t configured_board_port,
                             uint32_t detection_interval_ms) {
     if (m_running || board_mgr == nullptr || port == 0) return false;
     m_boards = board_mgr;
-    m_dashboard_username = username;
-    m_dashboard_password = password;
     m_config_path = config_path;
     m_dashboard_port = port;
     m_configured_board_port = configured_board_port != 0
@@ -692,10 +598,35 @@ bool DashboardServer::start(uint16_t port, BoardManager* board_mgr,
     m_stop = false;
     m_thread = std::thread(&DashboardServer::acceptLoop, this);
 
-    std::cout << "[dashboard] Web UI: http://" << bind_address << ':' << port << std::endl;
-    std::cout << "[dashboard] Authentication: "
-              << (m_dashboard_password.empty() ? "disabled" : "Basic")
-              << std::endl;
+    // Print a usable Web UI URL. When bound to the wildcard (0.0.0.0 / "::"),
+    // the server listens on every interface, but "0.0.0.0" itself is not an
+    // address a browser can connect to on Windows. Print "localhost" (always
+    // works on this machine) plus each LAN IPv4 so remote clients know what
+    // to type.
+    const bool wildcard = bind_address.empty() || bind_address == "0.0.0.0" || bind_address == "::";
+    if (wildcard) {
+        std::cout << "[dashboard] Web UI:  http://localhost:" << port << std::endl;
+        char host[256];
+        if (gethostname(host, sizeof(host)) == 0) {
+            addrinfo hints = {};
+            hints.ai_family = AF_INET;
+            addrinfo* res = nullptr;
+            if (getaddrinfo(host, nullptr, &hints, &res) == 0) {
+                for (addrinfo* p = res; p; p = p->ai_next) {
+                    char ip[INET_ADDRSTRLEN] = {};
+                    auto* sin = reinterpret_cast<sockaddr_in*>(p->ai_addr);
+                    if (inet_ntop(AF_INET, &sin->sin_addr, ip, sizeof(ip)) &&
+                        std::string(ip) != "127.0.0.1") {
+                        std::cout << "[dashboard] LAN URL: http://" << ip << ':' << port << std::endl;
+                    }
+                }
+                freeaddrinfo(res);
+            }
+        }
+    } else {
+        std::cout << "[dashboard] Web UI: http://" << bind_address << ':' << port << std::endl;
+    }
+    std::cout << "[dashboard] Authentication: disabled" << std::endl;
     return true;
 }
 
@@ -786,45 +717,6 @@ void DashboardServer::handleClient(SOCKET client) {
         response = http_response(413, "Payload Too Large",
                                  "text/plain; charset=utf-8",
                                  "Payload Too Large\n");
-    } else if (!is_basic_authorized(request, m_dashboard_username,
-                                    m_dashboard_password)) {
-        response = unauthorized_response(target.rfind("/api/", 0) == 0);
-    } else if (method == "GET" && target == "/account") {
-        response = http_response(200, "OK", "text/html; charset=utf-8",
-            account_page(m_dashboard_username));
-    } else if (method == "POST" && target == "/account") {
-        const std::string username = form_value(body, "username");
-        const std::string new_password = form_value(body, "password");
-        const std::string confirm = form_value(body, "confirm");
-        std::string validation_error;
-        if (username.empty() || username.size() > 64) {
-            validation_error = "Username must contain 1 to 64 characters.";
-        } else if (new_password != confirm) {
-            validation_error = "The two password entries do not match.";
-        } else if (!new_password.empty() && new_password.size() < 6) {
-            validation_error = "The new password must contain at least 6 characters.";
-        }
-
-        const std::string password = new_password.empty() ?
-            m_dashboard_password : new_password;
-        if (!validation_error.empty()) {
-            response = http_response(400, "Bad Request",
-                "text/html; charset=utf-8",
-                account_page(username.empty() ? m_dashboard_username : username,
-                             validation_error, true));
-        } else if (m_config_path.empty() ||
-                   !save_dashboard_credentials(m_config_path, username, password)) {
-            response = http_response(500, "Internal Server Error",
-                "text/html; charset=utf-8",
-                account_page(username,
-                    "Unable to save encrypted credentials to config.json.", true));
-        } else {
-            m_dashboard_username = username;
-            m_dashboard_password = password;
-            response = http_response(200, "OK", "text/html; charset=utf-8",
-                account_page(m_dashboard_username,
-                    "Credentials saved and encrypted. The browser will request the new credentials on the next page load."));
-        }
     } else if (method == "GET" && target == "/settings") {
         response = http_response(200, "OK", "text/html; charset=utf-8",
             settings_page(m_configured_board_port,

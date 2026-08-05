@@ -7,9 +7,30 @@
 #include "lwip/ip4_addr.h"
 #include "lwip/etharp.h"
 #include "lwip/timeouts.h"
+#include "lwip/dhcp.h"
 #include "netif/ethernet.h"
 #include <string.h>
 #include <stdio.h>
+
+/* ===== Static IP config (used when ETH_USE_STATIC_IP is 1) =====
+   Set to 1 to skip DHCP and use a fixed IPv4 config. Pick an address OUTSIDE
+   the router's DHCP pool to avoid conflicts. This is a diagnostic to confirm
+   whether the DHCP long-frame (~345B) RX corruption is the only blocker: if
+   the board connects stably with static IP (only short ARP/TCP frames), the
+   RMII is fine for short frames and only DHCP's long frames expose it. */
+#define ETH_USE_STATIC_IP    1
+#define ETH_STATIC_IP0       10
+#define ETH_STATIC_IP1       8
+#define ETH_STATIC_IP2       1
+#define ETH_STATIC_IP3       50    /* pick one outside your DHCP pool */
+#define ETH_STATIC_GW0       10
+#define ETH_STATIC_GW1       8
+#define ETH_STATIC_GW2       1
+#define ETH_STATIC_GW3       1     /* router */
+#define ETH_STATIC_NM0       255
+#define ETH_STATIC_NM1       255
+#define ETH_STATIC_NM2       255
+#define ETH_STATIC_NM3       0
 
 /* ===== External ETH handle from CubeMX ===== */
 extern ETH_HandleTypeDef heth;
@@ -43,6 +64,16 @@ int eth_init(const eth_config_t *cfg) {
     /* Reset PHY */
     phy_reset();
 
+#if ETH_FORCE_10M
+    /* Force 10M: advertise only 10FD+10HD and restart auto-negotiation so the
+       link comes up at 10M, matching the MAC (FES=0 in ETH_MAC_Init).
+       Workaround for 100M RMII RX CRC/dribble-bit errors. No pin changes. */
+    ETH_WritePHYRegister(DP83848_PHY_ADDRESS, 0x04, 0x0061);  /* ANAR: 10FD + 10HD only */
+    ETH_WritePHYRegister(DP83848_PHY_ADDRESS, 0x00, 0x1200);  /* BCR: restart auto-neg */
+    HAL_Delay(2000);
+    printf("[PHY] Forced 10M (ETH_FORCE_10M=1)\r\n");
+#endif
+
     ethernetif_dma_init();
     ETH_MAC_Init((uint8_t *)cfg->mac);
     /* Debug: check DMA and RMII state */
@@ -63,12 +94,18 @@ int eth_init(const eth_config_t *cfg) {
     /* Init LwIP stack */
     lwip_init();
 
-    /* Configure the explicit IPv4 settings supplied by main.c. DHCP is off:
-       this build intentionally omits UDP to keep the bare-metal image small. */
+    /* Add the netif. With DHCP, the IPv4 fields are 0.0.0.0 (filled at runtime
+       by dhcp_start); with ETH_USE_STATIC_IP, they are the fixed config. */
     ip4_addr_t ip_address, gateway, netmask;
-    IP4_ADDR(&ip_address, cfg->ip[0], cfg->ip[1], cfg->ip[2], cfg->ip[3]);
-    IP4_ADDR(&gateway, cfg->gateway[0], cfg->gateway[1], cfg->gateway[2], cfg->gateway[3]);
-    IP4_ADDR(&netmask, cfg->subnet[0], cfg->subnet[1], cfg->subnet[2], cfg->subnet[3]);
+#if ETH_USE_STATIC_IP
+    IP4_ADDR(&ip_address, ETH_STATIC_IP0, ETH_STATIC_IP1, ETH_STATIC_IP2, ETH_STATIC_IP3);
+    IP4_ADDR(&gateway,    ETH_STATIC_GW0,  ETH_STATIC_GW1,  ETH_STATIC_GW2,  ETH_STATIC_GW3);
+    IP4_ADDR(&netmask,    ETH_STATIC_NM0,  ETH_STATIC_NM1,  ETH_STATIC_NM2,  ETH_STATIC_NM3);
+#else
+    IP4_ADDR(&ip_address, 0, 0, 0, 0);
+    IP4_ADDR(&gateway, 0, 0, 0, 0);
+    IP4_ADDR(&netmask, 0, 0, 0, 0);
+#endif
 
     if (netif_add(&eth_netif, &ip_address, &netmask, &gateway, NULL,
                   ethernetif_init, ethernet_input) == NULL) {
@@ -79,12 +116,31 @@ int eth_init(const eth_config_t *cfg) {
     netif_set_up(&eth_netif);
     ethernetif_set_link(&eth_netif, 1);
 
-    /* lwIP copies the source MAC for every outgoing frame from netif->hwaddr. */
+    /* lwIP copies the source MAC for every outgoing frame from netif->hwaddr,
+       so it must be set before dhcp_start() queues the DHCPDISCOVER. */
     memcpy(eth_netif.hwaddr, cfg->mac, 6);
     eth_netif.hwaddr_len = ETH_HWADDR_LEN;
 
-    printf("[LWIP] Static IP %d.%d.%d.%d\r\n",
-           cfg->ip[0], cfg->ip[1], cfg->ip[2], cfg->ip[3]);
+    /* Unique DHCP hostname (option 12) from the UID-derived MAC suffix, so each
+       board shows up with a distinct name in the router's DHCP lease table. The
+       buffer is static because netif_set_hostname stores the pointer, not a copy. */
+    static char dhcp_hostname[24];
+    snprintf(dhcp_hostname, sizeof(dhcp_hostname), "BTCMiner-%02X%02X%02X",
+             cfg->mac[3], cfg->mac[4], cfg->mac[5]);
+    netif_set_hostname(&eth_netif, dhcp_hostname);
+
+#if ETH_USE_STATIC_IP
+    printf("[LWIP] Static IP %d.%d.%d.%d GW %d.%d.%d.%d NM %d.%d.%d.%d\r\n",
+           ETH_STATIC_IP0, ETH_STATIC_IP1, ETH_STATIC_IP2, ETH_STATIC_IP3,
+           ETH_STATIC_GW0, ETH_STATIC_GW1, ETH_STATIC_GW2, ETH_STATIC_GW3,
+           ETH_STATIC_NM0, ETH_STATIC_NM1, ETH_STATIC_NM2, ETH_STATIC_NM3);
+#else
+    /* Start DHCP. The DHCP state machine is driven by sys_check_timeouts(),
+       polled in eth_poll(). eth_has_ip() becomes true once the lease is bound,
+       and the main loop delays the TCP connect until then. */
+    dhcp_start(&eth_netif);
+    printf("[LWIP] DHCP started (waiting for lease)...\r\n");
+#endif
     return 1;
 }
 
@@ -398,6 +454,14 @@ int eth_has_ip(void) {
     return !ip4_addr_isany(netif_ip4_addr(&eth_netif));
 }
 
+void eth_get_ip(uint8_t out[4]) {
+    const ip4_addr_t *ip = netif_ip4_addr(&eth_netif);
+    out[0] = ip4_addr1(ip);
+    out[1] = ip4_addr2(ip);
+    out[2] = ip4_addr3(ip);
+    out[3] = ip4_addr4(ip);
+}
+
 void eth_poll(void) {
     ethernetif_input(&eth_netif);
     static uint32_t last_tmr = 0;
@@ -405,6 +469,21 @@ void eth_poll(void) {
     if ((now - last_tmr) > 250) {
         last_tmr = now;
         sys_check_timeouts();
+    }
+
+    /* Announce the DHCP lease once it is bound. The DHCP timer fires inside
+       sys_check_timeouts(); after OFFER/REQUEST/ACK the netif's IPv4 address,
+       gateway and netmask are populated by LwIP. */
+    static int ip_announced = 0;
+    if (!ip_announced && !ip4_addr_isany(netif_ip4_addr(&eth_netif))) {
+        ip_announced = 1;
+        const ip4_addr_t *ip = netif_ip4_addr(&eth_netif);
+        const ip4_addr_t *gw = netif_ip4_gw(&eth_netif);
+        const ip4_addr_t *nm = netif_ip4_netmask(&eth_netif);
+        printf("[LWIP] DHCP bound: IP %d.%d.%d.%d GW %d.%d.%d.%d NM %d.%d.%d.%d\r\n",
+               ip4_addr1(ip), ip4_addr2(ip), ip4_addr3(ip), ip4_addr4(ip),
+               ip4_addr1(gw), ip4_addr2(gw), ip4_addr3(gw), ip4_addr4(gw),
+               ip4_addr1(nm), ip4_addr2(nm), ip4_addr3(nm), ip4_addr4(nm));
     }
     static uint32_t last_link = 0;
     if ((now - last_link) > 2000) {

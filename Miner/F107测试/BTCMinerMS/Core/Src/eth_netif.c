@@ -140,6 +140,19 @@ static struct pbuf *low_level_input(void) {
         /* Skip if not yet received (OWN bit still set = DMA owns it) */
         if (d->Status & ETH_DMARxDesc_OWN) continue;
 
+        /* DIAG: dump the first few received-descriptor statuses so we can see
+           whether frames arrive and whether they have errors (ES) / length. */
+        static int rx_diag_left = 8;
+        if (rx_diag_left > 0) {
+            rx_diag_left--;
+            printf("[RXD] desc=%d status=0x%08lX FS=%d LS=%d ES=%d FL=%lu\r\n",
+                   i, (unsigned long)d->Status,
+                   (d->Status & ETH_DMARxDesc_FS) ? 1 : 0,
+                   (d->Status & ETH_DMARxDesc_LS) ? 1 : 0,
+                   (d->Status & ETH_DMARxDesc_ES) ? 1 : 0,
+                   (unsigned long)((d->Status & ETH_DMARxDesc_FrameLength) >> 16));
+        }
+
         len = ETH_GetRxPktSize(d);
         if (len == 0 || len > rx_buf_size) {
             ETH_ReleaseRxDesc(d, eth_rx_buff[i], rx_count, rx_buf_size);

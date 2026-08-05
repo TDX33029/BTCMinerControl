@@ -1,0 +1,76 @@
+T856C 000:232.567   SEGGER J-Link V9.62 Log File
+T856C 000:232.743   DLL Compiled: Jul 22 2026 13:17:19
+T856C 000:232.752   Logging started @ 2026-08-04 21:34
+T856C 000:232.760   Process: D:\Program Files\Keil5\UV4\UV4.exe
+T856C 000:232.774 - 232.768ms 
+T856C 000:232.790 JLINK_SetWarnOutHandler(...)
+T856C 000:232.798 - 0.010ms 
+T856C 000:232.810 JLINK_OpenEx(...)
+T856C 000:489.552   Firmware: J-Link ARM V8 compiled Nov 28 2014 13:44:46
+T856C 000:490.257   Firmware: J-Link ARM V8 compiled Nov 28 2014 13:44:46
+T856C 000:492.222   Hardware: V8.00
+T856C 000:492.240   S/N: 308622870
+T856C 000:492.252   OEM: SEGGER
+T856C 000:492.265   Feature(s): RDI,FlashDL,FlashBP,JFlash,GDBFULL
+T856C 000:493.264   Bootloader: (FW returned invalid version)
+T856C 000:494.301   TELNET listener socket opened on port 19021
+T856C 000:494.462   WEBSRV WEBSRV_Init(): Starting webserver thread(s)
+T856C 000:494.532   WEBSRV Failed to put socket into listener state (port 19080)
+T856C 000:495.035   WEBSRV Webserver running on local port 19081
+T856C 000:495.203   Looking for J-Link GUI Server exe at: D:\Program Files\Keil5\ARM\Segger\JLinkGUIServer.exe
+T856C 000:495.378   Looking for J-Link GUI Server exe at: C:\Program Files\SEGGER\JLink_V962\JLinkGUIServer.exe
+T856C 000:495.434   Forking J-Link GUI Server: C:\Program Files\SEGGER\JLink_V962\JLinkGUIServer.exe
+T856C 000:536.673   J-Link GUI Server info: "J-Link GUI server V9.62 "
+T856C 000:546.363 - 313.542ms returns "O.K."
+T856C 000:546.408 JLINK_GetEmuCaps()
+T856C 000:546.429 - 0.016ms returns 0xB9FF7BBF
+T856C 000:546.443 JLINK_TIF_GetAvailable(...)
+T856C 000:546.634 - 0.190ms 
+T856C 000:546.654 JLINK_SetErrorOutHandler(...)
+T856C 000:546.662 - 0.008ms 
+T856C 000:546.694 JLINK_ExecCommand("ProjectFile = "D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\Miner\F107测试\BTCMinerMS-Ori-1.0测试DHCP\MDK-ARM\JLinkSettings.ini"", ...). 
+T856C 000:561.653   Ref file found at: D:\Program Files\Keil5\ARM\Segger\JLinkDevices.ref
+T856C 000:561.832   REF file references invalid XML file: C:\Program Files\SEGGER\JLink_V962\JLinkDevices.xml
+T856C 000:562.027 - 15.335ms returns 0x00
+T856C 000:562.051 JLINK_ExecCommand("Device = STM32F107VC", ...). 
+T856C 000:562.447   Device "STM32F107VC" selected.
+T856C 000:562.915 - 0.863ms returns 0x00
+T856C 000:562.939   ERROR: Unknown command
+T856C 000:562.956 JLINK_GetHardwareVersion()
+T856C 000:562.967 - 0.008ms returns 80000
+T856C 000:562.977 JLINK_GetDLLVersion()
+T856C 000:562.986 - 0.008ms returns 96200
+T856C 000:563.006 JLINK_GetOEMString(...)
+T856C 000:563.024 JLINK_GetFirmwareString(...)
+T856C 000:563.035 - 0.010ms 
+T856C 000:563.054 JLINK_GetDLLVersion()
+T856C 000:563.064 - 0.009ms returns 96200
+T856C 000:563.074 JLINK_GetCompileDateTime()
+T856C 000:563.082 - 0.008ms 
+T856C 000:563.094 JLINK_GetFirmwareString(...)
+T856C 000:563.102 - 0.008ms 
+T856C 000:563.113 JLINK_GetHardwareVersion()
+T856C 000:563.121 - 0.008ms returns 80000
+T856C 000:563.132 JLINK_GetSN()
+T856C 000:563.140 - 0.008ms returns 308622870
+T856C 000:563.151 JLINK_GetOEMString(...)
+T856C 000:563.169 JLINK_TIF_Select(JLINKARM_TIF_JTAG)
+T856C 000:563.911 - 0.741ms returns 0x00
+T856C 000:563.931 JLINK_HasError()
+T856C 000:563.954 JLINK_SetSpeed(5000)
+T856C 000:564.037 - 0.086ms 
+T856C 000:564.455 JLINK_HasError()
+T856C 000:564.473 JLINK_SetResetType(JLINKARM_RESET_TYPE_NORMAL)
+T856C 000:564.482 - 0.009ms returns JLINKARM_RESET_TYPE_NORMAL
+T856C 000:564.497 JLINK_Reset()
+T856C 000:564.651 - 0.154ms 
+T856C 000:564.670 JLINK_GetIdData(pIdData)
+T856C 000:564.819 - 0.149ms 
+T856C 000:564.836 JLINK_GetIdData(pIdData)
+T856C 000:565.005 - 0.169ms 
+T856C 000:572.373 JLINK_GetFirmwareString(...)
+T856C 000:572.391 - 0.018ms 
+T856C 000:916.455 JLINK_Close()
+T856C 000:918.018 - 1.561ms
+T856C 000:918.038   
+T856C 000:918.047   Closed

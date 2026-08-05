@@ -7,6 +7,22 @@
       "RelativeMoniker": "D:0:0:{6AECD7BD-DD95-4596-9509-06FD9AACD0D3}|BTCMinerControl\\BTCMinerControl.vcxproj|solutionrelative:src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{6AECD7BD-DD95-4596-9509-06FD9AACD0D3}|BTCMinerControl\\BTCMinerControl.vcxproj|D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\self_test.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6AECD7BD-DD95-4596-9509-06FD9AACD0D3}|BTCMinerControl\\BTCMinerControl.vcxproj|solutionrelative:src\\self_test.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6AECD7BD-DD95-4596-9509-06FD9AACD0D3}|BTCMinerControl\\BTCMinerControl.vcxproj|D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\dispatch\\protocol.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6AECD7BD-DD95-4596-9509-06FD9AACD0D3}|BTCMinerControl\\BTCMinerControl.vcxproj|solutionrelative:src\\dispatch\\protocol.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6AECD7BD-DD95-4596-9509-06FD9AACD0D3}|BTCMinerControl\\BTCMinerControl.vcxproj|D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\mine\\midstate.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6AECD7BD-DD95-4596-9509-06FD9AACD0D3}|BTCMinerControl\\BTCMinerControl.vcxproj|solutionrelative:src\\mine\\midstate.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6AECD7BD-DD95-4596-9509-06FD9AACD0D3}|BTCMinerControl\\BTCMinerControl.vcxproj|D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\stratum\\client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6AECD7BD-DD95-4596-9509-06FD9AACD0D3}|BTCMinerControl\\BTCMinerControl.vcxproj|solutionrelative:src\\stratum\\client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6AECD7BD-DD95-4596-9509-06FD9AACD0D3}|BTCMinerControl\\BTCMinerControl.vcxproj|D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\dispatch\\manager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{6AECD7BD-DD95-4596-9509-06FD9AACD0D3}|BTCMinerControl\\BTCMinerControl.vcxproj|solutionrelative:src\\dispatch\\manager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
@@ -18,20 +34,71 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "self_test.cpp",
+              "DocumentMoniker": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\self_test.cpp",
+              "RelativeDocumentMoniker": "src\\self_test.cpp",
+              "ToolTip": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\self_test.cpp",
+              "RelativeToolTip": "src\\self_test.cpp",
+              "ViewState": "AgIAADoCAAAAAAAAAAAYwEkCAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-04T23:29:40.663Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "protocol.cpp",
+              "DocumentMoniker": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\dispatch\\protocol.cpp",
+              "RelativeDocumentMoniker": "src\\dispatch\\protocol.cpp",
+              "ToolTip": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\dispatch\\protocol.cpp",
+              "RelativeToolTip": "src\\dispatch\\protocol.cpp",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAADQAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-04T23:29:37.202Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "midstate.cpp",
+              "DocumentMoniker": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\mine\\midstate.cpp",
+              "RelativeDocumentMoniker": "src\\mine\\midstate.cpp",
+              "ToolTip": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\mine\\midstate.cpp",
+              "RelativeToolTip": "src\\mine\\midstate.cpp",
+              "ViewState": "AgIAACMAAAAAAAAAAAAAACMAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-04T23:29:36.219Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "client.cpp",
+              "DocumentMoniker": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\stratum\\client.cpp",
+              "RelativeDocumentMoniker": "src\\stratum\\client.cpp",
+              "ToolTip": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\stratum\\client.cpp",
+              "RelativeToolTip": "src\\stratum\\client.cpp",
+              "ViewState": "AgIAAEwBAAAAAAAAAAAAAEwBAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-04T23:29:33.424Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "manager.cpp",
               "DocumentMoniker": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\dispatch\\manager.cpp",
               "RelativeDocumentMoniker": "src\\dispatch\\manager.cpp",
-              "ToolTip": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\dispatch\\manager.cpp*",
-              "RelativeToolTip": "src\\dispatch\\manager.cpp*",
+              "ToolTip": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\dispatch\\manager.cpp",
+              "RelativeToolTip": "src\\dispatch\\manager.cpp",
               "ViewState": "AgIAAA8AAAAAAAAAAAAAAIoAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-07-28T09:46:19.609Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-28T09:46:19.609Z"
             },
             {
               "$type": "Document",
@@ -39,9 +106,9 @@
               "Title": "main.cpp",
               "DocumentMoniker": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\main.cpp",
               "RelativeDocumentMoniker": "src\\main.cpp",
-              "ToolTip": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\main.cpp",
-              "RelativeToolTip": "src\\main.cpp",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAGoAAAAAAAAAAAAAAA==",
+              "ToolTip": "D:\\Docunemt\\\u4E34\u65F6\u5DE5\u7A0B\u9879\u76EE\\BTCMinerControl\\BTCMinerControl\\HostServices\\src\\main.cpp*",
+              "RelativeToolTip": "src\\main.cpp*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-07-10T11:11:39.145Z",
               "EditorCaption": ""

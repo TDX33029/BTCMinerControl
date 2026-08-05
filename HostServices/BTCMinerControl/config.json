@@ -1,8 +1,8 @@
 {
     "board_detection_interval_ms": 5000,
     "board_port": 4200,
-    "dashboard_credentials": "AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAXcJ1ClkIoE2HPS2I/rz+tgAAAABAAAAAQgBUAEMATQBpAG4AZQByAEMAbwBuAHQAcgBvAGwAIABXAGUAYgAgAGMAcgBlAGQAZQBuAHQAaQBhAGwAcwAAABBmAAAAAQAAIAAAACdV2Hr7qR68hxqA1KAtqFswa7IbearIetKZIF9Vzy/6AAAAAA6AAAAAAgAAIAAAAHRGgjjjU9a7wsr4sRJFWIXdbN61g85RVqfu++vBWYfUQAAAAFTr0du6XJXn6at9rLEdzad9+OxDkLpsih/v+b2QV+zJQk8MOPddCoHIT1SnexXqpKcGX9fCmVj5oDBdQgKevPlAAAAAsv1ssIjGbcjig21rXfdfMPmGVIa7cAIudjdJMdtGtt/Wvar8gxDJpDNkdmh/Y87VTjMFcBZltTwr92YN6qS6pg==",
     "dashboard_port": 8080,
+    "dashboard_bind": "0.0.0.0",
     "frequency_mhz": 485,
     "min_difficulty": 256,
     "pool": {
