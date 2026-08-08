@@ -1,2 +1,15 @@
-﻿  server.cpp
+﻿  main.cpp
+  sha256.cpp
+  coinbase.cpp
+  merkle.cpp
+  midstate.cpp
+  verify.cpp
+  client.cpp
+  protocol.cpp
+  manager.cpp
+  scheduler.cpp
+  server.cpp
+  config.cpp
+  self_test.cpp
+  正在生成代码...
   BTCMinerControl.vcxproj -> D:\Document\tempPrj\BTCMinerControl\HostServices\x64\Debug\BTCMinerControl.exe
