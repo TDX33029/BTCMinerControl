@@ -15,6 +15,15 @@
 #include <string>
 #include <thread>
 
+/* ===== Self-test (chip-test) latency / job rotation timeout =====
+   In chip-test mode, if a board finds no nonce within this time (ms), the
+   test job rotates to the next. Adjust here. */
+#define CHIP_TEST_JOB_TIMEOUT_MS  15000
+
+/* ===== Board detection / latency probe interval (shown as "Detect: Ns" in
+   the web UI). Periodic probe of all online boards. Adjust here. */
+#define BOARD_DETECTION_INTERVAL_MS  10000
+
 namespace {
 
 std::atomic<bool> g_shutdown_requested{false};
@@ -79,36 +88,32 @@ int main(int argc, char* argv[]) {
     std::cout << "============================================\n"
                  "  BTCMinerControl v0.2.0\n"
                  "  Distributed BM1366 Mining Proxy\n"
-                 "============================================" << std::endl;
+                 "==================......==========================" << std::endl;
 
     const AppConfig config = load_config(config_path);
-    if (!config.dashboard_credentials_protected &&
-        !save_dashboard_credentials(config_path, config.dashboard_username,
-                                    config.dashboard_password)) {
-        std::cerr << "[config] Warning: Web credentials could not be protected"
-                  << std::endl;
-    }
     const std::string pool_label = config.pool_host + ':' +
                                    std::to_string(config.pool_port);
 
     BoardManager board_manager;
     if (!board_manager.setDetectionIntervalMs(
-            config.board_detection_interval_ms)) {
+            BOARD_DETECTION_INTERVAL_MS)) {
         std::cerr << "[main] Invalid board detection interval" << std::endl;
         return 1;
     }
-    if (!board_manager.start(config.board_port)) {
-        std::cerr << "[main] Failed to start board server" << std::endl;
-        return 1;
+    const bool board_server_started = board_manager.start(config.board_port);
+    if (!board_server_started) {
+        std::cerr << "[main] Board server is unavailable on port "
+                  << config.board_port << "; continuing with the Web UI so "
+                     "the listener settings can be corrected."
+                  << std::endl;
     }
 
     WorkScheduler scheduler(board_manager);
     DashboardServer dashboard;
     if (!dashboard.start(config.dashboard_port, &board_manager,
-                         config.dashboard_bind, config.dashboard_username,
-                         config.dashboard_password, config_path,
+                         config.dashboard_bind, config_path,
                          config.board_port,
-                         config.board_detection_interval_ms)) {
+                         BOARD_DETECTION_INTERVAL_MS)) {
         std::cerr << "[main] Failed to start dashboard" << std::endl;
         board_manager.stop();
         return 1;
@@ -199,13 +204,14 @@ int main(int argc, char* argv[]) {
     if (chip_test_mode) {
         dashboard.setTestMode("CHIP TEST");
         std::cout << "[main] Chip test mode: pool connection is disabled\n"
-                     "[main] Test threshold: difficulty 256; jobs rotate after each nonce or 15 s\n"
+                     "[main] Test threshold: difficulty 256; jobs rotate after each nonce or "
+                  << (CHIP_TEST_JOB_TIMEOUT_MS / 1000) << " s\n"
                      "[main] Press Ctrl+C to stop" << std::endl;
         while (!g_shutdown_requested) {
             const uint64_t now = GetTickCount64();
             for (const auto& board : board_manager.getStats()) {
                 if (board.online && board.last_job_time != 0 &&
-                    now - board.last_job_time >= 15000) {
+                    now - board.last_job_time >= CHIP_TEST_JOB_TIMEOUT_MS) {
                     std::cout << "[chip-test] TIMEOUT board=0x" << std::hex
                               << board.info.board_id << std::dec
                               << "; rotating test job" << std::endl;

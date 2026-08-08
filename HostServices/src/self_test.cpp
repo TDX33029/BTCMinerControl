@@ -322,6 +322,48 @@ bool fetch_dashboard_stats(uint16_t port, nlohmann::json& stats) {
     }
 }
 
+int dashboard_get_status(uint16_t port, const std::string& target,
+                         bool& has_auth_challenge) {
+    has_auth_challenge = false;
+    SOCKET client = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (client == INVALID_SOCKET) return 0;
+
+    sockaddr_in address{};
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+    address.sin_port = htons(port);
+    if (::connect(client, reinterpret_cast<sockaddr*>(&address),
+                  sizeof(address)) != 0) {
+        closesocket(client);
+        return 0;
+    }
+
+    int timeout = 2000;
+    setsockopt(client, SOL_SOCKET, SO_RCVTIMEO,
+               reinterpret_cast<const char*>(&timeout), sizeof(timeout));
+    const std::string request = "GET " + target +
+        " HTTP/1.1\r\nHost: 127.0.0.1\r\nConnection: close\r\n\r\n";
+    bool ok = socket_send_all(client, request);
+    std::string response;
+    char buffer[1024];
+    while (ok) {
+        const int received = recv(client, buffer, sizeof(buffer), 0);
+        if (received == 0) break;
+        if (received < 0) { ok = false; break; }
+        response.append(buffer, static_cast<size_t>(received));
+    }
+    closesocket(client);
+    if (!ok || response.rfind("HTTP/1.1 ", 0) != 0 ||
+        response.size() < 12) return 0;
+    has_auth_challenge = response.find("\r\nWWW-Authenticate:") !=
+                         std::string::npos;
+    try {
+        return std::stoi(response.substr(9, 3));
+    } catch (...) {
+        return 0;
+    }
+}
+
 bool post_dashboard_power(uint16_t port, uint64_t board_id, bool enabled) {
     SOCKET client = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (client == INVALID_SOCKET) return false;
@@ -573,6 +615,11 @@ bool test_chip_test_work_rotation() {
     }
 
     boards.recordNonce(board_id, 300.0);
+    bool auth_challenge = false;
+    ok &= dashboard_get_status(dashboard_port, "/", auth_challenge) == 200;
+    ok &= !auth_challenge;
+    ok &= dashboard_get_status(dashboard_port, "/account", auth_challenge) == 404;
+    ok &= !auth_challenge;
     nlohmann::json stats;
     ok &= fetch_dashboard_stats(dashboard_port, stats);
     if (ok) {
@@ -747,7 +794,7 @@ bool run_self_tests() {
     ok &= check(test_multiboard_work_construction(),
                 "two-board extranonce2 and merkle isolation");
     ok &= check(test_chip_test_work_rotation(),
-                "chip-test difficulty and rotating synthetic jobs");
+                "password-free dashboard and rotating chip-test jobs");
 
     std::cout << "[self-test] Overall: " << (ok ? "PASS" : "FAIL") << std::endl;
     return ok;

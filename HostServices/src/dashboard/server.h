@@ -25,8 +25,6 @@ public:
     // Start on port. The BoardManager provides live stats.
     bool start(uint16_t port, BoardManager* board_mgr,
                const std::string& bind_address = "127.0.0.1",
-               const std::string& username = "TDX33029",
-               const std::string& password = std::string(),
                const std::string& config_path = std::string(),
                uint16_t configured_board_port = 0,
                uint32_t detection_interval_ms = 5000);
@@ -52,8 +50,6 @@ private:
     std::atomic<bool> m_stop{false};
     std::thread m_thread;
     BoardManager* m_boards = nullptr;
-    std::string m_dashboard_username;
-    std::string m_dashboard_password;
     std::string m_config_path;
     uint16_t m_dashboard_port = 0;
     uint16_t m_configured_board_port = 0;

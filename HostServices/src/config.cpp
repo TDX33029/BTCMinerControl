@@ -1,120 +1,15 @@
 #include "config.h"
 #include "json.hpp"
 #include <windows.h>
-#include <wincrypt.h>
 #include <cmath>
 #include <fstream>
 #include <iostream>
 #include <limits>
 #include <stdexcept>
-#include <vector>
-
-#pragma comment(lib, "Crypt32.lib")
 
 using json = nlohmann::json;
 
 namespace {
-
-const char kCredentialEntropy[] =
-    "BTCMinerControl dashboard credentials v1";
-
-bool bytes_to_base64(const BYTE* data, DWORD size, std::string& encoded) {
-    DWORD characters = 0;
-    const DWORD flags = CRYPT_STRING_BASE64 | CRYPT_STRING_NOCRLF;
-    if (!CryptBinaryToStringA(data, size, flags, nullptr, &characters)) {
-        return false;
-    }
-    std::string buffer(characters, '\0');
-    if (!CryptBinaryToStringA(data, size, flags, buffer.data(), &characters)) {
-        return false;
-    }
-    if (!buffer.empty() && buffer.back() == '\0') buffer.pop_back();
-    encoded = std::move(buffer);
-    return true;
-}
-
-bool base64_to_bytes(const std::string& encoded, std::vector<BYTE>& bytes) {
-    DWORD size = 0;
-    if (!CryptStringToBinaryA(encoded.c_str(), static_cast<DWORD>(encoded.size()),
-                              CRYPT_STRING_BASE64, nullptr, &size,
-                              nullptr, nullptr)) {
-        return false;
-    }
-    bytes.assign(size, 0);
-    return CryptStringToBinaryA(encoded.c_str(),
-        static_cast<DWORD>(encoded.size()), CRYPT_STRING_BASE64,
-        bytes.data(), &size, nullptr, nullptr) != FALSE;
-}
-
-DATA_BLOB credential_entropy_blob() {
-    DATA_BLOB entropy{};
-    entropy.pbData = reinterpret_cast<BYTE*>(
-        const_cast<char*>(kCredentialEntropy));
-    entropy.cbData = static_cast<DWORD>(sizeof(kCredentialEntropy) - 1);
-    return entropy;
-}
-
-bool protect_credentials(const std::string& username,
-                         const std::string& password,
-                         std::string& protected_text) {
-    const std::string plaintext = json{
-        {"username", username}, {"password", password}
-    }.dump();
-    DATA_BLOB input{};
-    input.pbData = reinterpret_cast<BYTE*>(
-        const_cast<char*>(plaintext.data()));
-    input.cbData = static_cast<DWORD>(plaintext.size());
-    DATA_BLOB entropy = credential_entropy_blob();
-    DATA_BLOB output{};
-    if (!CryptProtectData(&input, L"BTCMinerControl Web credentials",
-                          &entropy, nullptr, nullptr,
-                          CRYPTPROTECT_UI_FORBIDDEN, &output)) {
-        return false;
-    }
-    const bool encoded = bytes_to_base64(output.pbData, output.cbData,
-                                         protected_text);
-    LocalFree(output.pbData);
-    return encoded;
-}
-
-bool unprotect_credentials(const std::string& protected_text,
-                           std::string& username,
-                           std::string& password) {
-    std::vector<BYTE> encrypted;
-    if (!base64_to_bytes(protected_text, encrypted) || encrypted.empty()) {
-        return false;
-    }
-    DATA_BLOB input{};
-    input.pbData = encrypted.data();
-    input.cbData = static_cast<DWORD>(encrypted.size());
-    DATA_BLOB entropy = credential_entropy_blob();
-    DATA_BLOB output{};
-    if (!CryptUnprotectData(&input, nullptr, &entropy, nullptr, nullptr,
-                            CRYPTPROTECT_UI_FORBIDDEN, &output)) {
-        return false;
-    }
-    try {
-        const std::string plaintext(
-            reinterpret_cast<const char*>(output.pbData), output.cbData);
-        const json credentials = json::parse(plaintext);
-        if (!credentials.is_object() || !credentials.contains("username") ||
-            !credentials.contains("password") ||
-            !credentials["username"].is_string() ||
-            !credentials["password"].is_string()) {
-            throw std::invalid_argument("invalid protected credentials");
-        }
-        username = credentials["username"].get<std::string>();
-        password = credentials["password"].get<std::string>();
-        if (username.empty() || password.empty()) {
-            throw std::invalid_argument("empty protected credentials");
-        }
-        LocalFree(output.pbData);
-        return true;
-    } catch (...) {
-        LocalFree(output.pbData);
-        return false;
-    }
-}
 
 uint16_t required_port(const json& value, const char* name) {
     if (!value.is_number_integer()) {
@@ -195,20 +90,6 @@ AppConfig load_config(const std::string& path) {
         }
         if (root.contains("dashboard_port")) candidate.dashboard_port = required_port(root["dashboard_port"], "dashboard_port");
         if (root.contains("dashboard_bind")) candidate.dashboard_bind = required_string(root["dashboard_bind"], "dashboard_bind");
-        if (root.contains("dashboard_credentials")) {
-            const std::string protected_text = required_string(
-                root["dashboard_credentials"], "dashboard_credentials");
-            if (!unprotect_credentials(protected_text,
-                                       candidate.dashboard_username,
-                                       candidate.dashboard_password)) {
-                throw std::invalid_argument(
-                    "dashboard_credentials cannot be decrypted for this Windows user");
-            }
-            candidate.dashboard_credentials_protected = true;
-        } else {
-            if (root.contains("dashboard_username")) candidate.dashboard_username = required_string(root["dashboard_username"], "dashboard_username");
-            if (root.contains("dashboard_password")) candidate.dashboard_password = required_string(root["dashboard_password"], "dashboard_password");
-        }
         if (root.contains("version_rolling")) {
             if (!root["version_rolling"].is_boolean()) throw std::invalid_argument("version_rolling must be boolean");
             candidate.version_rolling = root["version_rolling"].get<bool>();
@@ -228,50 +109,6 @@ AppConfig load_config(const std::string& path) {
         std::cerr << "[config] Invalid configuration: " << error.what()
                   << "; using safe defaults" << std::endl;
         return defaults;
-    }
-}
-
-bool save_dashboard_credentials(const std::string& path,
-                                const std::string& username,
-                                const std::string& password) {
-    if (path.empty() || username.empty() || password.empty()) return false;
-
-    try {
-        json root = json::object();
-        {
-            std::ifstream input(path);
-            if (input.is_open()) root = json::parse(input);
-        }
-        if (!root.is_object()) return false;
-
-        std::string protected_text;
-        if (!protect_credentials(username, password, protected_text)) {
-            return false;
-        }
-        root.erase("dashboard_username");
-        root.erase("dashboard_password");
-        root["dashboard_credentials"] = protected_text;
-
-        const std::string temporary_path = path + ".tmp";
-        {
-            std::ofstream output(temporary_path,
-                                 std::ios::binary | std::ios::trunc);
-            if (!output.is_open()) return false;
-            output << root.dump(4) << '\n';
-            if (!output.good()) {
-                output.close();
-                DeleteFileA(temporary_path.c_str());
-                return false;
-            }
-        }
-        if (!MoveFileExA(temporary_path.c_str(), path.c_str(),
-                         MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH)) {
-            DeleteFileA(temporary_path.c_str());
-            return false;
-        }
-        return true;
-    } catch (...) {
-        return false;
     }
 }
 
@@ -296,6 +133,9 @@ bool save_runtime_settings(const std::string& path,
         root["board_port"] = board_port;
         root["dashboard_port"] = dashboard_port;
         root["board_detection_interval_ms"] = board_detection_interval_ms;
+        root.erase("dashboard_credentials");
+        root.erase("dashboard_username");
+        root.erase("dashboard_password");
 
         const std::string temporary_path = path + ".tmp";
         {

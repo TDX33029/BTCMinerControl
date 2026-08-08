@@ -173,6 +173,10 @@ void bm1366_uart_init(void) {
  }
  
  void bm1366_send_raw(const uint8_t *data, uint8_t len) {
+     /* DIAG: dump sent bytes so we can confirm commands are going out. */
+     printf("[CHIP] TX %u:", (unsigned)len);
+     for (uint8_t i = 0; i < len; i++) printf(" %02X", data[i]);
+     printf("\r\n");
      bm1366_uart_send(data, len);
  }
  
@@ -342,18 +346,22 @@ void bm1366_uart_init(void) {
         ESP-Miner count_asic_chips):
           AA 55 | chip_id[2]=0x13,0x66 | core_num | addr | ... | crc5
         chip_id is at buf[2..3], NOT buf[4..5] (that was the bug). */
-     uint16_t total_wait = 100;
+     uint16_t total_wait = 2000;   /* match ESP-Miner's generous timeout (1000ms/chip) */
      uint16_t found = 0;
      uint32_t start = HAL_GetTick();
+     /* DIAG: capture received bytes to see if chips respond at all. */
+     uint8_t diag[64];
+     uint16_t diag_len = 0;
      while ((HAL_GetTick() - start) < total_wait && found < expected_count) {
          uint8_t byte;
          if (!uart_rb_get(&byte)) continue;
+         if (diag_len < (uint16_t)sizeof(diag)) diag[diag_len++] = byte;
          if (byte != 0xAA) continue;              /* scan for preamble */
          uint8_t buf[11];
          buf[0] = 0xAA;
          uint8_t idx = 1;
          uint32_t inner = HAL_GetTick();
-         while (idx < 11 && (HAL_GetTick() - inner) < 10) {
+         while (idx < 11 && (HAL_GetTick() - inner) < 100) {
              if (uart_rb_get(&buf[idx])) idx++;
          }
          if (idx < 11) continue;                  /* incomplete frame */
@@ -363,6 +371,12 @@ void bm1366_uart_init(void) {
          if (bm1366_crc5(buf + 2, 9) != 0) continue;  /* CRC5 residual */
          found++;
      }
+     /* DIAG: dump received bytes and count, so we can tell whether chips
+        responded at all and whether the data looks garbled (level-shifter
+        issue) or valid. */
+     printf("[CHIP] recv %u bytes:", (unsigned)diag_len);
+     for (uint16_t i = 0; i < diag_len; i++) printf(" %02X", diag[i]);
+     printf("\r\n[CHIP] found=%u\r\n", (unsigned)found);
      return found;
  }
  
@@ -375,7 +389,14 @@ void bm1366_uart_init(void) {
      gpio.Pull  = GPIO_NOPULL;
      gpio.Speed = GPIO_SPEED_FREQ_LOW;
      HAL_GPIO_Init(BM1366_RST_PORT, &gpio);
+     /* Assert reset (active-low RESET_N) then release, to ensure a clean chip
+        reset. Power-on reset alone may not be enough if the MCU reboots
+        without power-cycling the chips. */
+     printf("[CHIP] reset pulse (RST low 10ms -> high 50ms)\r\n");
+     HAL_GPIO_WritePin(BM1366_RST_PORT, BM1366_RST_PIN, GPIO_PIN_RESET);
+     HAL_Delay(100);
      HAL_GPIO_WritePin(BM1366_RST_PORT, BM1366_RST_PIN, GPIO_PIN_SET);
+     HAL_Delay(100);
  
      /* Set version mask */
      for (int i = 0; i < 3; i++) {
