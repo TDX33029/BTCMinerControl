@@ -48,6 +48,15 @@
  }
  
  /* ===== USART1 ISR (F1/F107) ===== */
+/* DIAG: FE/NE (garbled frame) and ORE (dropped byte) counters -- smoking
+   gun for signal-integrity problems on the ASIC UART line. */
+static volatile uint16_t uart_rx_frame_errors = 0;
+static volatile uint16_t uart_rx_overruns     = 0;
+/* DIAG: result-frame drop counters -- nonzero growth means the chip IS
+   sending results but they fail our preamble/CRC checks. */
+static volatile uint32_t rx_bad_preamble = 0;
+static volatile uint32_t rx_bad_crc      = 0;
+static volatile uint32_t uart_rx_total   = 0;  /* every byte the ISR accepted */
  void bm1366_uart_isr_handler(void) {
      /* Read SR once. RXNEIE also fires on overrun (ORE); if ORE is set with
         RXNE clear we must clear it by reading SR then DR, otherwise the
@@ -55,9 +64,13 @@
      uint32_t sr = USART1->SR;
      if (sr & USART_SR_RXNE) {
          uint8_t byte = (uint8_t)(USART1->DR);   /* clears RXNE (and ORE, since SR was read) */
-         uart_rb_put(byte);
+        if (sr & (USART_SR_FE | USART_SR_NE)) uart_rx_frame_errors++;
+        if (sr & USART_SR_ORE) uart_rx_overruns++;
+         uart_rx_total++;   /* DIAG: total bytes accepted by the ISR */
+        uart_rb_put(byte);
      } else if (sr & USART_SR_ORE) {
          (void)USART1->DR;                        /* clear overrun */
+        uart_rx_overruns++;
      }
  }
  
@@ -204,6 +217,7 @@ void bm1366_uart_init(void) {
                  buf[idx++] = byte;
              } else {
                  buf[0] = byte;
+                rx_bad_preamble++;                         /* DIAG */
                  idx = (byte == 0xAA) ? 1 : 0;
              }
          } else {
@@ -217,7 +231,8 @@ void bm1366_uart_init(void) {
                      memcpy(result, buf, 11);
                      return 1;
                  }
-                 /* CRC mismatch: drop and keep scanning */
+                 rx_bad_crc++;                              /* DIAG */
+                /* CRC mismatch: drop and keep scanning */
              }
          }
      }
@@ -305,7 +320,7 @@ void bm1366_uart_init(void) {
      uint16_t cores_up       = next_power_of_two(cores);
      uint16_t asic_count_up  = next_power_of_two(asic_count);
      float hcn_space = (float)0x100000000ULL / (float)cores_up / (float)asic_count_up;
-     double hcn_max  = (double)hcn_space * (double)BM1366_FREQ_MULT / (double)frequency * 0.5;
+     double hcn_max  = (double)hcn_space * (double)BM1366_FREQ_MULT / (double)frequency * 0.015625;  /* TEMP: 0.5->1/64, HCN 2^23->2^17 ~= Bitaxe's 105K */
      double hcn_frac = nonce_percent * hcn_max;
      uint32_t hcn_reg = (uint32_t)hcn_frac;
      bm1366_set_hash_counting_number(hcn_reg);
@@ -346,22 +361,26 @@ void bm1366_uart_init(void) {
         ESP-Miner count_asic_chips):
           AA 55 | chip_id[2]=0x13,0x66 | core_num | addr | ... | crc5
         chip_id is at buf[2..3], NOT buf[4..5] (that was the bug). */
-     uint16_t total_wait = 2000;   /* match ESP-Miner's generous timeout (1000ms/chip) */
+     uint16_t total_wait = 5000;   /* generous: ESP-Miner waits 1000ms per frame, no total cap */
      uint16_t found = 0;
      uint32_t start = HAL_GetTick();
      /* DIAG: capture received bytes to see if chips respond at all. */
-     uint8_t diag[64];
+     struct { uint8_t b; uint32_t t; } diag[256];
      uint16_t diag_len = 0;
      while ((HAL_GetTick() - start) < total_wait && found < expected_count) {
          uint8_t byte;
          if (!uart_rb_get(&byte)) continue;
-         if (diag_len < (uint16_t)sizeof(diag)) diag[diag_len++] = byte;
+         if (diag_len < (uint16_t)(sizeof(diag) / sizeof(diag[0]))) {
+            diag[diag_len].b = byte;
+            diag[diag_len].t = HAL_GetTick() - start;
+            diag_len++;
+        }
          if (byte != 0xAA) continue;              /* scan for preamble */
          uint8_t buf[11];
          buf[0] = 0xAA;
          uint8_t idx = 1;
          uint32_t inner = HAL_GetTick();
-         while (idx < 11 && (HAL_GetTick() - inner) < 100) {
+         while (idx < 11 && (HAL_GetTick() - inner) < 1000) {
              if (uart_rb_get(&buf[idx])) idx++;
          }
          if (idx < 11) continue;                  /* incomplete frame */
@@ -375,8 +394,9 @@ void bm1366_uart_init(void) {
         responded at all and whether the data looks garbled (level-shifter
         issue) or valid. */
      printf("[CHIP] recv %u bytes:", (unsigned)diag_len);
-     for (uint16_t i = 0; i < diag_len; i++) printf(" %02X", diag[i]);
-     printf("\r\n[CHIP] found=%u\r\n", (unsigned)found);
+     for (uint16_t i = 0; i < diag_len; i++) printf(" %02X@%lu", diag[i].b, (unsigned long)diag[i].t);
+     printf("\r\n[CHIP] found=%u  FE/NE=%u ORE=%u\r\n", (unsigned)found,
+           (unsigned)uart_rx_frame_errors, (unsigned)uart_rx_overruns);
      return found;
  }
  
@@ -479,8 +499,9 @@ void bm1366_uart_init(void) {
      /* Switch to 1 Mbaud (matches ESP-Miner: write reg 0x28 then switch UART) */
      {
          uint8_t baud_cmd[] = {0x00, 0x28, 0x11, 0x30, 0x02, 0x00};
-         bm1366_send_cmd(BM1366_TYPE_CMD | BM1366_GROUP_ALL | BM1366_CMD_WRITE, baud_cmd, 6);
-         bm1366_uart_set_baud(BM1366_MAX_BAUD);
+         /* bm1366_send_cmd(BM1366_TYPE_CMD | BM1366_GROUP_ALL | BM1366_CMD_WRITE, baud_cmd, 6); TEMP: 1Mbaud disabled */
+         /* TEMP: 1 Mbaud switch DISABLED (A/B test -- stay at 115200) */
+    /* bm1366_uart_set_baud(BM1366_MAX_BAUD); */
      }
 
      return chips;
@@ -499,6 +520,9 @@ void bm1366_uart_init(void) {
  
  uint8_t bm1366_get_address_interval(void) { return bm1366_address_interval; }
  uint8_t bm1366_get_chip_count(void) { return bm1366_chip_count; }
+uint32_t bm1366_get_bad_preamble(void) { return rx_bad_preamble; }
+uint32_t bm1366_get_bad_crc(void) { return rx_bad_crc; }
+uint32_t bm1366_get_rx_total(void) { return uart_rx_total; }
  
  #define FREQ_STEP_SIZE  6.25f
  #define FREQ_EPSILON    0.0001f

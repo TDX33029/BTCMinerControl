@@ -87,6 +87,9 @@
  int  bm1366_count_chips(uint8_t expected_count);
  uint8_t bm1366_get_address_interval(void);
  uint8_t bm1366_get_chip_count(void);
+uint32_t bm1366_get_bad_preamble(void);
+uint32_t bm1366_get_bad_crc(void);
+uint32_t bm1366_get_rx_total(void);
  uint8_t  bm1366_crc5(const uint8_t *data, uint8_t len);
  uint16_t bm1366_crc16(const uint8_t *data, uint16_t len);
  bm1366_pll_params_t bm1366_pll_calc(float target_freq_mhz, uint8_t ref_min, uint8_t ref_max);

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [BTCMinerMS\BTCMinerMS.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image BTCMinerMS\BTCMinerMS.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Aug 05 07:17:33 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Aug 13 13:12:54 2026
 <BR><P>
 <H3>Maximum Stack Usage =        708 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -641,6 +641,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eth_init
 <LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eth_deep_debug
+<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bm1366_init_chips
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ETH_MACDMAConfig
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ETH_Init
 <LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -650,8 +651,8 @@ Global Symbols
 <P><STRONG><a name="[79]"></a>HAL_ETH_Init</STRONG> (Thumb, 510 bytes, Stack size 32 bytes, stm32f1xx_hal_eth.o(i.HAL_ETH_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 248<LI>Call Chain = HAL_ETH_Init &rArr; ETH_MACDMAConfig &rArr; HAL_Delay
 </UL>
-<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
-<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<BR>[Calls]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetHCLKFreq
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ETH_WritePHYRegister
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ETH_ReadPHYRegister
@@ -712,8 +713,8 @@ Global Symbols
 <P><STRONG><a name="[78]"></a>HAL_GetTick</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f1xx_hal.o(i.HAL_GetTick))
 <BR><BR>[Called By]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eth_poll
 <LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eth_connect
-<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bm1366_read_result
 <LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bm1366_frequency_transition
 <LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bm1366_count_chips
@@ -1077,11 +1078,12 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[b8]"></a>bm1366_init_chips</STRONG> (Thumb, 514 bytes, Stack size 96 bytes, bm1366.o(i.bm1366_init_chips))
+<P><STRONG><a name="[b8]"></a>bm1366_init_chips</STRONG> (Thumb, 536 bytes, Stack size 96 bytes, bm1366.o(i.bm1366_init_chips))
 <BR><BR>[Stack]<UL><LI>Max Depth = 428<LI>Call Chain = bm1366_init_chips &rArr; bm1366_set_nonce_space &rArr; bm1366_send_cmd &rArr; _send_packet &rArr; bm1366_crc16
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bm1366_uart_set_baud
 <LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bm1366_set_version_mask
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bm1366_set_nonce_space
@@ -1329,8 +1331,8 @@ Global Symbols
 <LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_start
 <LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ETH_WritePHYRegister
 <LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ETH_MAC_Init
-<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2snprintf
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
@@ -1714,11 +1716,11 @@ Global Symbols
 <LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eth_has_ip
 <LI><a href="#[149]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eth_get_ip
 <LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eth_connect
-<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetPCLK2Freq
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bm1366_uart_init
 <LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bm1366_init_chips
 <LI><a href="#[14c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bm1366_get_chip_count

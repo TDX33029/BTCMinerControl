@@ -1,0 +1,12 @@
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\main.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\BTCMinerControl\x64\Debug\main.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\mine\sha256.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\BTCMinerControl\x64\Debug\sha256.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\mine\coinbase.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\BTCMinerControl\x64\Debug\coinbase.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\mine\merkle.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\BTCMinerControl\x64\Debug\merkle.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\mine\midstate.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\BTCMinerControl\x64\Debug\midstate.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\mine\verify.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\BTCMinerControl\x64\Debug\verify.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\stratum\client.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\BTCMinerControl\x64\Debug\client.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\dispatch\protocol.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\BTCMinerControl\x64\Debug\protocol.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\dispatch\manager.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\BTCMinerControl\x64\Debug\manager.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\dispatch\scheduler.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\BTCMinerControl\x64\Debug\scheduler.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\dashboard\server.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\BTCMinerControl\x64\Debug\server.obj
+D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\src\config.cpp;D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\BTCMinerControl\x64\Debug\config.obj

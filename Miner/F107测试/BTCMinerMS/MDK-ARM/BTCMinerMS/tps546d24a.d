@@ -8,14 +8,14 @@ btcminerms\tps546d24a.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
 btcminerms\tps546d24a.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
 btcminerms\tps546d24a.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f107xc.h
 btcminerms\tps546d24a.o: ../Drivers/CMSIS/Include/core_cm3.h
-btcminerms\tps546d24a.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+btcminerms\tps546d24a.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 btcminerms\tps546d24a.o: ../Drivers/CMSIS/Include/cmsis_version.h
 btcminerms\tps546d24a.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 btcminerms\tps546d24a.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 btcminerms\tps546d24a.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
 btcminerms\tps546d24a.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 btcminerms\tps546d24a.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-btcminerms\tps546d24a.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
+btcminerms\tps546d24a.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 btcminerms\tps546d24a.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
 btcminerms\tps546d24a.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
 btcminerms\tps546d24a.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h
@@ -29,4 +29,4 @@ btcminerms\tps546d24a.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash
 btcminerms\tps546d24a.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
 btcminerms\tps546d24a.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 btcminerms\tps546d24a.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-btcminerms\tps546d24a.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\string.h
+btcminerms\tps546d24a.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

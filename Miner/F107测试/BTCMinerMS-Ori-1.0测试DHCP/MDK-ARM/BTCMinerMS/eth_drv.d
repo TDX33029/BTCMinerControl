@@ -10,14 +10,14 @@ btcminerms\eth_drv.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
 btcminerms\eth_drv.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
 btcminerms\eth_drv.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f107xc.h
 btcminerms\eth_drv.o: ../Drivers/CMSIS/Include/core_cm3.h
-btcminerms\eth_drv.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+btcminerms\eth_drv.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 btcminerms\eth_drv.o: ../Drivers/CMSIS/Include/cmsis_version.h
 btcminerms\eth_drv.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 btcminerms\eth_drv.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 btcminerms\eth_drv.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
 btcminerms\eth_drv.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 btcminerms\eth_drv.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-btcminerms\eth_drv.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stddef.h
+btcminerms\eth_drv.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 btcminerms\eth_drv.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
 btcminerms\eth_drv.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
 btcminerms\eth_drv.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h
@@ -34,10 +34,10 @@ btcminerms\eth_drv.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 btcminerms\eth_drv.o: ../Library/LwIP/src/include/lwip/debug.h
 btcminerms\eth_drv.o: ../Library/LwIP/src/include/lwip/arch.h
 btcminerms\eth_drv.o: ../Library/LwIP/src/include/lwip/arch/cc.h
-btcminerms\eth_drv.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\string.h
-btcminerms\eth_drv.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\inttypes.h
-btcminerms\eth_drv.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\limits.h
-btcminerms\eth_drv.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\ctype.h
+btcminerms\eth_drv.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+btcminerms\eth_drv.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
+btcminerms\eth_drv.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
+btcminerms\eth_drv.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
 btcminerms\eth_drv.o: ../Library/LwIP/src/include/lwip/opt.h
 btcminerms\eth_drv.o: ../Library/LwIP/src/include/lwip/err.h
 btcminerms\eth_drv.o: ../Library/LwIP/src/include/lwip/ip_addr.h
@@ -74,4 +74,4 @@ btcminerms\eth_drv.o: ../Library/LwIP/src/include/lwip/dhcp.h
 btcminerms\eth_drv.o: ../Library/LwIP/src/include/lwip/udp.h
 btcminerms\eth_drv.o: ../Library/LwIP/src/include/lwip/prot/udp.h
 btcminerms\eth_drv.o: ../Library/LwIP/src/include/netif/ethernet.h
-btcminerms\eth_drv.o: D:\Program Files\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+btcminerms\eth_drv.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

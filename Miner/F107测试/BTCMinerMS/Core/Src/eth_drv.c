@@ -18,7 +18,7 @@
    whether the DHCP long-frame (~345B) RX corruption is the only blocker: if
    the board connects stably with static IP (only short ARP/TCP frames), the
    RMII is fine for short frames and only DHCP's long frames expose it. */
-#define ETH_USE_STATIC_IP    1
+#define ETH_USE_STATIC_IP    0
 #define ETH_STATIC_IP0       10
 #define ETH_STATIC_IP1       8
 #define ETH_STATIC_IP2       1

@@ -80,15 +80,15 @@ UART_HandleTypeDef huart2;
 #define PC_IP3     3
 #define PC_PORT    4200
 
-#define BM1366_EXPECTED_COUNT  6
-#define BM1366_TARGET_FREQ_MHZ 485.0f
+#define BM1366_EXPECTED_COUNT  1    /* bench: only 1 chip populated */
+#define BM1366_TARGET_FREQ_MHZ 200.0f  /* TEMP: verify result-rate scaling; watch current (≈6-7W est) */
 /* Bench-test switch: allow a received PC job to reach USART1 even when the
    chip probe finds no BM1366. Disable this on production firmware if desired. */
 #define BM1366_UART_TEST_WITHOUT_ASIC  1
 /* When 0, parsed PC jobs are logged but NOT forwarded to the ASIC (bring-up:
    detect chips and report the count without hashing). Flip to 1 to start
    dispatching real work. */
-#define BM1366_DISPATCH_JOBS  0
+#define BM1366_DISPATCH_JOBS  1
 
 #define FW_VERSION_MAJOR  2
 #define FW_VERSION_MINOR  4
@@ -99,6 +99,12 @@ UART_HandleTypeDef huart2;
 /* ===== Global Variables ===== */
 volatile uint32_t g_ms = 0;
 static int  asic_ready    = 0;
+/* TEMP: keep last job to re-dispatch every 5s with increasing starting_nonce
+   (mirrors ESP-Miner create_jobs_task pacing -- chip idles between jobs). */
+static protocol_job_t last_job;
+static int  last_job_valid  = 0;
+static uint32_t last_redisp = 0;
+static uint8_t disp_job_id  = 0;
 static int  connected     = 0;
 static uint64_t BOARD_ID  = 0;   /* set from STM32F107 UID at runtime */
 static uint32_t active_job_version = 0;  /* base version of current job (for nonce version-rolling) */
@@ -383,6 +389,10 @@ int main(void)
     eth_poll();
     receive_tcp_data();
     check_bm1366_results();
+
+    /* TEMP (DISABLED): board-side re-dispatch -- host now sends a fresh
+       midstate job every 5s (scheduler.tick), which is what the chip needs. */
+    (void)last_redisp; (void)disp_job_id;
 
     if ((!tps_detected || !tmp_detected) &&
         (now - last_sensor_probe) >= 10000U) {
@@ -736,9 +746,10 @@ static void send_board_hello(void) {
     uint8_t buf[64];
     uint16_t len = protocol_encode_hello(&hello, buf);
     if (len > 0) {
+        /* TEMP: HELLO print silenced
         printf("[HELLO] board_id=0x%08X%08X asic=%d fw=%d.%d len=%d\r\n",
                (uint32_t)(BOARD_ID >> 32), (uint32_t)BOARD_ID,
-               hello.asic_count, FW_VERSION_MAJOR, FW_VERSION_MINOR, len);
+               hello.asic_count, FW_VERSION_MAJOR, FW_VERSION_MINOR, len); */
         eth_send(buf, len);
     }
 }
@@ -817,16 +828,56 @@ static void send_board_telemetry(void) {
 
 static void check_bm1366_results(void) {
     if (!asic_ready) return;
+    /* TEMP DIAG (quiet): every 5s, one line -- domain-0 count (0x88) + RX stats.
+       Chip is hashing while 0x88 increases; results arrive while rx grows
+       beyond the diag response bytes. */
+    static uint32_t last_reg_diag = 0;
+    if (HAL_GetTick() - last_reg_diag > 5000) {
+        uint8_t cmd[7];
+        uint8_t buf[64];
+        uint16_t n;
+        uint32_t regval;
+        last_reg_diag = HAL_GetTick();
+        cmd[0] = 0x55; cmd[1] = 0xAA; cmd[2] = 0x52; cmd[3] = 0x05;
+        cmd[4] = 0x00; cmd[5] = 0x88;
+        cmd[6] = bm1366_crc5(cmd + 2, 4);
+        bm1366_uart_send(cmd, 7);
+        HAL_Delay(10);
+        n = bm1366_uart_recv(buf, sizeof(buf));
+        regval = (n >= 8) ? (((uint32_t)buf[4] << 24) | ((uint32_t)buf[5] << 16) |
+                             ((uint32_t)buf[6] << 8) | (uint32_t)buf[7]) : 0;
+        printf("[DIAG] 0x88=%lu rx=%lu bad=%lu/%lu\r\n",
+               (unsigned long)regval, (unsigned long)bm1366_get_rx_total(),
+               (unsigned long)bm1366_get_bad_preamble(), (unsigned long)bm1366_get_bad_crc());
+    }
+    /* TEMP: dump raw RX bytes every 10s -- shows what the chip actually sends
+       (incl. frames read_result would drop as non-AA garbage). */
+    static uint32_t last_raw_dump = 0;
+    if (0 && HAL_GetTick() - last_raw_dump > 10000) {   /* TEMP: disabled -- was stealing result frames */
+        uint8_t dbuf[64];
+        uint16_t dn;
+        last_raw_dump = HAL_GetTick();
+        dn = bm1366_uart_recv(dbuf, sizeof(dbuf));
+        if (dn > 0) {
+            printf("[RAW] %u bytes:", (unsigned)dn);
+            for (uint16_t i = 0; i < dn; i++) printf(" %02X", dbuf[i]);
+            printf("\r\n");
+        }
+    }
     bm1366_result_raw_t raw;
     if (bm1366_read_result(&raw, 0) > 0) {
+        /* TEMP: dump raw 11-byte result frame for offline byte-order analysis */
+        uint8_t *rp = (uint8_t *)&raw;
+        printf("[RAWFRAME]");
+        for (int i = 0; i < 11; i++) printf(" %02X", rp[i]);
+        printf("\r\n");
         /* Field parsing matches ESP-Miner BM1366_process_work:
            - nonce on wire is big-endian -> byte-swap for host order
            - job_id_raw: high 5 bits = job_id, low 3 bits = small_core_id
            - core_id and asic_nr are extracted from the NONCE (not midstate_num)
            - version_raw is big-endian -> byte-swap, shift <<13, OR with base version */
         bm1366_result_t parsed = {0};
-        uint32_t nonce_h = ((raw.nonce & 0xFFU) << 24) | ((raw.nonce & 0xFF00U) << 8) |
-                            ((raw.nonce & 0xFF0000U) >> 8) | ((raw.nonce & 0xFF000000U) >> 24);
+        uint32_t nonce_h = raw.nonce;   /* little-endian host read of the frame bytes == the ASIC's nonce value */
         uint16_t ver_h   = ((raw.version_raw & 0xFFU) << 8) | ((raw.version_raw >> 8) & 0xFFU);
         parsed.nonce        = nonce_h;
         parsed.job_id       = raw.job_id_raw & 0xF8;
@@ -867,13 +918,15 @@ static void receive_tcp_data(void) {
 
         const uint8_t *payload = net_rx_buf + off + 5;
         if (type != MSG_LATENCY_PROBE) {
-            printf("[TCP] type=0x%02X frame=%d payload=%d\r\n", type, frame_len, payload_len);
+            /* printf("[TCP] type=0x%02X frame=%d payload=%d\r\n", type, frame_len, payload_len); TEMP: quiet */
         }
 
         switch (type) {
             case MSG_JOB: {
                 protocol_job_t job;
                 if (protocol_decode_job(payload, payload_len, &job) > 0) {
+                    memcpy(&last_job, &job, sizeof(last_job));  /* TEMP: 5s re-dispatch */
+                    last_job_valid = 1;
                     active_job_version = job.version;   /* track for nonce version-rolling */
                     printf("[JOB] id=%d midstates=%d version=0x%08X nbits=0x%08X ntime=0x%08X nonce_start=0x%08X\r\n",
                            job.job_id, job.num_midstates, job.version,
@@ -891,7 +944,9 @@ static void receive_tcp_data(void) {
                 if (protocol_decode_setparams(payload, payload_len, &params) > 0) {
                     printf("[PARAM] freq=%d MHz voltage=%d mV\r\n",
                            params.freq_mhz, params.voltage_mv);
-                    if (asic_ready) bm1366_frequency_transition((float)params.freq_mhz, 100);
+                    /* TEMP: frequency control disabled for low-power bring-up --
+                       server sends 485 MHz which would overload the bench supply. */
+                    if (asic_ready) printf("[PARAM] freq=%d MHz IGNORED (low-power test)\r\n", params.freq_mhz);
                 }
                 break;
             }
