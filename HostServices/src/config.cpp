@@ -1,6 +1,6 @@
 #include "config.h"
 #include "json.hpp"
-#include <windows.h>
+#include "platform/platform.h"
 #include <cmath>
 #include <fstream>
 #include <iostream>
@@ -145,13 +145,12 @@ bool save_runtime_settings(const std::string& path,
             output << root.dump(4) << '\n';
             if (!output.good()) {
                 output.close();
-                DeleteFileA(temporary_path.c_str());
+                platform::remove_file_if_present(temporary_path);
                 return false;
             }
         }
-        if (!MoveFileExA(temporary_path.c_str(), path.c_str(),
-                         MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH)) {
-            DeleteFileA(temporary_path.c_str());
+        if (!platform::atomic_replace_file(temporary_path, path)) {
+            platform::remove_file_if_present(temporary_path);
             return false;
         }
         return true;

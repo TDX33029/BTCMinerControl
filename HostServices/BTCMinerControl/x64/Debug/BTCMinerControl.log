@@ -10,6 +10,7 @@
   scheduler.cpp
   server.cpp
   config.cpp
+  platform.cpp
   self_test.cpp
   正在生成代码...
-  BTCMinerControl.vcxproj -> D:\Document\tempPrj\BTCMinerControl\HostTest\HostServices\x64\Debug\BTCMinerControl.exe
+  BTCMinerControl.vcxproj -> D:\Document\tempPrj\BTCMinerControl\HostServices\x64\Debug\BTCMinerControl.exe

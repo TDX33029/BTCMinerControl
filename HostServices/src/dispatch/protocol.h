@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include <array>
-#include <winsock2.h>
+#include "../platform/platform.h"
 
 // ---------------------------------------------------------------------------
 // Binary protocol for PC ↔ STM32 board communication over TCP.
@@ -18,6 +18,10 @@
 //   0x04 Board→PC: Register/Heartbeat
 //   0x05 PC→Board: Set frequency/voltage
 //   0x06 PC→Board: ACK
+//   0x07 Board→PC: Power/temperature telemetry
+//   0x08 PC→Board: Set ASIC power
+//   0x09 Both: Latency probe/echo
+//   0x0A PC→Board: Set BM1366 version-rolling mask
 //   0xFF Both: NACK/Error
 // ---------------------------------------------------------------------------
 
@@ -36,6 +40,7 @@ enum class MsgType : uint8_t {
     BoardTelemetry = 0x07,
     SetPower      = 0x08,
     LatencyProbe  = 0x09,
+    SetVersionMask = 0x0A,
     Error        = 0xFF,
 };
 
@@ -108,6 +113,9 @@ bool decode_board_telemetry(const uint8_t* data, size_t len,
 
 // Encode a frequency/voltage setting command.
 std::vector<uint8_t> encode_set_params(uint16_t freq_mhz, uint16_t voltage_mv);
+
+// Encode the BIP-310 version-rolling mask for the BM1366 chip.
+std::vector<uint8_t> encode_set_version_mask(uint32_t version_mask);
 
 // Enable or disable the TPS546D24A output on one board.
 std::vector<uint8_t> encode_set_power(bool enabled);

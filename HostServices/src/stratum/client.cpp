@@ -1,6 +1,8 @@
 #include "client.h"
 #include "../mine/sha256.h"
+#include "../platform/platform.h"
 #include <algorithm>
+#include <cctype>
 #include <chrono>
 #include <cstdio>
 #include <iomanip>
@@ -14,16 +16,6 @@ using json = nlohmann::json;
 #pragma comment(lib, "ws2_32.lib")
 
 namespace {
-
-struct WinSockInit {
-    WinSockInit() {
-        WSADATA wsa{};
-        if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
-            throw std::runtime_error("WSAStartup failed");
-        }
-    }
-    ~WinSockInit() { WSACleanup(); }
-} g_winsock;
 
 bool send_all(SOCKET socket, const std::string& data) {
     size_t offset = 0;
@@ -100,7 +92,7 @@ bool StratumClient::connect(const std::string& host, uint16_t port) {
                                      &hints, &addresses);
     if (resolved != 0) {
         std::cerr << "[stratum] DNS resolution failed for " << host
-                  << ": " << gai_strerrorA(resolved) << std::endl;
+                  << ": " << platform::gai_error_text(resolved) << std::endl;
         return false;
     }
 
@@ -222,10 +214,7 @@ bool StratumClient::appendFromSocket(int timeout_ms) {
     const SOCKET socket = m_socket.load();
     if (socket == INVALID_SOCKET) return false;
 
-    const int effective_timeout = timeout_ms <= 0 ? 1 : timeout_ms;
-    setsockopt(socket, SOL_SOCKET, SO_RCVTIMEO,
-               reinterpret_cast<const char*>(&effective_timeout),
-               sizeof(effective_timeout));
+    platform::set_recv_timeout(socket, timeout_ms <= 0 ? 1 : timeout_ms);
 
     char chunk[8192];
     const int received = recv(socket, chunk, sizeof(chunk), 0);
@@ -452,7 +441,12 @@ void StratumClient::handleResult(const json& root) {
             if (result.is_boolean()) accepted = result.get<bool>();
             else if (result.is_object() && result.contains("status") &&
                      result["status"].is_string()) {
-                accepted = result["status"].get<std::string>() == "ok";
+                std::string status = result["status"].get<std::string>();
+                std::transform(status.begin(), status.end(), status.begin(),
+                               [](unsigned char c) {
+                                   return static_cast<char>(std::tolower(c));
+                               });
+                accepted = status == "ok";
             }
         }
         if (onShareResponse) {

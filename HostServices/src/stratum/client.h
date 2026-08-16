@@ -8,8 +8,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <winsock2.h>
-#include <ws2tcpip.h>
+#include "../platform/platform.h"
 
 struct MiningNotify {
     std::string job_id;

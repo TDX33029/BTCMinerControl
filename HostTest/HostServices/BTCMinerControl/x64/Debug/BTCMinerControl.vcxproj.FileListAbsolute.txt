@@ -1,3 +1,0 @@
-D:\Docunemt\临时工程项目\BTCMinerControl\BTCMinerControl\HostServices\BTCMinerControl\x64\Debug\BTCMinerControl.exe
-D:\Document\tempPrj\BTCMinerControl\HostServices\BTCMinerControl\x64\Debug\BTCMinerControl.exe
-D:\Document\tempPrj\BTCMinerControl\HostTest\HostServices\BTCMinerControl\x64\Debug\BTCMinerControl.exe

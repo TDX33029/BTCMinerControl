@@ -5,7 +5,7 @@
 #include <atomic>
 #include <mutex>
 #include <vector>
-#include <winsock2.h>
+#include "../platform/platform.h"
 #include "../dispatch/manager.h"
 
 // ---------------------------------------------------------------------------

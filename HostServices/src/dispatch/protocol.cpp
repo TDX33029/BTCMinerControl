@@ -1,4 +1,5 @@
 #include "protocol.h"
+#include "../platform/platform.h"
 #include "../mine/job.h"
 #include <cstring>
 #include <algorithm>
@@ -160,6 +161,12 @@ std::vector<uint8_t> encode_set_params(uint16_t freq_mhz, uint16_t voltage_mv) {
     return frame_message(MsgType::SetParams, payload, 4);
 }
 
+std::vector<uint8_t> encode_set_version_mask(uint32_t version_mask) {
+    uint8_t payload[4];
+    write_u32(payload, version_mask);
+    return frame_message(MsgType::SetVersionMask, payload, sizeof(payload));
+}
+
 std::vector<uint8_t> encode_set_power(bool enabled) {
     const uint8_t payload = enabled ? 1U : 0U;
     return frame_message(MsgType::SetPower, &payload, 1);
@@ -215,10 +222,7 @@ ReceiveResult MessageReader::receive(
             }
         }
 
-        const int socket_timeout = timeout_ms <= 0 ? 1 : timeout_ms;
-        setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO,
-                   reinterpret_cast<const char*>(&socket_timeout),
-                   sizeof(socket_timeout));
+        platform::set_recv_timeout(sock, timeout_ms <= 0 ? 1 : timeout_ms);
 
         uint8_t chunk[2048];
         const int received = recv(sock, reinterpret_cast<char*>(chunk),

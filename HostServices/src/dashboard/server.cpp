@@ -1,4 +1,5 @@
 #include "server.h"
+#include "../platform/platform.h"
 #include "../config.h"
 #include "../json.hpp"
 #include <iostream>
@@ -8,7 +9,6 @@
 #include <chrono>
 #include <algorithm>
 #include <cctype>
-#include <ws2tcpip.h>
 
 using json = nlohmann::json;
 
@@ -458,7 +458,7 @@ std::string settings_page(uint16_t configured_board_port,
         "text-decoration:none;font-weight:bold}.message{margin-top:12px;font-weight:bold}"
         ".error{color:#a11f1f}.ok{color:#247126}</style></head><body><div class=\"panel\">"
         "<div class=\"title\">Listener &amp; Detection Settings</div>"
-        "<form class=\"form\" method=\"post\" action=\"/settings\">"
+        "<form class=\"form\" id=\"settings-form\" onsubmit=\"return saveSettings(event)\">"
         "<div class=\"active\">Active now: board " +
         std::to_string(active_board_port) + " / web " +
         std::to_string(active_dashboard_port) + "</div>"
@@ -475,7 +475,21 @@ std::string settings_page(uint16_t configured_board_port,
         "The detection period takes effect immediately. Listener port changes take effect "
         "after restarting BTCMinerControl.</div>" + message_html +
         "<div class=\"actions\"><button type=\"submit\">Save</button>"
-        "<a href=\"/\">Back</a></div></form></div></body></html>";
+        "<a href=\"/\">Back</a></div></form></div>"
+        "<script>"
+        "function saveSettings(e){"
+        "e.preventDefault();"
+        "const f=e.target;"
+        "const body=new URLSearchParams();"
+        "body.append('board_port',f.board_port.value);"
+        "body.append('dashboard_port',f.dashboard_port.value);"
+        "body.append('detection_seconds',f.detection_seconds.value);"
+        "fetch('/settings',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded','X-BTCMiner-Control':'1'},body:body.toString()})"
+        ".then(async function(r){const text=await r.text();document.open();document.write(text);document.close();})"
+        ".catch(function(err){alert('Save failed: '+err);});"
+        "return false;"
+        "}"
+        "</script></body></html>";
 }
 
 std::string hex_board_id(uint64_t board_id) {
@@ -563,7 +577,7 @@ bool DashboardServer::start(uint16_t port, BoardManager* board_mgr,
     m_configured_board_port = configured_board_port != 0
         ? configured_board_port : board_mgr->port();
     m_configured_dashboard_port = port;
-    m_started_ms = GetTickCount64();
+    m_started_ms = platform::tick_ms();
     if (!m_boards->setDetectionIntervalMs(detection_interval_ms)) return false;
 
     m_listen_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -593,6 +607,7 @@ bool DashboardServer::start(uint16_t port, BoardManager* board_mgr,
         m_listen_sock = INVALID_SOCKET;
         return false;
     }
+    platform::set_nonblocking(m_listen_sock, true);
 
     m_running = true;
     m_stop = false;
@@ -651,6 +666,7 @@ void DashboardServer::acceptLoop() {
         SOCKET client = accept(m_listen_sock, nullptr, nullptr);
         if (client == INVALID_SOCKET) {
             if (m_stop) break;
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
             continue;
         }
 
@@ -666,8 +682,7 @@ void DashboardServer::acceptLoop() {
 
 void DashboardServer::handleClient(SOCKET client) {
     char buf[2048];
-    int timeout = 5000;
-    setsockopt(client, SOL_SOCKET, SO_RCVTIMEO, (const char*)&timeout, sizeof(timeout));
+    platform::set_recv_timeout(client, 5000);
     std::string request;
     while (request.find("\r\n\r\n") == std::string::npos &&
            request.size() < 8192) {
@@ -725,55 +740,65 @@ void DashboardServer::handleClient(SOCKET client) {
                           m_boards ? m_boards->port() : 0,
                           m_dashboard_port));
     } else if (method == "POST" && target == "/settings") {
-        uint32_t board_port = 0;
-        uint32_t dashboard_port = 0;
-        uint32_t detection_seconds = 0;
-        std::string validation_error;
-        if (!parse_bounded_uint(form_value(body, "board_port"),
-                                1, 65535, board_port) ||
-            !parse_bounded_uint(form_value(body, "dashboard_port"),
-                                1, 65535, dashboard_port) ||
-            !parse_bounded_uint(form_value(body, "detection_seconds"),
-                                1, 3600, detection_seconds)) {
-            validation_error = "Ports must be 1..65535 and the detection period must be 1..3600 seconds.";
-        } else if (board_port == dashboard_port) {
-            validation_error = "The board and Web listener ports must be different.";
-        }
-
-        const uint32_t detection_interval_ms = detection_seconds * 1000U;
-        if (!validation_error.empty()) {
-            response = http_response(400, "Bad Request",
-                "text/html; charset=utf-8",
-                settings_page(
-                    static_cast<uint16_t>(board_port == 0 ? m_configured_board_port : board_port),
-                    static_cast<uint16_t>(dashboard_port == 0 ? m_configured_dashboard_port : dashboard_port),
-                    detection_interval_ms == 0
-                        ? (m_boards ? m_boards->detectionIntervalMs() : 5000)
-                        : detection_interval_ms,
-                    m_boards ? m_boards->port() : 0, m_dashboard_port,
-                    validation_error, true));
-        } else if (m_config_path.empty() ||
-                   !save_runtime_settings(
-                       m_config_path, static_cast<uint16_t>(board_port),
-                       static_cast<uint16_t>(dashboard_port),
-                       detection_interval_ms) || !m_boards ||
-                   !m_boards->setDetectionIntervalMs(detection_interval_ms)) {
-            response = http_response(500, "Internal Server Error",
-                "text/html; charset=utf-8",
-                settings_page(static_cast<uint16_t>(board_port),
-                    static_cast<uint16_t>(dashboard_port),
-                    detection_interval_ms,
-                    m_boards ? m_boards->port() : 0, m_dashboard_port,
-                    "Unable to save settings to config.json.", true));
-        } else {
-            m_configured_board_port = static_cast<uint16_t>(board_port);
-            m_configured_dashboard_port =
-                static_cast<uint16_t>(dashboard_port);
-            response = http_response(200, "OK", "text/html; charset=utf-8",
+        if (!has_control_header(request)) {
+            response = http_response(403, "Forbidden", "text/html; charset=utf-8",
                 settings_page(m_configured_board_port,
-                    m_configured_dashboard_port, detection_interval_ms,
-                    m_boards->port(), m_dashboard_port,
-                    "Settings saved. Detection is active now; restart BTCMinerControl to apply listener port changes."));
+                              m_configured_dashboard_port,
+                              m_boards ? m_boards->detectionIntervalMs() : 5000,
+                              m_boards ? m_boards->port() : 0,
+                              m_dashboard_port,
+                              "Missing control header.", true));
+        } else {
+            uint32_t board_port = 0;
+            uint32_t dashboard_port = 0;
+            uint32_t detection_seconds = 0;
+            std::string validation_error;
+            if (!parse_bounded_uint(form_value(body, "board_port"),
+                                    1, 65535, board_port) ||
+                !parse_bounded_uint(form_value(body, "dashboard_port"),
+                                    1, 65535, dashboard_port) ||
+                !parse_bounded_uint(form_value(body, "detection_seconds"),
+                                    1, 3600, detection_seconds)) {
+                validation_error = "Ports must be 1..65535 and the detection period must be 1..3600 seconds.";
+            } else if (board_port == dashboard_port) {
+                validation_error = "The board and Web listener ports must be different.";
+            }
+
+            const uint32_t detection_interval_ms = detection_seconds * 1000U;
+            if (!validation_error.empty()) {
+                response = http_response(400, "Bad Request",
+                    "text/html; charset=utf-8",
+                    settings_page(
+                        static_cast<uint16_t>(board_port == 0 ? m_configured_board_port : board_port),
+                        static_cast<uint16_t>(dashboard_port == 0 ? m_configured_dashboard_port : dashboard_port),
+                        detection_interval_ms == 0
+                            ? (m_boards ? m_boards->detectionIntervalMs() : 5000)
+                            : detection_interval_ms,
+                        m_boards ? m_boards->port() : 0, m_dashboard_port,
+                        validation_error, true));
+            } else if (m_config_path.empty() ||
+                       !save_runtime_settings(
+                           m_config_path, static_cast<uint16_t>(board_port),
+                           static_cast<uint16_t>(dashboard_port),
+                           detection_interval_ms) || !m_boards ||
+                       !m_boards->setDetectionIntervalMs(detection_interval_ms)) {
+                response = http_response(500, "Internal Server Error",
+                    "text/html; charset=utf-8",
+                    settings_page(static_cast<uint16_t>(board_port),
+                        static_cast<uint16_t>(dashboard_port),
+                        detection_interval_ms,
+                        m_boards ? m_boards->port() : 0, m_dashboard_port,
+                        "Unable to save settings to config.json.", true));
+            } else {
+                m_configured_board_port = static_cast<uint16_t>(board_port);
+                m_configured_dashboard_port =
+                    static_cast<uint16_t>(dashboard_port);
+                response = http_response(200, "OK", "text/html; charset=utf-8",
+                    settings_page(m_configured_board_port,
+                        m_configured_dashboard_port, detection_interval_ms,
+                        m_boards->port(), m_dashboard_port,
+                        "Settings saved. Detection is active now; restart BTCMinerControl to apply listener port changes."));
+            }
         }
     } else if (method == "POST" && target == "/api/board-latency") {
         uint64_t board_id = 0;
@@ -842,7 +867,7 @@ void DashboardServer::handleClient(SOCKET client) {
         j["board_detection_interval_ms"] =
             m_boards ? m_boards->detectionIntervalMs() : 0;
         j["uptime_ms"] = m_started_ms == 0
-            ? 0 : GetTickCount64() - m_started_ms;
+            ? 0 : platform::tick_ms() - m_started_ms;
 
         auto boards = m_boards ? m_boards->getStats() : std::vector<BoardStats>{};
         json jboards = json::array();

@@ -48,6 +48,9 @@
     <ClCompile Include="..\src\config.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\platform\platform.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -90,6 +93,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\src\config.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\platform\platform.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\src\self_test.h">

@@ -10,6 +10,10 @@
 #include <limits>
 #include <sstream>
 
+#ifndef SCHEDULER_DIAG
+#define SCHEDULER_DIAG 0
+#endif
+
 WorkScheduler::WorkScheduler(BoardManager& manager)
     : m_manager(manager) {}
 
@@ -65,7 +69,8 @@ bool WorkScheduler::dispatchToBoard(const WorkDefinition& work, uint64_t board_i
     const auto merkle_root = calculate_merkle_root(
         coinbase_hash.data(), branches, work.merkle_branches.size());
 
-    /* TEMP: dump coinbase/merkle data for offline pool-rebuild verification */
+#if SCHEDULER_DIAG
+    /* Dump coinbase/merkle data for offline pool-rebuild verification. */
     {
         auto hexstr = [](const uint8_t* p, size_t n) {
             std::ostringstream oss;
@@ -88,6 +93,7 @@ bool WorkScheduler::dispatchToBoard(const WorkDefinition& work, uint64_t board_i
                   << " version=0x" << std::hex << work.version << std::dec
                   << " jobid=" << work.pool_job_id << std::endl;
     }
+#endif
     JobParams params{};
     params.version = work.version;
     params.version_mask = work.version_mask;
@@ -139,8 +145,15 @@ void WorkScheduler::tick() {
 }
 
 void WorkScheduler::clearLatestWork() {
-    std::lock_guard<std::mutex> dispatch_lock(m_dispatch_mutex);
-    m_latest_work.reset();
+    {
+        std::lock_guard<std::mutex> dispatch_lock(m_dispatch_mutex);
+        m_latest_work.reset();
+    }
+    {
+        std::lock_guard<std::mutex> jobs_lock(m_jobs_mutex);
+        m_jobs_by_board.clear();
+        m_last_jobs.clear();
+    }
 }
 
 bool WorkScheduler::dispatchSyntheticWork(uint64_t board_id, double difficulty,

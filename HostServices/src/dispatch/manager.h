@@ -9,7 +9,7 @@
 #include <thread>
 #include <unordered_map>
 #include <vector>
-#include <winsock2.h>
+#include "../platform/platform.h"
 
 struct BoardStats {
     BoardInfo info{};
@@ -55,6 +55,7 @@ public:
     void broadcastJob(const std::vector<uint8_t>& job_data);
     bool setBoardParams(uint64_t board_id, uint16_t freq_mhz,
                         uint16_t voltage_mv);
+    bool setBoardVersionMask(uint64_t board_id, uint32_t version_mask);
     bool setBoardPower(uint64_t board_id, bool enabled);
     bool testBoardLatency(uint64_t board_id);
     size_t testAllBoardLatencies();

@@ -15,8 +15,7 @@
 #include <sstream>
 #include <string>
 #include <thread>
-#include <winsock2.h>
-#include <ws2tcpip.h>
+#include "platform/platform.h"
 
 namespace {
 
@@ -61,7 +60,7 @@ SOCKET make_loopback_listener(uint16_t& port) {
         closesocket(listener);
         return INVALID_SOCKET;
     }
-    int length = sizeof(address);
+    socklen_t length = sizeof(address);
     if (getsockname(listener, reinterpret_cast<sockaddr*>(&address), &length) != 0) {
         closesocket(listener);
         return INVALID_SOCKET;
@@ -236,9 +235,7 @@ bool send_test_telemetry(SOCKET socket_handle, bool power_enabled = true) {
 }
 
 bool receive_test_frame(SOCKET socket_handle, std::vector<uint8_t>& frame) {
-    int timeout = 2000;
-    setsockopt(socket_handle, SOL_SOCKET, SO_RCVTIMEO,
-               reinterpret_cast<const char*>(&timeout), sizeof(timeout));
+    platform::set_recv_timeout(socket_handle, 2000);
     uint8_t header[4]{};
     size_t offset = 0;
     while (offset < sizeof(header)) {
@@ -297,9 +294,7 @@ bool fetch_dashboard_stats(uint16_t port, nlohmann::json& stats) {
         return false;
     }
 
-    int timeout = 2000;
-    setsockopt(client, SOL_SOCKET, SO_RCVTIMEO,
-               reinterpret_cast<const char*>(&timeout), sizeof(timeout));
+    platform::set_recv_timeout(client, 2000);
     const std::string request =
         "GET /api/stats HTTP/1.1\r\nHost: 127.0.0.1\r\nConnection: close\r\n\r\n";
     bool ok = socket_send_all(client, request);
@@ -340,9 +335,7 @@ int dashboard_get_status(uint16_t port, const std::string& target,
         return 0;
     }
 
-    int timeout = 2000;
-    setsockopt(client, SOL_SOCKET, SO_RCVTIMEO,
-               reinterpret_cast<const char*>(&timeout), sizeof(timeout));
+    platform::set_recv_timeout(client, 2000);
     const std::string request = "GET " + target +
         " HTTP/1.1\r\nHost: 127.0.0.1\r\nConnection: close\r\n\r\n";
     bool ok = socket_send_all(client, request);
@@ -867,6 +860,15 @@ bool run_self_tests() {
                 telemetry.tps_temperature_centi_c == 5850 &&
                 telemetry.tps_status_word == 0x1234,
                 "board telemetry decode");
+    const auto version_mask_frame = encode_set_version_mask(0x1FFFE000U);
+    ok &= check(version_mask_frame.size() == 9 &&
+                version_mask_frame[4] == 0x0A &&
+                version_mask_frame[5] == 0x1F &&
+                version_mask_frame[6] == 0xFF &&
+                version_mask_frame[7] == 0xE0 &&
+                version_mask_frame[8] == 0x00,
+                "board version-mask frame");
+
     const auto power_off_frame = encode_set_power(false);
     ok &= check(power_off_frame.size() == 6 &&
                 power_off_frame[3] == 2 && power_off_frame[4] == 0x08 &&

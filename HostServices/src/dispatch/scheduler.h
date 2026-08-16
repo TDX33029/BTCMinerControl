@@ -39,6 +39,8 @@ public:
 
     // Called when a board connects after the most recent mining.notify.
     bool dispatchLatestToBoard(uint64_t board_id);
+    // Drop both the cached notify and all in-flight job mappings (used when
+    // the pool changes extranonce so stale shares cannot be submitted).
     void clearLatestWork();
 
     // Send a deterministic synthetic header for the no-ASIC USART1 test path.

@@ -1,4 +1,5 @@
 #include "config.h"
+#include "platform/platform.h"
 #include "dashboard/server.h"
 #include "dispatch/manager.h"
 #include "dispatch/scheduler.h"
@@ -19,10 +20,6 @@
    In chip-test mode, if a board finds no nonce within this time (ms), the
    test job rotates to the next. Adjust here. */
 #define CHIP_TEST_JOB_TIMEOUT_MS  15000
-
-/* ===== Board detection / latency probe interval (shown as "Detect: Ns" in
-   the web UI). Periodic probe of all online boards. Adjust here. */
-#define BOARD_DETECTION_INTERVAL_MS  10000
 
 namespace {
 
@@ -66,7 +63,8 @@ int main(int argc, char* argv[]) {
         else if (argument == "--chip-test") chip_test_mode = true;
         else if (argument == "--self-test") self_test_mode = true;
         else if (argument == "--help" || argument == "-h") {
-            std::cout << "Usage: BTCMinerControl.exe [config.json] [--uart-test|--chip-test] [--self-test]\n";
+            std::cout << "Usage: " << argv[0]
+                      << " [config.json] [--uart-test|--chip-test] [--self-test]\n";
             return 0;
         } else if (!argument.empty() && argument[0] == '-') {
             std::cerr << "Unknown option: " << argument << std::endl;
@@ -96,7 +94,7 @@ int main(int argc, char* argv[]) {
 
     BoardManager board_manager;
     if (!board_manager.setDetectionIntervalMs(
-            BOARD_DETECTION_INTERVAL_MS)) {
+            config.board_detection_interval_ms)) {
         std::cerr << "[main] Invalid board detection interval" << std::endl;
         return 1;
     }
@@ -113,7 +111,7 @@ int main(int argc, char* argv[]) {
     if (!dashboard.start(config.dashboard_port, &board_manager,
                          config.dashboard_bind, config_path,
                          config.board_port,
-                         BOARD_DETECTION_INTERVAL_MS)) {
+                         config.board_detection_interval_ms)) {
         std::cerr << "[main] Failed to start dashboard" << std::endl;
         board_manager.stop();
         return 1;
@@ -121,6 +119,18 @@ int main(int argc, char* argv[]) {
     dashboard.setPoolManagementUrl(config.pool_management_url);
 
     StratumClient stratum;
+
+    struct PoolState {
+        std::string extranonce_1;
+        int extranonce_2_len = 0;
+        std::atomic<uint32_t> version_mask{0};
+        double difficulty = 0.0;
+        bool subscribed = false;
+        bool configured = false;
+        bool authorize_answered = false;
+        bool authorized = false;
+    } pool_state;
+    pool_state.difficulty = config.min_difficulty;
 
     board_manager.onBoardConnected = [&](uint64_t board_id) {
         if (uart_test_mode) {
@@ -131,6 +141,7 @@ int main(int argc, char* argv[]) {
             board_id,
             static_cast<uint16_t>(config.default_frequency_mhz),
             static_cast<uint16_t>(config.default_voltage_mv));
+        board_manager.setBoardVersionMask(board_id, pool_state.version_mask.load());
         if (chip_test_mode) {
             uint8_t detected = 0;
             for (const auto& board : board_manager.getStats()) {
@@ -223,7 +234,7 @@ int main(int argc, char* argv[]) {
                   << (CHIP_TEST_JOB_TIMEOUT_MS / 1000) << " s\n"
                      "[main] Press Ctrl+C to stop" << std::endl;
         while (!g_shutdown_requested) {
-            const uint64_t now = GetTickCount64();
+            const uint64_t now = platform::tick_ms();
             for (const auto& board : board_manager.getStats()) {
                 if (board.online && board.last_job_time != 0 &&
                     now - board.last_job_time >= CHIP_TEST_JOB_TIMEOUT_MS) {
@@ -240,18 +251,6 @@ int main(int argc, char* argv[]) {
         board_manager.stop();
         return 0;
     }
-
-    struct PoolState {
-        std::string extranonce_1;
-        int extranonce_2_len = 0;
-        uint32_t version_mask = 0;
-        double difficulty = 0.0;
-        bool subscribed = false;
-        bool configured = false;
-        bool authorize_answered = false;
-        bool authorized = false;
-    } pool_state;
-    pool_state.difficulty = config.min_difficulty;
 
     stratum.onSubscribeResult = [&](const SubscribeResult& result) {
         pool_state.extranonce_1 = result.extranonce;
@@ -271,11 +270,19 @@ int main(int argc, char* argv[]) {
 
     stratum.onConfigureResult = [&](const ConfigureResult& result) {
         pool_state.configured = true;
-        pool_state.version_mask = result.enabled ? result.version_mask : 0;
+        const uint32_t negotiated_mask = result.enabled ? result.version_mask : 0;
+        pool_state.version_mask = negotiated_mask;
         std::cout << "[main] Version rolling: "
                   << (result.enabled ? "enabled" : "disabled")
-                  << " mask=0x" << std::hex << pool_state.version_mask
+                  << " mask=0x" << std::hex << negotiated_mask
                   << std::dec << std::endl;
+
+        for (const auto& board : board_manager.getStats()) {
+            if (board.online) {
+                board_manager.setBoardVersionMask(board.info.board_id,
+                                                  negotiated_mask);
+            }
+        }
     };
 
     stratum.onSetDifficulty = [&](double difficulty) {
@@ -298,7 +305,7 @@ int main(int argc, char* argv[]) {
         work.coinbase_2 = notify.coinbase_2;
         work.extranonce_1 = pool_state.extranonce_1;
         work.version = notify.version;
-        work.version_mask = pool_state.version_mask;
+        work.version_mask = pool_state.version_mask.load();
         work.ntime = notify.ntime;
         work.nbits = notify.nbits;
         work.pool_difficulty = pool_state.difficulty;
@@ -378,6 +385,11 @@ int main(int argc, char* argv[]) {
             std::cerr << "[main] Version rolling negotiation timed out; disabling it"
                       << std::endl;
             pool_state.version_mask = 0;
+            for (const auto& board : board_manager.getStats()) {
+                if (board.online) {
+                    board_manager.setBoardVersionMask(board.info.board_id, 0);
+                }
+            }
         }
     }
 

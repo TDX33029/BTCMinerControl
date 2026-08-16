@@ -1,4 +1,5 @@
 #include "manager.h"
+#include "../platform/platform.h"
 #include "../mine/job.h"
 #include <algorithm>
 #include <chrono>
@@ -6,7 +7,6 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
-#include <ws2tcpip.h>
 
 namespace {
 
@@ -29,18 +29,7 @@ bool send_all(SOCKET socket, const uint8_t* data, size_t size) {
 }
 
 std::string event_timestamp() {
-    SYSTEMTIME now{};
-    GetLocalTime(&now);
-    std::ostringstream out;
-    out << std::setfill('0')
-        << std::setw(4) << now.wYear << ':'
-        << std::setw(2) << now.wMonth << ':'
-        << std::setw(2) << now.wDay << ' '
-        << std::setw(2) << now.wHour << ':'
-        << std::setw(2) << now.wMinute << ':'
-        << std::setw(2) << now.wSecond << '.'
-        << std::setw(3) << now.wMilliseconds;
-    return out.str();
+    return platform::local_timestamp_ms();
 }
 
 std::string board_name(uint64_t board_id) {
@@ -105,6 +94,7 @@ bool BoardManager::start(uint16_t port) {
         m_listen_sock = INVALID_SOCKET;
         return false;
     }
+    platform::set_nonblocking(m_listen_sock, true);
 
     m_port = port;
     m_running = true;
@@ -157,17 +147,18 @@ void BoardManager::stop() {
 void BoardManager::acceptLoop() {
     while (!m_stop) {
         sockaddr_in client_addr{};
-        int addr_len = sizeof(client_addr);
+        socklen_t addr_len = sizeof(client_addr);
         SOCKET client = accept(m_listen_sock,
             reinterpret_cast<sockaddr*>(&client_addr), &addr_len);
         if (client == INVALID_SOCKET) {
-            if (!m_stop) {
-                const int error = WSAGetLastError();
-                if (error != WSAEINTR && error != WSAENOTSOCK) {
-                    std::cerr << "[boards] accept() failed: " << error << std::endl;
-                }
+            if (m_stop) break;
+            const int error = WSAGetLastError();
+            if (error != WSAEINTR && error != WSAENOTSOCK &&
+                error != WSAEWOULDBLOCK) {
+                std::cerr << "[boards] accept() failed: " << error << std::endl;
             }
-            break;
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            continue;
         }
 
         int no_delay = 1;
@@ -196,7 +187,7 @@ void BoardManager::acceptLoop() {
         info.status = hello.status;
         info.socket = client;
         info.ip_addr = ip_str;
-        info.last_heartbeat = GetTickCount64();
+        info.last_heartbeat = platform::tick_ms();
 
         const uint64_t connection_id = m_next_connection_id.fetch_add(1);
         {
@@ -256,7 +247,7 @@ void BoardManager::recvLoop(SOCKET sock, BoardInfo board,
         std::vector<uint8_t> data;
         const ReceiveResult result = reader.receive(sock, data, 1000);
         if (result == ReceiveResult::Timeout) {
-            if (GetTickCount64() - last_heartbeat > 30000) {
+            if (platform::tick_ms() - last_heartbeat > 30000) {
                 std::cerr << "[boards] Board " << board.board_id
                           << " timed out" << std::endl;
                 disconnect_reason = "communication timeout";
@@ -273,7 +264,7 @@ void BoardManager::recvLoop(SOCKET sock, BoardInfo board,
             break;
         }
 
-        last_heartbeat = GetTickCount64();
+        last_heartbeat = platform::tick_ms();
         {
             std::lock_guard<std::mutex> lock(m_mutex);
             for (auto& current : m_boards) {
@@ -423,20 +414,24 @@ void BoardManager::recvLoop(SOCKET sock, BoardInfo board,
         }
     }
 
-    closesocket(sock);
-    std::lock_guard<std::mutex> lock(m_mutex);
-    for (auto& current : m_boards) {
-        if (current.info.board_id == board.board_id &&
-            current.connection_id == connection_id) {
-            current.online = false;
-            current.info.socket = INVALID_SOCKET;
-            current.latency_pending = false;
-            current.latency_valid = false;
-            appendEventLocked(board.board_id, "WARN",
-                board_name(board.board_id) + " offline: " + disconnect_reason);
-            break;
+    // Mark the board offline before releasing the socket handle so a
+    // concurrent sendToBoard() can no longer obtain this connection's socket.
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        for (auto& current : m_boards) {
+            if (current.info.board_id == board.board_id &&
+                current.connection_id == connection_id) {
+                current.online = false;
+                current.info.socket = INVALID_SOCKET;
+                current.latency_pending = false;
+                current.latency_valid = false;
+                appendEventLocked(board.board_id, "WARN",
+                    board_name(board.board_id) + " offline: " + disconnect_reason);
+                break;
+            }
         }
     }
+    closesocket(sock);
 }
 
 void BoardManager::detectionLoop() {
@@ -508,7 +503,7 @@ bool BoardManager::sendToBoard(uint64_t board_id,
             if (board.info.board_id == board_id && board.online &&
                 board.connection_id == connection_id) {
                 ++board.jobs_sent;
-                board.last_job_time = GetTickCount64();
+                board.last_job_time = platform::tick_ms();
                 break;
             }
         }
@@ -531,6 +526,11 @@ void BoardManager::broadcastJob(const std::vector<uint8_t>& data) {
 bool BoardManager::setBoardParams(uint64_t board_id, uint16_t freq_mhz,
                                   uint16_t voltage_mv) {
     return sendToBoard(board_id, encode_set_params(freq_mhz, voltage_mv), false);
+}
+
+bool BoardManager::setBoardVersionMask(uint64_t board_id,
+                                       uint32_t version_mask) {
+    return sendToBoard(board_id, encode_set_version_mask(version_mask), false);
 }
 
 bool BoardManager::setBoardPower(uint64_t board_id, bool enabled) {
@@ -596,7 +596,7 @@ std::vector<BoardStats> BoardManager::getStats() const {
 }
 
 void BoardManager::recordNonce(uint64_t board_id, double difficulty) {
-    const uint64_t now = GetTickCount64();
+    const uint64_t now = platform::tick_ms();
     std::lock_guard<std::mutex> lock(m_mutex);
 
     auto& times = m_nonce_times[board_id];
