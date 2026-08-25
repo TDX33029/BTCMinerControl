@@ -1,0 +1,14 @@
+D:\Document\tempPrj\SWAP\HostServices\src\main.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Release\main.obj
+D:\Document\tempPrj\SWAP\HostServices\src\mine\sha256.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Release\sha256.obj
+D:\Document\tempPrj\SWAP\HostServices\src\mine\coinbase.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Release\coinbase.obj
+D:\Document\tempPrj\SWAP\HostServices\src\mine\merkle.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Release\merkle.obj
+D:\Document\tempPrj\SWAP\HostServices\src\mine\midstate.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Release\midstate.obj
+D:\Document\tempPrj\SWAP\HostServices\src\mine\verify.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Release\verify.obj
+D:\Document\tempPrj\SWAP\HostServices\src\stratum\client.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Release\client.obj
+D:\Document\tempPrj\SWAP\HostServices\src\dispatch\protocol.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Release\protocol.obj
+D:\Document\tempPrj\SWAP\HostServices\src\dispatch\manager.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Release\manager.obj
+D:\Document\tempPrj\SWAP\HostServices\src\dispatch\scheduler.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Release\scheduler.obj
+D:\Document\tempPrj\SWAP\HostServices\src\dashboard\server.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Release\server.obj
+D:\Document\tempPrj\SWAP\HostServices\src\config.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Release\config.obj
+D:\Document\tempPrj\SWAP\HostServices\src\platform\platform.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Release\platform.obj
+D:\Document\tempPrj\SWAP\HostServices\src\self_test.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Release\self_test.obj

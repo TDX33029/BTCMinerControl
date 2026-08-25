@@ -1,0 +1,7 @@
+/home/ubuntu/桌面/SWAP/HostServices/build/CMakeFiles/btcminercontrol.dir
+/home/ubuntu/桌面/SWAP/HostServices/build/CMakeFiles/edit_cache.dir
+/home/ubuntu/桌面/SWAP/HostServices/build/CMakeFiles/rebuild_cache.dir
+/home/ubuntu/桌面/SWAP/HostServices/build/CMakeFiles/list_install_components.dir
+/home/ubuntu/桌面/SWAP/HostServices/build/CMakeFiles/install.dir
+/home/ubuntu/桌面/SWAP/HostServices/build/CMakeFiles/install/local.dir
+/home/ubuntu/桌面/SWAP/HostServices/build/CMakeFiles/install/strip.dir

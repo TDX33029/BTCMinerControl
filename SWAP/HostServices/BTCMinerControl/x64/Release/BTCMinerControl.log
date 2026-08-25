@@ -1,0 +1,20 @@
+﻿  main.cpp
+  sha256.cpp
+  coinbase.cpp
+  merkle.cpp
+  midstate.cpp
+  verify.cpp
+  client.cpp
+  protocol.cpp
+  manager.cpp
+  scheduler.cpp
+  server.cpp
+  config.cpp
+  platform.cpp
+  self_test.cpp
+  正在生成代码
+  4772 of 4800 functions (99.4%) were compiled, the rest were copied from previous compilation.
+    741 functions were new in current compilation
+    2 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  BTCMinerControl.vcxproj -> D:\Document\tempPrj\SWAP\HostServices\x64\Release\BTCMinerControl.exe

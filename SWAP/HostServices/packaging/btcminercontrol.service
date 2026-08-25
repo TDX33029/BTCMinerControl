@@ -1,0 +1,21 @@
+[Unit]
+Description=BTCMinerControl distributed BM1366 mining proxy
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/etc/btcminercontrol
+ExecStartPre=/bin/mkdir -p /etc/btcminercontrol
+ExecStart=/usr/local/bin/btcminercontrol /etc/btcminercontrol/config.json
+Restart=on-failure
+RestartSec=5
+# Use a dedicated user if desired. Port 4200/8080 are unprivileged.
+# User=btcminercontrol
+# Group=btcminercontrol
+NoNewPrivileges=true
+ProtectSystem=full
+ReadWritePaths=/etc/btcminercontrol
+
+[Install]
+WantedBy=multi-user.target

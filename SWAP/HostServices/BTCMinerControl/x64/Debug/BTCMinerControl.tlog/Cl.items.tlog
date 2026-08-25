@@ -1,0 +1,14 @@
+D:\Document\tempPrj\SWAP\HostServices\src\main.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Debug\main.obj
+D:\Document\tempPrj\SWAP\HostServices\src\mine\sha256.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Debug\sha256.obj
+D:\Document\tempPrj\SWAP\HostServices\src\mine\coinbase.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Debug\coinbase.obj
+D:\Document\tempPrj\SWAP\HostServices\src\mine\merkle.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Debug\merkle.obj
+D:\Document\tempPrj\SWAP\HostServices\src\mine\midstate.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Debug\midstate.obj
+D:\Document\tempPrj\SWAP\HostServices\src\mine\verify.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Debug\verify.obj
+D:\Document\tempPrj\SWAP\HostServices\src\stratum\client.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Debug\client.obj
+D:\Document\tempPrj\SWAP\HostServices\src\dispatch\protocol.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Debug\protocol.obj
+D:\Document\tempPrj\SWAP\HostServices\src\dispatch\manager.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Debug\manager.obj
+D:\Document\tempPrj\SWAP\HostServices\src\dispatch\scheduler.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Debug\scheduler.obj
+D:\Document\tempPrj\SWAP\HostServices\src\dashboard\server.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Debug\server.obj
+D:\Document\tempPrj\SWAP\HostServices\src\config.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Debug\config.obj
+D:\Document\tempPrj\SWAP\HostServices\src\platform\platform.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Debug\platform.obj
+D:\Document\tempPrj\SWAP\HostServices\src\self_test.cpp;D:\Document\tempPrj\SWAP\HostServices\BTCMinerControl\x64\Debug\self_test.obj
