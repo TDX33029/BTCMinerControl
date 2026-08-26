@@ -3,6 +3,7 @@ BTC 比特币 矿机芯片算力板卡，用于虚拟货币挖掘使用
 
 主控采用STM32F107VCT6，工程样品兼容国产GD32F107VCT6 注意晶振型号更替 算力芯片为比特大陆BM1366 以太网PHY采用DP83848DSK 电平收发器采用SN74AVC4T774PWR 主供电要求最大瞬时满足12V@10A，自建供电变压模块要求最大瞬时满足3.6V@60A，温升电流3.6V@35A
 <img width="1221" height="766" alt="image" src="https://github.com/user-attachments/assets/c38fcc09-06e1-491f-96ed-29457919680b" />
+<img width="1358" height="808" alt="image" src="https://github.com/user-attachments/assets/0ff3de63-62c5-45f0-811f-26037e1a5071" />
 
 网络采用LwIP进行通信，通信速度采用自协商，对于老旧的交换设备我们建议限制到10M以便减轻网络带宽压力
 
