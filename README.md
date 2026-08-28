@@ -15,8 +15,7 @@ v0.8alpha 工程已被创建
 v0.8      第一版未二次核验工程文件
 v1.0alpha 第一版未经验证实体工程文件
 v1.1      修复v1.0alpha存在的RMII错误
-v1.2      修复v1.1中石英振荡器MCO输出共用错误
-v1.3      弃用TPS546D24采用自建电源，重新分配Ethernet指示灯
+v1.2      修复v1.1中石英振荡器MCO输出共用错误，修复模拟地共享问题，弃用TPS546D24采用自建电源，重新分配Ethernet指示灯
 
 工程同步更新至开源矿工联盟OSMU-bitaxe-hardware-dev，欢迎访问Discord频道交流https://discord.com/channels/1091348375301013615
 
