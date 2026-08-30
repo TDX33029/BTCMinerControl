@@ -14,7 +14,7 @@
 		"management_url": "https://pool.braiins.com/",
         "port": 3333,
         "user": "TDX33029.Desktop01",
-        "pass": "dl.braiins"
+        "pass": ""
     },
     "version_rolling": true,
     "voltage_mv": 1200
