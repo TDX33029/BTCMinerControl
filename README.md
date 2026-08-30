@@ -5,6 +5,7 @@ BTC 比特币 矿机芯片算力板卡，用于虚拟货币挖掘使用
 <img width="1221" height="766" alt="image" src="https://github.com/user-attachments/assets/c38fcc09-06e1-491f-96ed-29457919680b" />
 <img width="1358" height="808" alt="image" src="https://github.com/user-attachments/assets/0ff3de63-62c5-45f0-811f-26037e1a5071" />
 
+
 网络采用LwIP进行通信，通信速度采用自协商，对于老旧的交换设备建议限制到10M以便减轻网络带宽压力
 
 采用有线Ethernet连接主机上位机进行分发汇聚而非Stratum V2直连矿池，便于设备集群进行管理。注意交换机应具备DHCP功能或外挂路由器实现。注意板卡溯源上位机IP固定刷入10.8.1.3:4200，上位机部署设备应采用静态IP或静态分配IP避免失联。
