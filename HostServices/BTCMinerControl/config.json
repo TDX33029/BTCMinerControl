@@ -8,7 +8,7 @@
     "pool": {
         "host": "stratum.braiins.com",
 		"management_url": "https://pool.braiins.com/",
-		"pass": "s",
+		"pass": "",
 		"port": 3333,
 		"user": "TDX33029.Desktop01"
     },
