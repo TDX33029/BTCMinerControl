@@ -12,9 +12,11 @@
 #include <chrono>
 #include <csignal>
 #include <cstring>
+#include <functional>
 #include <iostream>
 #include <string>
 #include <thread>
+#include <vector>
 
 /* ===== Self-test (chip-test) latency / job rotation timeout =====
    In chip-test mode, if a board finds no nonce within this time (ms), the

@@ -3,6 +3,7 @@
 #include "../mine/job.h"
 #include <algorithm>
 #include <chrono>
+#include <climits>
 #include <cmath>
 #include <iomanip>
 #include <iostream>

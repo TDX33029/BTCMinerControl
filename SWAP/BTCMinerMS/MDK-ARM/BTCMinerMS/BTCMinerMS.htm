@@ -3,7 +3,7 @@
 <title>Static Call Graph - [BTCMinerMS\BTCMinerMS.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image BTCMinerMS\BTCMinerMS.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Aug 25 12:36:51 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Aug 25 17:44:37 2026
 <BR><P>
 <H3>Maximum Stack Usage =       2296 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -366,11 +366,11 @@ Global Symbols
 <LI><a href="#[181]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;protocol_decode_job
 <LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;build_frame
 <LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_write
-<LI><a href="#[13f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_copy_partial_pbuf
-<LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_copy_partial
 <LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_input
 <LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;low_level_output
 <LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;low_level_input
+<LI><a href="#[13f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_copy_partial_pbuf
+<LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_copy_partial
 </UL>
 
 <P><STRONG><a name="[18e]"></a>__aeabi_memcpy4</STRONG> (Thumb, 0 bytes, Stack size 8 bytes, memmovea.o(.text))
@@ -412,8 +412,8 @@ Global Symbols
 <LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sample_i2c_telemetry
 <LI><a href="#[194]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tps546d24a_read_telemetry
 <LI><a href="#[181]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;protocol_decode_job
-<LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_alloc
 <LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_new
+<LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_alloc
 </UL>
 
 <P><STRONG><a name="[1e4]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
@@ -765,11 +765,11 @@ Global Symbols
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_WaitOnMasterAddressFlagUntilTimeout
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_WaitOnFlagUntilTimeout
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_WaitOnBTFFlagUntilTimeout
+<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_create_msg
 <LI><a href="#[152]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_init
 <LI><a href="#[153]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_init
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
 <LI><a href="#[14d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sys_now
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_create_msg
 </UL>
 
 <P><STRONG><a name="[7f]"></a>HAL_I2C_Init</STRONG> (Thumb, 410 bytes, Stack size 16 bytes, stm32f1xx_hal_i2c.o(i.HAL_I2C_Init))
@@ -1145,7 +1145,7 @@ Global Symbols
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;apply_board_frequency
 </UL>
 
-<P><STRONG><a name="[c2]"></a>bm1366_init_chips</STRONG> (Thumb, 780 bytes, Stack size 112 bytes, bm1366.o(i.bm1366_init_chips))
+<P><STRONG><a name="[c2]"></a>bm1366_init_chips</STRONG> (Thumb, 812 bytes, Stack size 112 bytes, bm1366.o(i.bm1366_init_chips))
 <BR><BR>[Stack]<UL><LI>Max Depth = 2240<LI>Call Chain = bm1366_init_chips &rArr; bm1366_count_chips &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fadd
@@ -1352,8 +1352,6 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 440<LI>Call Chain = dhcp_release_and_stop &rArr; netif_set_addr &rArr; netif_do_set_ipaddr &rArr; netif_do_ip_addr_changed &rArr; tcp_netif_ip_addr_changed &rArr; tcp_netif_ip_addr_changed_pcblist &rArr; tcp_abort &rArr; tcp_abandon &rArr; tcp_pcb_remove &rArr; tcp_output &rArr; tcp_send_empty_ack &rArr; tcp_output_alloc_header &rArr; tcp_output_alloc_header_common &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
-<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;netif_set_addr
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_supplied_address
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_set_state
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_option_trailer
@@ -1362,6 +1360,8 @@ Global Symbols
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_dec_pcb_refcount
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_create_msg
 <LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_sendto_if
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
+<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;netif_set_addr
 </UL>
 <BR>[Called By]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_start
 <LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_fine_tmr
@@ -1387,13 +1387,13 @@ Global Symbols
 <P><STRONG><a name="[de]"></a>dhcp_start</STRONG> (Thumb, 116 bytes, Stack size 16 bytes, dhcp.o(i.dhcp_start))
 <BR><BR>[Stack]<UL><LI>Max Depth = 456<LI>Call Chain = dhcp_start &rArr; dhcp_release_and_stop &rArr; netif_set_addr &rArr; netif_do_set_ipaddr &rArr; netif_do_ip_addr_changed &rArr; tcp_netif_ip_addr_changed &rArr; tcp_netif_ip_addr_changed_pcblist &rArr; tcp_abort &rArr; tcp_abandon &rArr; tcp_pcb_remove &rArr; tcp_output &rArr; tcp_send_empty_ack &rArr; tcp_output_alloc_header &rArr; tcp_output_alloc_header_common &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mem_malloc
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_release_and_stop
+<BR>[Calls]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_release_and_stop
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_set_state
 <LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_inc_pcb_refcount
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_discover
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_dec_pcb_refcount
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mem_malloc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eth_init
 <LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_fine_tmr
@@ -1546,12 +1546,12 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = etharp_query &rArr; etharp_request &rArr; etharp_request_dst &rArr; etharp_raw &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
-<LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_ref
-<LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_clone
-<LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_request
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ethernet_output
 <LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_find_entry
 <LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_addr_isbroadcast_u32
+<LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_ref
+<LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_clone
+<LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_request
 </UL>
 <BR>[Called By]<UL><LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_output
 </UL>
@@ -1561,17 +1561,17 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_request_dst
 </UL>
-<BR>[Called By]<UL><LI><a href="#[16e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;netif_issue_reports
-<LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_tmr
-<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_query
+<BR>[Called By]<UL><LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_query
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_output_to_arp_index
+<LI><a href="#[16e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;netif_issue_reports
+<LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_tmr
 </UL>
 
 <P><STRONG><a name="[5a]"></a>etharp_tmr</STRONG> (Thumb, 90 bytes, Stack size 16 bytes, etharp.o(i.etharp_tmr))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = etharp_tmr &rArr; etharp_request &rArr; etharp_request_dst &rArr; etharp_raw &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_request
-<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_free_entry
+<BR>[Calls]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_free_entry
+<LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_request
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> timeouts.o(.constdata)
 </UL>
@@ -1579,10 +1579,10 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 472<LI>Call Chain = ethernet_input &rArr; ip4_input &rArr; tcp_input &rArr; tcp_listen_input &rArr; tcp_alloc &rArr; tcp_kill_state &rArr; tcp_abandon &rArr; tcp_pcb_remove &rArr; tcp_output &rArr; tcp_send_empty_ack &rArr; tcp_output_alloc_header &rArr; tcp_output_alloc_header_common &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
-<LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_remove_header
-<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
 <LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_input
 <LI><a href="#[12b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memcmp
+<LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_remove_header
+<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> eth_drv.o(i.eth_init)
 </UL>
@@ -1647,23 +1647,23 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_send_response
 </UL>
-<BR>[Called By]<UL><LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
-<LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_input
+<BR>[Called By]<UL><LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_input
+<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
 </UL>
 
 <P><STRONG><a name="[13a]"></a>icmp_input</STRONG> (Thumb, 294 bytes, Stack size 48 bytes, icmp.o(i.icmp_input))
 <BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = icmp_input &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_output_if
+<LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_addr_isbroadcast_u32
+<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 <LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;inet_chksum_pbuf
 <LI><a href="#[13d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;inet_chksum
 <LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_remove_header
 <LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_copy
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
 <LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_add_header
-<LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_output_if
-<LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_addr_isbroadcast_u32
-<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
 <BR>[Called By]<UL><LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
 </UL>
@@ -1673,9 +1673,9 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[141]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_standard_chksum
 </UL>
-<BR>[Called By]<UL><LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
-<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_send_response
+<BR>[Called By]<UL><LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_send_response
 <LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_input
+<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
 </UL>
 
 <P><STRONG><a name="[13b]"></a>inet_chksum_pbuf</STRONG> (Thumb, 74 bytes, Stack size 16 bytes, inet_chksum.o(i.inet_chksum_pbuf))
@@ -1693,31 +1693,31 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[122]"></a>ip4_addr_isbroadcast_u32</STRONG> (Thumb, 46 bytes, Stack size 0 bytes, ip4_addr.o(i.ip4_addr_isbroadcast_u32))
-<BR><BR>[Called By]<UL><LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
-<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_query
+<BR><BR>[Called By]<UL><LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_query
 <LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_output
 <LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_update_arp_entry
 <LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_input
 <LI><a href="#[143]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input_accept
 <LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_input
 <LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
+<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
 </UL>
 
 <P><STRONG><a name="[12d]"></a>ip4_input</STRONG> (Thumb, 392 bytes, Stack size 32 bytes, ip4.o(i.ip4_input))
 <BR><BR>[Stack]<UL><LI>Max Depth = 448<LI>Call Chain = ip4_input &rArr; tcp_input &rArr; tcp_listen_input &rArr; tcp_alloc &rArr; tcp_kill_state &rArr; tcp_abandon &rArr; tcp_pcb_remove &rArr; tcp_output &rArr; tcp_send_empty_ack &rArr; tcp_output_alloc_header &rArr; tcp_output_alloc_header_common &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
-<LI><a href="#[13d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;inet_chksum
-<LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
-<LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_remove_header
-<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_realloc
-<LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_header_force
 <LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_input
 <LI><a href="#[143]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input_accept
 <LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_dest_unreach
 <LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_input
 <LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_addr_isbroadcast_u32
 <LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
+<LI><a href="#[13d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;inet_chksum
+<LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
+<LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_remove_header
+<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_realloc
+<LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_header_force
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ethernet_input
 </UL>
@@ -1747,10 +1747,10 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = ip4_route
 </UL>
 <BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_connect
-<LI><a href="#[1b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_process
-<LI><a href="#[1b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_listen_input
 <LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_send_response
 <LI><a href="#[1c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_route
+<LI><a href="#[1b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_process
+<LI><a href="#[1b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_listen_input
 </UL>
 
 <P><STRONG><a name="[148]"></a>ip_chksum_pseudo</STRONG> (Thumb, 12 bytes, Stack size 16 bytes, inet_chksum.o(i.ip_chksum_pseudo))
@@ -1767,12 +1767,6 @@ Global Symbols
 
 <P><STRONG><a name="[e3]"></a>lwip_htonl</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, def.o(i.lwip_htonl))
 <BR><BR>[Called By]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output
-<LI><a href="#[1c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_receive
-<LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_free_acked_segments
-<LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_zero_window_probe
-<LI><a href="#[1d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_split_unsent_seg
-<LI><a href="#[1cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_rto_prepare
-<LI><a href="#[1ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_keepalive
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_release_and_stop
 <LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_select
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_recv
@@ -1787,20 +1781,17 @@ Global Symbols
 <LI><a href="#[1b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_send_empty_ack
 <LI><a href="#[1c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit
 <LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
+<LI><a href="#[1c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_receive
+<LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_free_acked_segments
+<LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_zero_window_probe
+<LI><a href="#[1d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_split_unsent_seg
+<LI><a href="#[1cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_rto_prepare
+<LI><a href="#[1ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_keepalive
 </UL>
 
 <P><STRONG><a name="[12a]"></a>lwip_htons</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, def.o(i.lwip_htons))
 <BR><BR>[Called By]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_write
 <LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output
-<LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;inet_cksum_pseudo_base
-<LI><a href="#[1c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_receive
-<LI><a href="#[1bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_oos_insert_segment
-<LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_free_acked_segments
-<LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_zero_window_probe
-<LI><a href="#[1d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_split_unsent_seg
-<LI><a href="#[1a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_send_fin
-<LI><a href="#[1cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_rto_prepare
-<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ethernet_output
 <LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_raw
 <LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_output_if_src
@@ -1810,6 +1801,15 @@ Global Symbols
 <LI><a href="#[1c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_alloc_header_common
 <LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_create_segment
 <LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
+<LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;inet_cksum_pseudo_base
+<LI><a href="#[1c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_receive
+<LI><a href="#[1bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_oos_insert_segment
+<LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_free_acked_segments
+<LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_zero_window_probe
+<LI><a href="#[1d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_split_unsent_seg
+<LI><a href="#[1a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_send_fin
+<LI><a href="#[1cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_rto_prepare
+<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
 </UL>
 
 <P><STRONG><a name="[10f]"></a>lwip_init</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, init.o(i.lwip_init))
@@ -1899,9 +1899,9 @@ Global Symbols
 <P><STRONG><a name="[fe]"></a>mem_malloc</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, mem.o(i.mem_malloc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = mem_malloc &rArr; malloc
 </UL>
-<BR>[Calls]<UL><LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sys_arch_unprotect
+<BR>[Calls]<UL><LI><a href="#[166]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
+<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sys_arch_unprotect
 <LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sys_arch_protect
-<LI><a href="#[166]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_start
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
@@ -1918,10 +1918,10 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sys_check_timeouts
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_remove
 <LI><a href="#[1af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_seg_free
 <LI><a href="#[19b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_free
 <LI><a href="#[1a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_close_shutdown
-<LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_remove
 </UL>
 
 <P><STRONG><a name="[150]"></a>memp_init</STRONG> (Thumb, 26 bytes, Stack size 12 bytes, memp.o(i.memp_init))
@@ -1941,13 +1941,13 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;do_memp_malloc_pool
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_seg_copy
+<BR>[Called By]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_new
+<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_create_segment
+<LI><a href="#[1cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_seg_copy
 <LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_alloc
 <LI><a href="#[14e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sys_timeout_abs
 <LI><a href="#[171]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc_reference
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
-<LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_new
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_create_segment
 </UL>
 
 <P><STRONG><a name="[110]"></a>netif_add</STRONG> (Thumb, 156 bytes, Stack size 24 bytes, netif.o(i.netif_add))
@@ -2025,9 +2025,6 @@ Global Symbols
 <LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_init_alloced_pbuf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_write
-<LI><a href="#[1d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_split_unsent_seg
-<LI><a href="#[1ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_enqueue_flags
-<LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_clone
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_create_msg
 <LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_send_response
 <LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_raw
@@ -2036,6 +2033,9 @@ Global Symbols
 <LI><a href="#[1c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_pbuf_prealloc
 <LI><a href="#[1c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_alloc_header_common
 <LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;low_level_input
+<LI><a href="#[1d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_split_unsent_seg
+<LI><a href="#[1ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_enqueue_flags
+<LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_clone
 </UL>
 
 <P><STRONG><a name="[171]"></a>pbuf_alloc_reference</STRONG> (Thumb, 46 bytes, Stack size 32 bytes, pbuf.o(i.pbuf_alloc_reference))
@@ -2085,8 +2085,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[13f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_copy_partial_pbuf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_clone
-<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_input
+<BR>[Called By]<UL><LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_input
+<LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_clone
 </UL>
 
 <P><STRONG><a name="[fa]"></a>pbuf_copy_partial</STRONG> (Thumb, 102 bytes, Stack size 32 bytes, pbuf.o(i.pbuf_copy_partial))
@@ -2094,9 +2094,9 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_zero_window_probe
+<BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_parse_reply
+<LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_zero_window_probe
 <LI><a href="#[1d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_split_unsent_seg
-<LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_parse_reply
 </UL>
 
 <P><STRONG><a name="[13f]"></a>pbuf_copy_partial_pbuf</STRONG> (Thumb, 176 bytes, Stack size 40 bytes, pbuf.o(i.pbuf_copy_partial_pbuf))
@@ -2104,8 +2104,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
-<BR>[Called By]<UL><LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_copy
-<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_send_response
+<BR>[Called By]<UL><LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_send_response
+<LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_copy
 </UL>
 
 <P><STRONG><a name="[ed]"></a>pbuf_free</STRONG> (Thumb, 86 bytes, Stack size 16 bytes, pbuf.o(i.pbuf_free))
@@ -2120,13 +2120,6 @@ Global Symbols
 <LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ethernet_input
 <LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_client_recv
 <LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_write
-<LI><a href="#[1d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_split_unsent_seg
-<LI><a href="#[1af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_seg_free
-<LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_recv_null
-<LI><a href="#[1a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_pcb_purge
-<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_realloc
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
-<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
 <LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_renew
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_release_and_stop
 <LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_select
@@ -2147,6 +2140,13 @@ Global Symbols
 <LI><a href="#[1bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_control_segment
 <LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_create_segment
 <LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
+<LI><a href="#[1d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_split_unsent_seg
+<LI><a href="#[1af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_seg_free
+<LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_recv_null
+<LI><a href="#[1a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_pcb_purge
+<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_realloc
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
+<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
 </UL>
 
 <P><STRONG><a name="[175]"></a>pbuf_free_ooseq</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, pbuf.o(i.pbuf_free_ooseq))
@@ -2160,8 +2160,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[146]"></a>pbuf_header_force</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, pbuf.o(i.pbuf_header_force))
-<BR><BR>[Called By]<UL><LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
-<LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_input
+<BR><BR>[Called By]<UL><LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_input
+<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
 </UL>
 
 <P><STRONG><a name="[f8]"></a>pbuf_realloc</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, pbuf.o(i.pbuf_realloc))
@@ -2170,11 +2170,11 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
 <LI><a href="#[179]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mem_trim
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_receive
+<BR>[Called By]<UL><LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_option_trailer
+<LI><a href="#[1c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_receive
 <LI><a href="#[1bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_oos_insert_segment
 <LI><a href="#[1d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_split_unsent_seg
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
-<LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_option_trailer
 </UL>
 
 <P><STRONG><a name="[129]"></a>pbuf_ref</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, pbuf.o(i.pbuf_ref))
@@ -2183,21 +2183,21 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sys_arch_unprotect
 <LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sys_arch_protect
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_seg_copy
+<BR>[Called By]<UL><LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_query
+<LI><a href="#[1cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_seg_copy
 <LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_chain
-<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_query
 </UL>
 
 <P><STRONG><a name="[12c]"></a>pbuf_remove_header</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, pbuf.o(i.pbuf_remove_header))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = pbuf_remove_header
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ethernet_input
-<LI><a href="#[1c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_receive
-<LI><a href="#[177]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_header_impl
-<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
 <LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_input
 <LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_input
 <LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
+<LI><a href="#[1c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_receive
+<LI><a href="#[177]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_header_impl
+<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
 </UL>
 
 <P><STRONG><a name="[181]"></a>protocol_decode_job</STRONG> (Thumb, 170 bytes, Stack size 24 bytes, protocol.o(i.protocol_decode_job))
@@ -2397,20 +2397,20 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eth_poll
 <LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eth_connect
 <LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_client_recv
+<LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
 <LI><a href="#[1b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_process
 <LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_alloc
 <LI><a href="#[1be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_netif_ip_addr_changed_pcblist
-<LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
 </UL>
 
 <P><STRONG><a name="[19c]"></a>tcp_alloc</STRONG> (Thumb, 292 bytes, Stack size 24 bytes, tcp.o(i.tcp_alloc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 328<LI>Call Chain = tcp_alloc &rArr; tcp_kill_state &rArr; tcp_abandon &rArr; tcp_pcb_remove &rArr; tcp_output &rArr; tcp_send_empty_ack &rArr; tcp_output_alloc_header &rArr; tcp_output_alloc_header_common &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_abort
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 <LI><a href="#[169]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memp_malloc
 <LI><a href="#[19e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_kill_state
 <LI><a href="#[19d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_close_shutdown_fin
-<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_new
 <LI><a href="#[1b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_listen_input
@@ -2451,17 +2451,17 @@ Global Symbols
 
 <P><STRONG><a name="[1ac]"></a>tcp_eff_send_mss_netif</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, tcp.o(i.tcp_eff_send_mss_netif))
 <BR><BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_connect
+<LI><a href="#[1c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_segment
 <LI><a href="#[1b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_process
 <LI><a href="#[1b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_listen_input
-<LI><a href="#[1c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_segment
 </UL>
 
 <P><STRONG><a name="[1ad]"></a>tcp_enqueue_flags</STRONG> (Thumb, 136 bytes, Stack size 24 bytes, tcp_out.o(i.tcp_enqueue_flags))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = tcp_enqueue_flags &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_clen
+<BR>[Calls]<UL><LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_create_segment
+<LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_clen
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_create_segment
 </UL>
 <BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_connect
 <LI><a href="#[1b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_listen_input
@@ -2487,11 +2487,11 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[167]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memp_free
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input_delayed_close
+<BR>[Called By]<UL><LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
+<LI><a href="#[1b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input_delayed_close
 <LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_slowtmr
 <LI><a href="#[197]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_abandon
 <LI><a href="#[1a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_close_shutdown
-<LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
 </UL>
 
 <P><STRONG><a name="[176]"></a>tcp_free_ooseq</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, tcp.o(i.tcp_free_ooseq))
@@ -2518,6 +2518,9 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_abort
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<LI><a href="#[1b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_send_empty_ack
+<LI><a href="#[1b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rst_netif
+<LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_addr_isbroadcast_u32
 <LI><a href="#[148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip_chksum_pseudo
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
@@ -2530,9 +2533,6 @@ Global Symbols
 <LI><a href="#[198]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_pcb_remove
 <LI><a href="#[19b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_free
 <LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_remove_header
-<LI><a href="#[1b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_send_empty_ack
-<LI><a href="#[1b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rst_netif
-<LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_addr_isbroadcast_u32
 </UL>
 <BR>[Called By]<UL><LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
 </UL>
@@ -2540,9 +2540,9 @@ Global Symbols
 <P><STRONG><a name="[1ba]"></a>tcp_keepalive</STRONG> (Thumb, 50 bytes, Stack size 16 bytes, tcp_out.o(i.tcp_keepalive))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = tcp_keepalive &rArr; tcp_output_alloc_header &rArr; tcp_output_alloc_header_common &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
-<LI><a href="#[1bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_control_segment
+<BR>[Calls]<UL><LI><a href="#[1bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_control_segment
 <LI><a href="#[1bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_alloc_header
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_slowtmr
 </UL>
@@ -2571,16 +2571,17 @@ Global Symbols
 <P><STRONG><a name="[11c]"></a>tcp_output</STRONG> (Thumb, 500 bytes, Stack size 40 bytes, tcp_out.o(i.tcp_output))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = tcp_output &rArr; tcp_send_empty_ack &rArr; tcp_output_alloc_header &rArr; tcp_output_alloc_header_common &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
-<LI><a href="#[1af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_seg_free
-<LI><a href="#[1c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_route
+<BR>[Calls]<UL><LI><a href="#[1c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_route
 <LI><a href="#[1c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_segment
 <LI><a href="#[1b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_send_empty_ack
+<LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
+<LI><a href="#[1af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_seg_free
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eth_send
 <LI><a href="#[1a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_recved
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_connect
+<LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
 <LI><a href="#[1b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_timewait_input
 <LI><a href="#[1b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_listen_input
 <LI><a href="#[1ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_rto_commit
@@ -2588,7 +2589,6 @@ Global Symbols
 <LI><a href="#[198]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_pcb_remove
 <LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_fasttmr
 <LI><a href="#[19d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_close_shutdown_fin
-<LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
 </UL>
 
 <P><STRONG><a name="[1a7]"></a>tcp_pcb_purge</STRONG> (Thumb, 70 bytes, Stack size 16 bytes, tcp.o(i.tcp_pcb_purge))
@@ -2610,10 +2610,10 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output
 <LI><a href="#[1a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_pcb_purge
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input_delayed_close
+<BR>[Called By]<UL><LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
+<LI><a href="#[1b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input_delayed_close
 <LI><a href="#[197]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_abandon
 <LI><a href="#[1a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_close_shutdown
-<LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
 </UL>
 
 <P><STRONG><a name="[1a3]"></a>tcp_poll</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, tcp.o(i.tcp_poll))
@@ -2625,8 +2625,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_recv_null
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_fasttmr
-<LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
+<BR>[Called By]<UL><LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
+<LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_fasttmr
 </UL>
 
 <P><STRONG><a name="[1a1]"></a>tcp_recv</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, tcp.o(i.tcp_recv))
@@ -2640,8 +2640,8 @@ Global Symbols
 <LI><a href="#[1a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_close
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_process_refused_data
-<LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
+<BR>[Called By]<UL><LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
+<LI><a href="#[1b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_process_refused_data
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> tcp.o(i.tcp_alloc)
 </UL>
@@ -2658,11 +2658,11 @@ Global Symbols
 <P><STRONG><a name="[1c8]"></a>tcp_rexmit</STRONG> (Thumb, 102 bytes, Stack size 24 bytes, tcp_out.o(i.tcp_rexmit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = tcp_rexmit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
-<LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_segment_busy
+<BR>[Calls]<UL><LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_segment_busy
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_process
-<LI><a href="#[1ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_fast
+<BR>[Called By]<UL><LI><a href="#[1ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_fast
+<LI><a href="#[1b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_process
 </UL>
 
 <P><STRONG><a name="[1ca]"></a>tcp_rexmit_fast</STRONG> (Thumb, 92 bytes, Stack size 8 bytes, tcp_out.o(i.tcp_rexmit_fast))
@@ -2687,19 +2687,19 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_slowtmr
-<LI><a href="#[1c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_rto
+<BR>[Called By]<UL><LI><a href="#[1c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_rto
+<LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_slowtmr
 </UL>
 
 <P><STRONG><a name="[1cd]"></a>tcp_rexmit_rto_prepare</STRONG> (Thumb, 102 bytes, Stack size 24 bytes, tcp_out.o(i.tcp_rexmit_rto_prepare))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = tcp_rexmit_rto_prepare
 </UL>
-<BR>[Calls]<UL><LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
+<BR>[Calls]<UL><LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_segment_busy
+<LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
-<LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_segment_busy
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_slowtmr
-<LI><a href="#[1c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_rto
+<BR>[Called By]<UL><LI><a href="#[1c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_rto
+<LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_slowtmr
 </UL>
 
 <P><STRONG><a name="[19a]"></a>tcp_rst</STRONG> (Thumb, 48 bytes, Stack size 32 bytes, tcp_out.o(i.tcp_rst))
@@ -2721,8 +2721,8 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[1cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rst_common
 <LI><a href="#[1c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_control_segment_netif
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_listen_input
-<LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
+<BR>[Called By]<UL><LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
+<LI><a href="#[1b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_listen_input
 </UL>
 
 <P><STRONG><a name="[1cc]"></a>tcp_seg_copy</STRONG> (Thumb, 40 bytes, Stack size 16 bytes, tcp.o(i.tcp_seg_copy))
@@ -2741,12 +2741,12 @@ Global Symbols
 <LI><a href="#[167]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memp_free
 </UL>
 <BR>[Called By]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output
+<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_create_segment
 <LI><a href="#[1c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_receive
 <LI><a href="#[1b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_process
 <LI><a href="#[1bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_oos_insert_segment
 <LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_free_acked_segments
 <LI><a href="#[199]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_segs_free
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_create_segment
 </UL>
 
 <P><STRONG><a name="[199]"></a>tcp_segs_free</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, tcp.o(i.tcp_segs_free))
@@ -2764,13 +2764,13 @@ Global Symbols
 <P><STRONG><a name="[1b6]"></a>tcp_send_empty_ack</STRONG> (Thumb, 70 bytes, Stack size 16 bytes, tcp_out.o(i.tcp_send_empty_ack))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = tcp_send_empty_ack &rArr; tcp_output_alloc_header &rArr; tcp_output_alloc_header_common &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
-<LI><a href="#[1bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_control_segment
+<BR>[Calls]<UL><LI><a href="#[1bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_control_segment
 <LI><a href="#[1bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_alloc_header
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
 </UL>
 <BR>[Called By]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output
-<LI><a href="#[1c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_receive
 <LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
+<LI><a href="#[1c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_receive
 </UL>
 
 <P><STRONG><a name="[1a9]"></a>tcp_send_fin</STRONG> (Thumb, 68 bytes, Stack size 16 bytes, tcp_out.o(i.tcp_send_fin))
@@ -2803,13 +2803,13 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = tcp_split_unsent_seg &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_create_segment
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
 <LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_realloc
 <LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_copy_partial
 <LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_clen
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_create_segment
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_slowtmr
 </UL>
@@ -2850,14 +2850,14 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 248<LI>Call Chain = tcp_write &rArr; tcp_pbuf_prealloc &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<LI><a href="#[1c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_pbuf_prealloc
+<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_create_segment
+<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
 <LI><a href="#[199]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_segs_free
 <LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_clen
 <LI><a href="#[174]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_cat
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
-<LI><a href="#[1c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_pbuf_prealloc
-<LI><a href="#[1ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_create_segment
-<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eth_send
 </UL>
@@ -2865,11 +2865,11 @@ Global Symbols
 <P><STRONG><a name="[1d2]"></a>tcp_zero_window_probe</STRONG> (Thumb, 160 bytes, Stack size 24 bytes, tcp_out.o(i.tcp_zero_window_probe))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = tcp_zero_window_probe &rArr; tcp_output_alloc_header &rArr; tcp_output_alloc_header_common &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
+<BR>[Calls]<UL><LI><a href="#[1bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_control_segment
+<LI><a href="#[1bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_alloc_header
+<LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
 <LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_copy_partial
-<LI><a href="#[1bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_control_segment
-<LI><a href="#[1bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_alloc_header
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_slowtmr
 </UL>
@@ -3015,12 +3015,12 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = udp_input &rArr; icmp_dest_unreach &rArr; icmp_send_response &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_dest_unreach
+<LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_addr_isbroadcast_u32
 <LI><a href="#[148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip_chksum_pseudo
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
 <LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_remove_header
 <LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_header_force
-<LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_dest_unreach
-<LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_addr_isbroadcast_u32
 </UL>
 <BR>[Called By]<UL><LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_input
 </UL>
@@ -3034,8 +3034,8 @@ Global Symbols
 <P><STRONG><a name="[f2]"></a>udp_new</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, udp.o(i.udp_new))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = udp_new &rArr; memp_malloc &rArr; do_memp_malloc_pool
 </UL>
-<BR>[Calls]<UL><LI><a href="#[169]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memp_malloc
-<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[169]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memp_malloc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_inc_pcb_refcount
 </UL>
@@ -3067,13 +3067,13 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = udp_sendto_if_src &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_output_if_src
+<LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_bind
 <LI><a href="#[148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip_chksum_pseudo
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
 <LI><a href="#[173]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_chain
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
 <LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_add_header
-<LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_output_if_src
-<LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_bind
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_select
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_discover
@@ -3761,6 +3761,7 @@ Local Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 360<LI>Call Chain = tcp_listen_input &rArr; tcp_alloc &rArr; tcp_kill_state &rArr; tcp_abandon &rArr; tcp_pcb_remove &rArr; tcp_output &rArr; tcp_send_empty_ack &rArr; tcp_output_alloc_header &rArr; tcp_output_alloc_header_common &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output
+<LI><a href="#[1b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rst_netif
 <LI><a href="#[1bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_parseopt
 <LI><a href="#[1ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_enqueue_flags
 <LI><a href="#[140]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_route
@@ -3769,7 +3770,6 @@ Local Symbols
 <LI><a href="#[19c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_alloc
 <LI><a href="#[197]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_abandon
 <LI><a href="#[1a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_timer_needed
-<LI><a href="#[1b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rst_netif
 </UL>
 <BR>[Called By]<UL><LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
 </UL>
@@ -3798,6 +3798,8 @@ Local Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 344<LI>Call Chain = tcp_process &rArr; tcp_abort &rArr; tcp_abandon &rArr; tcp_pcb_remove &rArr; tcp_output &rArr; tcp_send_empty_ack &rArr; tcp_output_alloc_header &rArr; tcp_output_alloc_header_common &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_abort
+<LI><a href="#[1c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_rto
+<LI><a href="#[1c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit
 <LI><a href="#[1c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_receive
 <LI><a href="#[1bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_parseopt
 <LI><a href="#[19a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rst
@@ -3806,8 +3808,6 @@ Local Symbols
 <LI><a href="#[1a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_pcb_purge
 <LI><a href="#[1ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_eff_send_mss_netif
 <LI><a href="#[1a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_timer_needed
-<LI><a href="#[1c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_rto
-<LI><a href="#[1c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_input
 </UL>
@@ -3815,7 +3815,9 @@ Local Symbols
 <P><STRONG><a name="[1c9]"></a>tcp_receive</STRONG> (Thumb, 1616 bytes, Stack size 32 bytes, tcp_in.o(i.tcp_receive))
 <BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = tcp_receive &rArr; tcp_send_empty_ack &rArr; tcp_output_alloc_header &rArr; tcp_output_alloc_header_common &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
+<BR>[Calls]<UL><LI><a href="#[1b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_send_empty_ack
+<LI><a href="#[1ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_fast
+<LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
 <LI><a href="#[1bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_oos_insert_segment
 <LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_free_acked_segments
@@ -3825,8 +3827,6 @@ Local Symbols
 <LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_remove_header
 <LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_realloc
 <LI><a href="#[174]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_cat
-<LI><a href="#[1b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_send_empty_ack
-<LI><a href="#[1ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_fast
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_process
 </UL>
@@ -3860,9 +3860,9 @@ Local Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_alloc_header_common
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_zero_window_probe
+<BR>[Called By]<UL><LI><a href="#[1b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_send_empty_ack
+<LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_zero_window_probe
 <LI><a href="#[1ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_keepalive
-<LI><a href="#[1b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_send_empty_ack
 </UL>
 
 <P><STRONG><a name="[1c2]"></a>tcp_output_alloc_header_common</STRONG> (Thumb, 106 bytes, Stack size 40 bytes, tcp_out.o(i.tcp_output_alloc_header_common))
@@ -3883,18 +3883,18 @@ Local Symbols
 <LI><a href="#[1c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_route
 <LI><a href="#[1c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_control_segment_netif
 </UL>
-<BR>[Called By]<UL><LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_zero_window_probe
+<BR>[Called By]<UL><LI><a href="#[1b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_send_empty_ack
+<LI><a href="#[1d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_zero_window_probe
 <LI><a href="#[19a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rst
 <LI><a href="#[1ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_keepalive
-<LI><a href="#[1b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_send_empty_ack
 </UL>
 
 <P><STRONG><a name="[1c3]"></a>tcp_output_control_segment_netif</STRONG> (Thumb, 76 bytes, Stack size 40 bytes, tcp_out.o(i.tcp_output_control_segment_netif))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = tcp_output_control_segment_netif &rArr; ip4_output_if &rArr; ip4_output_if_src
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
-<LI><a href="#[148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip_chksum_pseudo
 <LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_output_if
+<LI><a href="#[148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip_chksum_pseudo
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_control_segment
 <LI><a href="#[1b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rst_netif
@@ -3903,20 +3903,20 @@ Local Symbols
 <P><STRONG><a name="[1c1]"></a>tcp_output_segment</STRONG> (Thumb, 184 bytes, Stack size 32 bytes, tcp_out.o(i.tcp_output_segment))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = tcp_output_segment &rArr; ip4_output_if &rArr; ip4_output_if_src
 </UL>
-<BR>[Calls]<UL><LI><a href="#[148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip_chksum_pseudo
+<BR>[Calls]<UL><LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_output_if
+<LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_segment_busy
+<LI><a href="#[148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip_chksum_pseudo
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
 <LI><a href="#[1ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_eff_send_mss_netif
-<LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_output_if
-<LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_segment_busy
 </UL>
 <BR>[Called By]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output
 </UL>
 
 <P><STRONG><a name="[1c4]"></a>tcp_output_segment_busy</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, tcp_out.o(i.tcp_output_segment_busy))
-<BR><BR>[Called By]<UL><LI><a href="#[1cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_rto_prepare
-<LI><a href="#[1c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_segment
+<BR><BR>[Called By]<UL><LI><a href="#[1c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_segment
 <LI><a href="#[1c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit
+<LI><a href="#[1cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rexmit_rto_prepare
 </UL>
 
 <P><STRONG><a name="[1c6]"></a>tcp_pbuf_prealloc</STRONG> (Thumb, 76 bytes, Stack size 24 bytes, tcp_out.o(i.tcp_pbuf_prealloc))
@@ -3940,11 +3940,11 @@ Local Symbols
 <P><STRONG><a name="[1cf]"></a>tcp_rst_common</STRONG> (Thumb, 50 bytes, Stack size 40 bytes, tcp_out.o(i.tcp_rst_common))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = tcp_rst_common &rArr; tcp_output_alloc_header_common &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
-<LI><a href="#[1c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_alloc_header_common
+<BR>[Calls]<UL><LI><a href="#[1c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_output_alloc_header_common
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
 </UL>
-<BR>[Called By]<UL><LI><a href="#[19a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rst
-<LI><a href="#[1b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rst_netif
+<BR>[Called By]<UL><LI><a href="#[1b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rst_netif
+<LI><a href="#[19a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tcp_rst
 </UL>
 
 <P><STRONG><a name="[143]"></a>ip4_input_accept</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, ip4.o(i.ip4_input_accept))
@@ -3969,16 +3969,16 @@ Local Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
 </UL>
-<BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_tmr
-<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_find_entry
+<BR>[Called By]<UL><LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_find_entry
+<LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_tmr
 </UL>
 
 <P><STRONG><a name="[123]"></a>etharp_output_to_arp_index</STRONG> (Thumb, 92 bytes, Stack size 32 bytes, etharp.o(i.etharp_output_to_arp_index))
-<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = etharp_output_to_arp_index &rArr; etharp_request &rArr; etharp_request_dst &rArr; etharp_raw &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
+<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = etharp_output_to_arp_index &rArr; etharp_request_dst &rArr; etharp_raw &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_request
-<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ethernet_output
+<BR>[Calls]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ethernet_output
 <LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_request_dst
+<LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_request
 </UL>
 <BR>[Called By]<UL><LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_output
 </UL>
@@ -3987,9 +3987,9 @@ Local Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = etharp_raw &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ethernet_output
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htons
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
-<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ethernet_output
 </UL>
 <BR>[Called By]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_input
 <LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_request_dst
@@ -4000,8 +4000,8 @@ Local Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_raw
 </UL>
-<BR>[Called By]<UL><LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_request
-<LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_output_to_arp_index
+<BR>[Called By]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_output_to_arp_index
+<LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;etharp_request
 </UL>
 
 <P><STRONG><a name="[120]"></a>etharp_update_arp_entry</STRONG> (Thumb, 126 bytes, Stack size 24 bytes, etharp.o(i.etharp_update_arp_entry))
@@ -4019,11 +4019,11 @@ Local Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = icmp_send_response &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
+<LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_output_if
 <LI><a href="#[13d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;inet_chksum
 <LI><a href="#[140]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_route
 <LI><a href="#[13f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_copy_partial_pbuf
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
-<LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ip4_output_if
 </UL>
 <BR>[Called By]<UL><LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;icmp_dest_unreach
 </UL>
@@ -4031,8 +4031,8 @@ Local Symbols
 <P><STRONG><a name="[da]"></a>dhcp_bind</STRONG> (Thumb, 184 bytes, Stack size 32 bytes, dhcp.o(i.dhcp_bind))
 <BR><BR>[Stack]<UL><LI>Max Depth = 432<LI>Call Chain = dhcp_bind &rArr; netif_set_addr &rArr; netif_do_set_ipaddr &rArr; netif_do_ip_addr_changed &rArr; tcp_netif_ip_addr_changed &rArr; tcp_netif_ip_addr_changed_pcblist &rArr; tcp_abort &rArr; tcp_abandon &rArr; tcp_pcb_remove &rArr; tcp_output &rArr; tcp_send_empty_ack &rArr; tcp_output_alloc_header &rArr; tcp_output_alloc_header_common &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;netif_set_addr
-<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_set_state
+<BR>[Calls]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_set_state
+<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;netif_set_addr
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_recv
 </UL>
@@ -4041,11 +4041,11 @@ Local Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = dhcp_create_msg &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
 <LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_option_byte
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_option
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_renew
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_release_and_stop
@@ -4078,9 +4078,9 @@ Local Symbols
 <LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_sendto_if_src
 </UL>
 <BR>[Called By]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_start
+<LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_recv
 <LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_fine_tmr
 <LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_network_changed_link_up
-<LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_recv
 </UL>
 
 <P><STRONG><a name="[f0]"></a>dhcp_handle_ack</STRONG> (Thumb, 102 bytes, Stack size 16 bytes, dhcp.o(i.dhcp_handle_ack))
@@ -4193,7 +4193,6 @@ Local Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = dhcp_reboot &rArr; udp_sendto_if &rArr; udp_sendto_if_src &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_set_state
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_option_trailer
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_option_short
@@ -4203,6 +4202,7 @@ Local Symbols
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_option
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_create_msg
 <LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_sendto_if
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_fine_tmr
 <LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_network_changed_link_up
@@ -4212,14 +4212,14 @@ Local Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 456<LI>Call Chain = dhcp_recv &rArr; dhcp_bind &rArr; netif_set_addr &rArr; netif_do_set_ipaddr &rArr; netif_do_ip_addr_changed &rArr; tcp_netif_ip_addr_changed &rArr; tcp_netif_ip_addr_changed_pcblist &rArr; tcp_abort &rArr; tcp_abandon &rArr; tcp_pcb_remove &rArr; tcp_output &rArr; tcp_send_empty_ack &rArr; tcp_output_alloc_header &rArr; tcp_output_alloc_header_common &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
-<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;netif_set_addr
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_set_state
 <LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_select
 <LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_parse_reply
 <LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_handle_ack
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_discover
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_bind
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
+<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;netif_set_addr
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dhcp.o(i.dhcp_inc_pcb_refcount)
 </UL>
@@ -4227,7 +4227,6 @@ Local Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = dhcp_select &rArr; udp_sendto_if_src &rArr; pbuf_alloc &rArr; pbuf_alloc_reference &rArr; pbuf_init_alloced_pbuf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_free
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_set_state
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_option_trailer
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_option_short
@@ -4237,9 +4236,10 @@ Local Symbols
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_option
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_create_msg
 <LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_sendto_if_src
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lwip_htonl
 </UL>
-<BR>[Called By]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_fine_tmr
-<LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_recv
+<BR>[Called By]<UL><LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_recv
+<LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dhcp_fine_tmr
 </UL>
 
 <P><STRONG><a name="[db]"></a>dhcp_set_state</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, dhcp.o(i.dhcp_set_state))
@@ -4259,9 +4259,9 @@ Local Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[14b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ETH_ReleaseRxDesc
 <LI><a href="#[14a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ETH_GetRxPktSize
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 <LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_alloc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ethernetif_input
 </UL>

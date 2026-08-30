@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cctype>
 #include <chrono>
+#include <climits>
 #include <cstdio>
 #include <iomanip>
 #include <iostream>
@@ -13,7 +14,11 @@
 
 using json = nlohmann::json;
 
+// MSVC-only linker directive (the Windows vcxproj relies on it for ws2_32).
+// CMake links ws2_32 explicitly on WIN32; other toolchains ignore this.
+#ifdef _MSC_VER
 #pragma comment(lib, "ws2_32.lib")
+#endif
 
 namespace {
 

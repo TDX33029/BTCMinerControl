@@ -5,11 +5,13 @@
 // midstate extraction, and endianness conversions for ASIC communication.
 
 #include "sha256.h"
-#include <cstring>
-#include <sstream>
-#include <iomanip>
 #include <cmath>
+#include <cstdio>
+#include <cstring>
+#include <iomanip>
 #include <limits>
+#include <sstream>
+#include <utility>
 
 namespace sha256 {
 

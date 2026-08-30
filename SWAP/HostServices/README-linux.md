@@ -5,6 +5,30 @@ Ubuntu. It keeps the embedded Web UI (`/` and `/settings`), the board TCP
 listener, and the Stratum V1 client. No third-party runtime dependencies are
 required beyond the C++ standard library and POSIX sockets.
 
+Verified against:
+
+| Target | Toolchain | Status |
+|---|---|---|
+| Ubuntu 20.04+ (glibc 2.31), x86-64 | clang/libc++ cross + g++ 11 (22.04) native | builds clean, `-Wall -Wextra` clean |
+| Ubuntu 20.04+ (glibc 2.31), aarch64 | clang/libc++ cross | builds clean |
+| Windows x64 (same `src/`) | MSVC v143 (`BTCMinerControl.sln`) | builds; `--self-test` all PASS |
+
+`./btcminercontrol --self-test` runs the same 26 checks everywhere (SHA-256
+genesis vectors, Stratum job construction, protocol framing, loopback TCP
+routing, dashboard auth) and needs no hardware.
+
+The Linux distribution tarball also ships `bin/btcminercontrol-linux-x64`, a
+convenience binary cross-compiled from this exact source tree (clang/libc++,
+glibc 2.31 baseline). On Ubuntu 20.04+ it needs no toolchain to smoke-test:
+
+```bash
+chmod +x bin/btcminercontrol-linux-x64
+./bin/btcminercontrol-linux-x64 --self-test
+```
+
+It links only against stock glibc (`libc`, `libm`, `libpthread`, `libdl`);
+for production use the CMake build below.
+
 ## Quick start
 
 ```bash

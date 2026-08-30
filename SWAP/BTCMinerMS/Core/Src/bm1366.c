@@ -545,17 +545,30 @@ int bm1366_read_any_result(bm1366_result_raw_t *result, uint32_t timeout_ms) {
         level combination lets the chain answer. Sweep all four combinations,
         re-pulsing RST before each so the chips latch the new strap state. */
      static const uint32_t probe_bauds[] = { BM1366_DEFAULT_BAUD, BM1366_MAX_BAUD };
-     static const uint8_t strap_boot[4]  = {0, 1, 0, 1};   /* PB1 levels  */
-     static const uint8_t strap_ctrl[4]  = {0, 0, 1, 1};   /* PB14 levels */
+     static const uint8_t strap_boot[5]  = {0, 1, 0, 1, 0};   /* PB1 levels      */
+     static const uint8_t strap_ctrl[5]  = {0, 0, 1, 1, 0};   /* PB14 levels     */
+     /* Try 5 replicates the archived known-good build: that version NEVER
+        drove PB1/PB14 -- both stayed reset-default floating inputs. If the
+        board routes these nets into the chain circuitry, floating may be the
+        state that actually works. */
      uint8_t init3[] = {0x55, 0xAA, 0x52, 0x05, 0x00, 0x00, 0x0A};
      int chips = 0;
-     for (int s = 0; s < 4 && chips == 0; s++) {
-         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1,
-                           strap_boot[s] ? GPIO_PIN_SET : GPIO_PIN_RESET);
-         HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14,
-                           strap_ctrl[s] ? GPIO_PIN_SET : GPIO_PIN_RESET);
-         printf("[CHIP] strap try %d/4: BOOT(PB1)=%u CTRL(PB14)=%u\r\n",
-                s + 1, strap_boot[s], strap_ctrl[s]);
+     for (int s = 0; s < 5 && chips == 0; s++) {
+         if (s == 4) {
+             GPIO_InitTypeDef gi = {0};
+             gi.Pin  = GPIO_PIN_1 | GPIO_PIN_14;
+             gi.Mode = GPIO_MODE_INPUT;
+             gi.Pull = GPIO_NOPULL;
+             HAL_GPIO_Init(GPIOB, &gi);
+             printf("[CHIP] strap try %d/5: BOOT(PB1)=float CTRL(PB14)=float\r\n", s + 1);
+         } else {
+             HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1,
+                               strap_boot[s] ? GPIO_PIN_SET : GPIO_PIN_RESET);
+             HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14,
+                               strap_ctrl[s] ? GPIO_PIN_SET : GPIO_PIN_RESET);
+             printf("[CHIP] strap try %d/5: BOOT(PB1)=%u CTRL(PB14)=%u\r\n",
+                    s + 1, strap_boot[s], strap_ctrl[s]);
+         }
          /* Fresh reset so the chips (and any strap logic) sample the new
             levels. */
          HAL_GPIO_WritePin(BM1366_RST_PORT, BM1366_RST_PIN, GPIO_PIN_RESET);

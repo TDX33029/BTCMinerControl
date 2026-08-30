@@ -124,8 +124,11 @@ int set_nonblocking(SOCKET socket, bool enabled) {
 }
 
 int set_recv_timeout(SOCKET socket, int timeout_ms) {
+    // A zero timeout means "no timeout" on POSIX but must never block forever:
+    // clamp to 1 ms on both platforms so the semantics match Windows.
+    if (timeout_ms <= 0) timeout_ms = 1;
 #ifdef _WIN32
-    DWORD timeout = timeout_ms <= 0 ? 1 : static_cast<DWORD>(timeout_ms);
+    DWORD timeout = static_cast<DWORD>(timeout_ms);
     return setsockopt(socket, SOL_SOCKET, SO_RCVTIMEO,
                       reinterpret_cast<const char*>(&timeout),
                       sizeof(timeout));

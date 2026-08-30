@@ -601,15 +601,6 @@ std::string http_response(int status, const char* reason,
            "\r\n\r\n" + body;
 }
 
-std::string redirect_response(const std::string& location,
-                              const std::string& cookie = std::string()) {
-    std::string response = "HTTP/1.1 303 See Other\r\nLocation: " + location +
-           "\r\nCache-Control: no-store\r\nConnection: close\r\n";
-    if (!cookie.empty()) response += "Set-Cookie: " + cookie + "\r\n";
-    response += "Content-Length: 0\r\n\r\n";
-    return response;
-}
-
 std::string settings_page(uint16_t configured_board_port,
                           uint16_t configured_dashboard_port,
                           uint32_t detection_interval_ms,

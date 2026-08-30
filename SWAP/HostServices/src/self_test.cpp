@@ -9,12 +9,14 @@
 #include "mine/sha256.h"
 #include "mine/verify.h"
 #include "stratum/client.h"
+#include <chrono>
 #include <cmath>
 #include <cstring>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <thread>
+#include <vector>
 #include "platform/platform.h"
 
 namespace {
