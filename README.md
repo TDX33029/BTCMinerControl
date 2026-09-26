@@ -1,5 +1,7 @@
 # BTC Hashboard
 
+[🇨🇳 简体中文](README.md) | [🇬🇧 English](README_EN.md)
+
 [![Status](https://img.shields.io/badge/Status-Active%20Development-brightgreen)](#版本历史--changelog)
 [![Discord](https://img.shields.io/badge/Community-Discord-7289DA?logo=discord&logoColor=white)](https://discord.com/channels/1091348375301013615)
 [![License](https://img.shields.io/badge/License-Non--Commercial-orange)](#开源声明与权利说明)
