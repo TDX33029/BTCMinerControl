@@ -8,7 +8,7 @@
 
 BTC Bitcoin ASIC mining hashboard for cryptocurrency mining. Supports wired Ethernet connection to a LAN host / upper computer for centralized scheduling and cluster management.
 
-The project is synchronized with Open Source Miners Union: **OSMU-bitaxe-hardware-dev (personally maintained version, non-reference design)**.
+The project is synchronized with Open Source Miners Union: **OSMU-bitaxe-hardware-dev (personally modified version, non-reference design)**.
 
 ---
 
