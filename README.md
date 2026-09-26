@@ -13,6 +13,8 @@ BTC 比特币矿机芯片算力板卡，用于虚拟货币挖掘使用。支持�
 ## 硬件展示与架构
 
 <img width="1424" height="915" alt="image" src="https://github.com/user-attachments/assets/ea1a3946-3d3e-4eb5-b83d-8ff5c08ccd40" />
+<img width="877" height="524" alt="image" src="https://github.com/user-attachments/assets/df5a90d1-7dd6-456b-bb46-0cd853e8eb7c" />
+
 
 ### 核心物料清单 (BOM)
 
